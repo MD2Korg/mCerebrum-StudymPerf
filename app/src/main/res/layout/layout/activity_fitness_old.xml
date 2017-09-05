@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorbackground"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/tealsecondary">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fitness"
+            android:textColor="#ffff"
+            android:padding="12dp"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/tealthird"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textview_fitness_fieldname"
+                    android:padding="6dp"
+                    android:text="Step Count"
+                    android:textColor="#ffff"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textview_fitness_fieldname_update"
+                    android:padding="8dp"
+                    android:text="Last Updated"
+                    android:textColor="#ffff"
+                    android:textSize="10sp"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginLeft="@dimen/study_margin"
+        android:layout_marginRight="@dimen/study_margin"
+        android:layout_marginTop="@dimen/study_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@color/backGroundDark">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="260dp"
+    android:layout_marginTop="50dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/seekBar1" />
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:layout_toLeftOf="@+id/tvYMax"
+            android:layout_marginRight="5dp"
+            android:max="200"
+            android:paddingBottom="12dp" />
+
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/seekBar2"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="35dp"
+            android:layout_toLeftOf="@+id/tvXMax"
+            android:layout_marginRight="5dp"
+            android:max="25"
+            android:paddingBottom="12dp" />
+
+    </RelativeLayout>
+
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/backGroundDark"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp">
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:text="Set Goal"
+      android:textColor="#ffff"
+      android:textAlignment="center"
+      android:padding="15dp"/>
+
+</LinearLayout>
+    </LinearLayout>
+
+
