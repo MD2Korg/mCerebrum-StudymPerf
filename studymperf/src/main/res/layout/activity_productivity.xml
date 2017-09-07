@@ -205,7 +205,7 @@
         <mehdi.sakout.fancybuttons.FancyButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btn_setgoal_stepcount"
+            android:id="@+id/btn_setgoal_datacollection"
             fancy:fb_defaultColor="@color/backGroundDark"
             fancy:fb_borderWidth="2dp"
             fancy:fb_borderColor="@color/tealsecondary"
