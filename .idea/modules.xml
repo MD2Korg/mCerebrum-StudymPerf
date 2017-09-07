@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/StudymPerf.iml" filepath="$PROJECT_DIR$/StudymPerf.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mCerebrum-Library/commons/commons.iml" filepath="$PROJECT_DIR$/../mCerebrum-Library/commons/commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mCerebrum-Library/core/core.iml" filepath="$PROJECT_DIR$/../mCerebrum-Library/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mCerebrum-StudymPerf.iml" filepath="$PROJECT_DIR$/mCerebrum-StudymPerf.iml" />
     </modules>
   </component>
 </project>

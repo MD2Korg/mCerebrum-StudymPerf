@@ -3,6 +3,8 @@ package org.md2k.studymperf;
 import android.app.Application;
 import android.content.Context;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
+
 /*
  * Copyright (c) 2016, The University of Memphis, MD2K Center
  * - Syed Monowar Hossain <monowar.hossain@gmail.com>
@@ -36,7 +38,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
-//        TypefaceProvider.registerDefaultIconSets();
+        TypefaceProvider.registerDefaultIconSets();
     }
     public static Context getContext(){
         return context;

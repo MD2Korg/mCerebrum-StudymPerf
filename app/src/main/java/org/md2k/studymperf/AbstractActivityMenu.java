@@ -4,32 +4,42 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
+import org.md2k.mcerebrum.commons.dialog.Dialog;
+import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.studymperf.menu.MyMenu;
+import org.md2k.studymperf.ui.main.FragmentHome;
+
+import es.dmoral.toasty.Toasty;
 
 public abstract class AbstractActivityMenu extends AppCompatActivity {
     private Drawer result = null;
+    int selectedMenu=MyMenu.MENU_HOME;
+    long backPressedLastTime=-1;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
-        updateMenu(0);
+        updateUI();
     }
-
-    public void updateMenu(int state) {
-            createDrawer();
-            result.resetDrawerContent();
-            result.getHeader().refreshDrawableState();
-            result.setSelection(state, true);
+    public void updateUI() {
+        createDrawer();
+        result.resetDrawerContent();
+        result.getHeader().refreshDrawableState();
+        result.setSelection(MyMenu.MENU_HOME);
     }
 
     void createDrawer() {
@@ -68,7 +78,17 @@ public abstract class AbstractActivityMenu extends AppCompatActivity {
         if (result != null && result.isDrawerOpen()) {
             result.closeDrawer();
         } else {
-            super.onBackPressed();
+            if(selectedMenu!=MyMenu.MENU_HOME){
+                responseCallBack.onResponse(null, MyMenu.MENU_HOME);
+            }else{
+                long currentTime=System.currentTimeMillis();
+                if(currentTime-backPressedLastTime<2000)
+                    super.onBackPressed();
+                else{
+                    backPressedLastTime=currentTime;
+                    Toasty.warning(this, "Press BACK button again to QUIT", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -85,24 +105,49 @@ public abstract class AbstractActivityMenu extends AppCompatActivity {
 
     ResponseCallBack responseCallBack = new ResponseCallBack() {
         @Override
-        public void onResponse(int response) {
-            switch (response) {
-                case MyMenu.MENU_ABOUT_STUDY:
+        public void onResponse(IDrawerItem drawerItem, int responseId) {
+            selectedMenu=responseId;
+            if(drawerItem!=null)
+                toolbar.setTitle("mPerf: "+((Nameable) drawerItem).getName().getText(AbstractActivityMenu.this));
+            else toolbar.setTitle("mPerf");
+            switch (responseId) {
+                case MyMenu.MENU_HOME:
+                    toolbar.setTitle("mPerf");
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentHome()).commitAllowingStateLoss();
                     break;
-                case MyMenu.MENU_HELP:
+/*
+                case AbstractMenu.MENU_APP_ADD_REMOVE:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentFoldingUIAppInstall()).commitAllowingStateLoss();
                     break;
-                case MyMenu.MENU_APP_ADD_REMOVE:
+                case AbstractMenu.MENU_APP_SETTINGS:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentFoldingUIAppSettings()).commitAllowingStateLoss();
                     break;
-                case MyMenu.MENU_JOIN:
+                case AbstractMenu.MENU_JOIN:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentJoinStudy()).commitAllowingStateLoss();
                     break;
-                case MyMenu.MENU_LEAVE:
+                case AbstractMenu.MENU_LEAVE:
+                    materialDialog= Dialog.simple(AbstractActivityMenu.this, "Leave Study", "Do you want to leave the study?", "Yes", "Cancel", new DialogCallback() {
+                        @Override
+                        public void onSelected(String value) {
+                            if(value.equals("Yes")){
+                                configManager.clear();
+                                prepareConfig();
+                            }
+                        }
+                    }).show();
                     break;
-                case MyMenu.MENU_LOGIN:
+                case AbstractMenu.MENU_LOGIN:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentLogin()).commitAllowingStateLoss();
+//                Intent i = new Intent(this, ActivityLogin.class);
+//                startActivityForResult(i, ID_JOIN_STUDY);
                     break;
-                case MyMenu.MENU_LOGOUT:
+                case AbstractMenu.MENU_LOGOUT:
+//                ((UserServer) user).setLoggedIn(this,false);
+                    userInfo.setLoggedIn(false);
+                    Toasty.success(AbstractActivityMenu.this, "Logged out", Toast.LENGTH_SHORT, true).show();
+                    updateUI();
                     break;
-                case MyMenu.MENU_APP_SETTINGS:
-                    break;
+*/
                 default:
             }
         }

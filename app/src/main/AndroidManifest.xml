@@ -3,26 +3,59 @@
     package="org.md2k.studymperf">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainActivity">
+            <!--
+                        android:theme="@style/MaterialDrawerTheme.TranslucentStatus">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".PieChartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductivityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StackedBarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LeftWristActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RightWristActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMain"
+            android:screenOrientation="portrait"
             android:theme="@style/MaterialDrawerTheme.TranslucentStatus">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
-        <activity android:name=".PieChartActivity" />
-        <activity android:name=".ProductivityActivity" />
-        <activity android:name=".StackedBarActivity" />
-        <activity android:name=".LeftWristActivity" />
-        <activity android:name=".RightWristActivity"></activity>
+        </activity>
+        <activity
+            android:name=".ActivityMCerebrumAccess"
+            android:enabled="true"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".ServiceStudy"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

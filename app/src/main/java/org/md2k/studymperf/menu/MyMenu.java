@@ -47,29 +47,23 @@ import org.md2k.studymperf.ResponseCallBack;
 
 
 public class MyMenu {
-    public static final int MENU_JOIN = 0;
-    public static final int MENU_ABOUT_STUDY = 1;
-    public static final int MENU_LOGIN = 2;
-    public static final int MENU_LOGOUT = 3;
-    public static final int MENU_LEAVE = 4;
-    public static final int MENU_APP_ADD_REMOVE = 5;
-    public static final int MENU_APP_SETTINGS = 6;
-    //    public static final int OP_REPORT = 7;
-//    public static final int OP_PLOT = 8;
-//    public static final int OP_EXPORT_DATA = 9;
-    public static final int MENU_HELP = 10;
+    public static final int MENU_HOME = 0;
+    public static final int MENU_HELP = 1;
+    public static final int MENU_SETTINGS = 2;
+    public static final int MENU_LOGIN = 3;
+    public static final int MENU_LOGOUT = 4;
 
 
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
     public IProfile[] getHeaderContent(final Context context, String userTitle, boolean isLoggedin, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
-        IProfile[] iProfiles=new IProfile[3];
+        IProfile[] iProfiles=new IProfile[2];
         iProfiles[0]=new ProfileDrawerItem().withName(userTitle).withIcon(R.drawable.mcerebrum);
         if(isLoggedin){
             iProfiles[1] = new ProfileSettingDrawerItem().withName("Login").withIcon(FontAwesome.Icon.faw_sign_in).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                    responseCallBack.onResponse(MENU_LOGIN);
+                    responseCallBack.onResponse(null,MENU_LOGIN);
                     return false;
                 }
             });
@@ -77,25 +71,18 @@ public class MyMenu {
             iProfiles[1] = new ProfileSettingDrawerItem().withName("Logout").withIcon(FontAwesome.Icon.faw_sign_in).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                    responseCallBack.onResponse(MENU_LOGOUT);
+                    responseCallBack.onResponse(null, MENU_LOGOUT);
                     return false;
                 }
             });
         }
-        iProfiles[2]= new ProfileSettingDrawerItem().withName("Leave Study").withIcon(FontAwesome.Icon.faw_chain_broken).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                responseCallBack.onResponse(MENU_LEAVE);
-                return false;
-            }
-        });
         return iProfiles;
     }
     private MenuContent[] menuContent = new MenuContent[]{
-            new MenuContent("Add/Remove Apps", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_APP_ADD_REMOVE,1),
-            new MenuContent("App Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_APP_SETTINGS,0),
+            new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
+            new MenuContent("Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_SETTINGS,0),
+            new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
 //            new MenuContent("Step by Step Settings", FontAwesome.Icon.faw_cogs, MenuContent.PRIMARY_DRAWER_ITEM, MENU_APP_SETTINGS,0),
-            new MenuContent("Start Study", FontAwesome.Icon.faw_play, MenuContent.PRIMARY_DRAWER_ITEM, MENU_APP_SETTINGS,0)
 //            new MenuContent("Report",FontAwesome.Icon.faw_bar_chart,MenuContent.PRIMARY_DRAWER_ITEM, OP_REPORT),
 //            new MenuContent("Plot",FontAwesome.Icon.faw_line_chart,MenuContent.PRIMARY_DRAWER_ITEM, OP_PLOT),
 //            new MenuContent("Export Data",FontAwesome.Icon.faw_upload,MenuContent.PRIMARY_DRAWER_ITEM, OP_EXPORT_DATA),
@@ -123,7 +110,7 @@ public class MyMenu {
                     iDrawerItems[i] = new PrimaryDrawerItem().withName(menuContent[i].name).withIcon(menuContent[i].icon).withIdentifier(menuContent[i].identifier).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            responseCallBack.onResponse((int) drawerItem.getIdentifier());
+                            responseCallBack.onResponse(drawerItem, (int) drawerItem.getIdentifier());
                             return false;
                         }
                     });
@@ -135,7 +122,7 @@ public class MyMenu {
                     iDrawerItems[i] = new SecondaryDrawerItem().withName(menuContent[i].name).withIcon(menuContent[i].icon).withIdentifier(menuContent[i].identifier).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            responseCallBack.onResponse((int) drawerItem.getIdentifier());
+                            responseCallBack.onResponse(drawerItem, (int) drawerItem.getIdentifier());
                             return false;
                         }
                     });
@@ -147,7 +134,7 @@ public class MyMenu {
                     iDrawerItems[i] = new SectionDrawerItem().withName(menuContent[i].name).withIdentifier(menuContent[i].identifier).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            responseCallBack.onResponse((int) drawerItem.getIdentifier());
+                            responseCallBack.onResponse(drawerItem, (int) drawerItem.getIdentifier());
                             return false;
                         }
                     });
