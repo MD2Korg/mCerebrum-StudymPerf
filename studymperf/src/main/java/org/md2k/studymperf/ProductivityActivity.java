@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -25,7 +26,12 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import org.md2k.mcerebrum.commons.dialog.Dialog;
+import org.md2k.mcerebrum.commons.dialog.DialogCallback;
+
 import java.util.ArrayList;
+
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarChangeListener,
         OnChartValueSelectedListener {
@@ -34,12 +40,51 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
     private PieChart mChart_data;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
+    private FancyButton buttonSetGoal;
+    private FancyButton buttonSetLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_productivity);
+        buttonSetGoal= (FancyButton) findViewById(R.id.btn_setgoal_datacollection);
+        buttonSetGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog.editbox_numeric(ProductivityActivity.this, "Set Goal", "Set a daily data collection hour to help you stay productive.", new DialogCallback() {
+                    @Override
+                    public void onSelected(String value) {
+                        Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+            }
+        });
+
+        buttonSetLocation= (FancyButton) findViewById(R.id.btn_setgoal_productivity);
+
+        buttonSetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog.singleChoice(ProductivityActivity.this, "Set Location", new String[]{"Home", "Work", "Other"}, 0, new DialogCallback() {
+                    @Override
+                    public void onSelected(String value) {
+                       if(value.equals("Other")){
+                           Dialog.editbox(ProductivityActivity.this, "Set Other Location", "Type your other location name.", new DialogCallback() {
+                               @Override
+                               public void onSelected(String value) {
+                                   Toast.makeText(ProductivityActivity.this, "value=" + value, Toast.LENGTH_SHORT).show();
+                               }
+                           }).show();
+
+                       }
+                        Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+            }
+        });
+
 
         tvX = (TextView) findViewById(R.id.tvXMax);
         tvY = (TextView) findViewById(R.id.tvYMax);
