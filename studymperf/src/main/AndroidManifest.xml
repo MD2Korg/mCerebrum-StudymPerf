@@ -46,14 +46,12 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".ActivityMCerebrumAccess"
-            android:enabled="true"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-
         <service
             android:name=".ServiceStudy"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".ServiceMCerebrum"
             android:enabled="true"
             android:exported="true"></service>
     </application>
