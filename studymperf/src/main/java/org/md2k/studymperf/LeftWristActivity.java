@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import org.md2k.studymperf.ui.main.ActivityYouTube;
+
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class LeftWristActivity extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class LeftWristActivity extends AppCompatActivity {
         wrist_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LeftWristActivity.this,PieChartActivity.class);
+                Intent intent = new Intent(LeftWristActivity.this, ActivityYouTube.class);
                 startActivity(intent);
             }
         });
