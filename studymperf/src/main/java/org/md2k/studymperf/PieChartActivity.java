@@ -40,7 +40,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     private FancyButton buttonSetGoal;
-    public String goal="";
+    public String goal="6000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
