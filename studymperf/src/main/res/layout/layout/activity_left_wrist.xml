@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" 1) Reset the application, wait 15 seconds and check again.\n 2) Restart the phone, wait one minute and check again. \n 3) Make sure the wrist band is charged."
+            android:text=" 1) Close the application, wait 15 seconds, reopen the application and check again.\n 2) Restart the phone, wait one minute and check again. \n 3) Make sure the wrist band is charged."
             android:textColor="#ffff"
             android:textSize="14sp"
             android:layout_marginLeft="25dp"
@@ -179,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight=".3"
-                android:text="Video"
+                android:text="Tutorial"
                 android:layout_marginTop="15sp"
                 android:textAppearance="@style/ButtonText"
                 android:textAlignment="center" />
