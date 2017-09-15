@@ -1,5 +1,6 @@
 package org.md2k.studymperf;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -7,7 +8,11 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_screen_style);
+
+
 
         fitness= (FancyButton) findViewById(R.id.btn_fitness);
         fitness.setOnClickListener(new View.OnClickListener() {

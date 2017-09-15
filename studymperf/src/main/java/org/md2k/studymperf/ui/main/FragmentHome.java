@@ -1,14 +1,18 @@
 package org.md2k.studymperf.ui.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ohoussein.playpause.PlayPauseView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.md2k.studymperf.LeftWristActivity;
@@ -28,6 +32,7 @@ public class FragmentHome extends Fragment {
     FancyButton report;
     FancyButton left_wrist;
     FancyButton right_wrist;
+    PlayPauseView pause_play;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class FragmentHome extends Fragment {
         return inflater.inflate(R.layout.fragment_main, parent, false);
     }
     @Override
+
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         fitness= (FancyButton) view.findViewById(R.id.btn_fitness);
         fitness.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +59,6 @@ public class FragmentHome extends Fragment {
                 startActivity(intent);
             }
         });
-
-
 
         report= (FancyButton) view.findViewById(R.id.btn_view_report);
         report.setOnClickListener(new View.OnClickListener() {

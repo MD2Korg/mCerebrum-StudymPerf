@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0d525d</color>
-    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorPrimary">#1e2c3c</color>
+    <color name="colorPrimaryDark">#1e2c3c</color>
     <color name="colorPrimaryLight">#B2DFDB</color>
     <color name="colorAccent">#FF5722</color>
     <color name="colorBackground">#154360</color>
@@ -22,8 +22,8 @@
     <color name="btnRequest">#ffbf12</color>
     <color name="teal">#00897b</color>
     <color name="backgroundColor">#455a64</color>
-    <color name="colorbackground">#1e2c3c</color>
-    <color name="backGroundDark">#131325</color>
+    <color name="colorbackground">#131325</color>
+    <color name="backGroundDark">#1e2c3c</color>
     <color name="headerTeal">#16A085</color>
     <color name="headerOrange">#e15119</color>
     <color name="headerLemon">#98ac30</color>

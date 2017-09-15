@@ -54,6 +54,6 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:2.3.1'
     compile 'com.google.apis:google-api-services-youtube:v3-rev171-1.22.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
-
+    compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
     testCompile 'junit:junit:4.12'
 }
