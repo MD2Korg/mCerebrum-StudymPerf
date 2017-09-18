@@ -16,7 +16,7 @@ public abstract class DemoBase extends FragmentActivity {
     };
 
     protected String[] mParties = new String[] {
-            "At Home", "At Work", "Unknown", "Remaining Hours", "Party E", "Party F", "Party G", "Party H",
+            "Home", "Office", "Other", "Remaining Hours", "Party E", "Party F", "Party G", "Party H",
             "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
             "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
             "Party Y", "Party Z"

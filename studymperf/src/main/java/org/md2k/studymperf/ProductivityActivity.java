@@ -47,23 +47,9 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_productivity);
-        buttonSetGoal= (FancyButton) findViewById(R.id.btn_setgoal_datacollection);
-        buttonSetGoal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-/*
-                Dialog.editbox_numeric(ProductivityActivity.this, "Set Goal", "Set a daily data collection hour to help you stay productive.", new DialogCallback() {
-                    @Override
-                    public void onSelected(String value) {
-                        Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-*/
-            }
-        });
+        setContentView(R.layout.activity_work_duration);
 
-        buttonSetLocation= (FancyButton) findViewById(R.id.btn_setgoal_productivity);
+        buttonSetLocation= (FancyButton) findViewById(R.id.btn_set_location);
 
         buttonSetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,55 +116,12 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this);
 
-        setData(3, 3);
+        setData(4, 4);
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
 //piechart for data collection starts:
-
-        mChart_data = (PieChart) findViewById(R.id.chart2);
-        mChart_data.setUsePercentValues(true);
-        mChart_data.getDescription().setEnabled(false);
-        mChart_data.setExtraOffsets(5, 10, 5, 5);
-
-        mChart_data.setDragDecelerationFrictionCoef(0.95f);
-
-        mChart_data.setCenterTextTypeface(mTfLight);
-       //   mChart.setCenterText(generateCenterSpannableText());
-
-        mChart_data.setDrawHoleEnabled(true);
-        mChart_data.setHoleColor(Color.TRANSPARENT);
-
-        mChart_data.setTransparentCircleColor(Color.TRANSPARENT);
-        mChart_data.setTransparentCircleAlpha(110);
-
-        mChart_data.setHoleRadius(88f);
-        mChart_data.setTransparentCircleRadius(41f);
-
-        mChart_data.setDrawCenterText(true);
-
-        mChart_data.setRotationAngle(270);
-        // enable rotation of the chart by touch
-        mChart_data.setRotationEnabled(true);
-        mChart_data.setHighlightPerTapEnabled(true);
-
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        mChart_data.setOnChartValueSelectedListener(this);
-
-        setData(4, 4);
-
-        mChart_data.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        // mChart.spin(2000, 0, 360);
-
-
-        // piechart for data collection ends;
-
-        mSeekBarX.setOnSeekBarChangeListener(this);
-        mSeekBarY.setOnSeekBarChangeListener(this);
 
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);

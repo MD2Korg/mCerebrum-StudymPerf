@@ -16,13 +16,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Step Count"
+            android:text="Work Duration"
             android:textColor="@color/fontPrimanry"
             android:textSize="18sp"
             android:gravity="center"/>
 
     </LinearLayout>
-  <!-- sub-app name bar-->
+    <!-- sub-app name bar-->
 
     <!-- view chart -->
     <LinearLayout
@@ -43,7 +43,7 @@
             android:id="@+id/seekBar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           />
+            />
 
         <SeekBar
             android:id="@+id/seekBar1"
@@ -53,7 +53,7 @@
 
     </LinearLayout>
 
-    <!-- set goal button-->
+    <!-- set location button-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -66,11 +66,11 @@
         <mehdi.sakout.fancybuttons.FancyButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btn_setgoal_stepcount"
+            android:id="@+id/btn_set_location"
             fancy:fb_defaultColor="@color/backGroundDark"
             fancy:fb_borderWidth="2dp"
             fancy:fb_borderColor="@color/tealsecondary"
-            fancy:fb_text="Set Goal"
+            fancy:fb_text="Set Location"
             fancy:fb_textSize="16sp"
             fancy:fb_textColor="@color/fontPrimanry"/>
 
