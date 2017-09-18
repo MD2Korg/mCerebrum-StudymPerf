@@ -33,7 +33,7 @@ public class FragmentHome extends Fragment {
 
     FancyButton fitness;
     FancyButton productivity;
-    FancyButton report;
+    FancyButton pause_resume_data_collection;
     FancyButton left_wrist;
     FancyButton right_wrist;
     PlayPauseView pause_play;
@@ -67,20 +67,21 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        report= (FancyButton) view.findViewById(R.id.btn_view_report);
-        report.setOnClickListener(new View.OnClickListener() {
+        pause_resume_data_collection= (FancyButton) view.findViewById(R.id.btn_pause_resume_data_collection);
+        pause_resume_data_collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(),StackedBarActivity.class);
-                startActivity(intent);
+              //  startActivity(intent);
             }
         });
+
         left_wrist= (FancyButton) view.findViewById(R.id.btn_dq_left_wrist);
         left_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, FragmentLeftWrist.newInstance(PlatformId.LEFT_WRIST, "Left Wrist"),"findThisFragment")
+                        .replace(R.id.fragment_container, FragmentLeftWrist.newInstance(PlatformId.LEFT_WRIST, "Left Wrist"), "findThisFragment")
                         .addToBackStack(null)
                         .commit();
 //                Intent intent=new Intent(getActivity(),FragmentLeftWrist.class);
@@ -110,10 +111,12 @@ public class FragmentHome extends Fragment {
             userViewDataQuality.set(new ResultCallback() {
                 @Override
                 public void onResult(int[] result) {
+/*
                     ((ImageView) view.findViewById(R.id.imageview_left_wrist)).setImageDrawable(getDataQualityImage(result[0]));
                     ((ImageView) view.findViewById(R.id.imageview_right_wrist)).setImageDrawable(getDataQualityImage(result[1]));
                     ((TextView) view.findViewById(R.id.textview_left_wrist)).setText(getDataQualityText(result[0]));
                     ((TextView) view.findViewById(R.id.textview_right_wrist)).setText(getDataQualityText(result[1]));
+*/
                 }
             });
         }catch (Exception ignored){
