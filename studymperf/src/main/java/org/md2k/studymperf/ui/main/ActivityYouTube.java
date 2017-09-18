@@ -3,8 +3,6 @@ package org.md2k.studymperf.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -13,8 +11,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.md2k.studymperf.R;
-
-import static com.blankj.utilcode.util.ClipboardUtils.getIntent;
 
 public class ActivityYouTube extends YouTubeBaseActivity implements
         YouTubePlayer.OnInitializedListener {

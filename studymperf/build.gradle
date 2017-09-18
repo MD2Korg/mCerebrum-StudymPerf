@@ -12,6 +12,7 @@ android {
         targetSdkVersion 25
         versionCode buildVersionCode()
         versionName version
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +39,8 @@ dependencies {
     //MD2K commons
     compile project(':commons')
     compile project(':core')
+    compile project(':datakitapi')
+    compile project(':system')
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {
         transitive = true
     }
@@ -55,5 +58,6 @@ dependencies {
     compile 'com.google.apis:google-api-services-youtube:v3-rev171-1.22.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
+    compile 'com.android.support:multidex:1.0.0'
     testCompile 'junit:junit:4.12'
 }

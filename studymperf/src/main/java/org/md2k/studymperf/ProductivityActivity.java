@@ -52,12 +52,14 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*
                 Dialog.editbox_numeric(ProductivityActivity.this, "Set Goal", "Set a daily data collection hour to help you stay productive.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
                         Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
+*/
             }
         });
 

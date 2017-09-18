@@ -110,6 +110,7 @@
                         />
                     <ImageView
                         android:layout_width="match_parent"
+                        android:id="@+id/imageview_left_wrist"
                         android:layout_height="0dp"
                         android:src="@drawable/data_quality_good"
                         android:layout_weight="0.33"
@@ -119,6 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:text= "Good"
+                        android:id="@+id/textview_left_wrist"
                         android:textSize="12sp"
                         android:textColor="#FFFF"
                         android:layout_gravity="center"
@@ -163,14 +165,16 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:src="@drawable/data_quality_bad"
+                        android:id="@+id/imageview_right_wrist"
+                        android:src="@drawable/data_quality_good"
                         android:layout_weight="0.33"
                         android:layout_gravity="center"/>
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:text= "Poor"
+                        android:id="@+id/textview_right_wrist"
+                        android:text= "Good"
                         android:textSize="12sp"
                         android:textColor="#FFFF"
                         android:layout_gravity="center"

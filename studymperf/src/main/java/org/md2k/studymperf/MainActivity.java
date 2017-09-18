@@ -1,18 +1,11 @@
 package org.md2k.studymperf;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.View;
-import android.widget.TextView;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -62,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         left_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,LeftWristActivity.class);
+                Intent intent=new Intent(MainActivity.this,FragmentLeftWrist.class);
                 startActivity(intent);
             }
         });

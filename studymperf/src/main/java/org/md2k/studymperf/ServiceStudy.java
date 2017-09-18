@@ -1,15 +1,15 @@
 package org.md2k.studymperf;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
+import android.os.Parcelable;
+import android.support.v7.app.NotificationCompat;
 
-import org.md2k.mcerebrum.commons.permission.Permission;
-
-import es.dmoral.toasty.Toasty;
+import org.md2k.datakitapi.DataKitAPI;
+import org.md2k.datakitapi.exception.DataKitException;
+import org.md2k.datakitapi.messagehandler.OnConnectionListener;
+import org.md2k.md2k.system.app.AppInfo;
 
 /*
  * Copyright (c) 2015, The University of Memphis, MD2K Center
@@ -40,68 +40,37 @@ import es.dmoral.toasty.Toasty;
  */
 
 public class ServiceStudy extends Service {
-/*
-    public static final String INTENT_RESTART = "intent_restart";
-    public static final String INTENT_STOP = "stop";
-
-    private DeviceManager deviceManager;
-    private DataKitAPI dataKitAPI = null;
-    private Map<String, List<Data>> dataQueue = new HashMap<String, List<Data>>();
-    private Map<String, Long> lastSampleTimestamps = new HashMap<>();
-    private Map<String, Long> lastSampleSeqNumbers = new HashMap<>();
-*/
+    DataKitAPI dataKitAPI;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (Permission.hasPermission(this)) {
-            load();
-        } else {
-            Toasty.error(getApplicationContext(), "!PERMISSION DENIED !!! Could not continue...", Toast.LENGTH_SHORT).show();
-            stopSelf();
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        AppInfo[] appInfos=null;
+        Parcelable[] p= intent.getParcelableArrayExtra("AppInfo");
+        if(p!=null && p.length!=0) {
+            appInfos = new AppInfo[p.length];
+            for (int i = 0; i < p.length; i++) {
+                appInfos[i] = (AppInfo) p[i];
+            }
         }
+
+//        applicationManager=new ApplicationManager(appInfos);
+        load();
+        return START_STICKY; // or whatever your flag
     }
 
     void load() {
-/*
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiverStop,
-                new IntentFilter(INTENT_STOP));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverRestart, new IntentFilter(INTENT_RESTART));
-
-        if (readSettings())
-            connectDataKit();
-        else {
-            showAlertDialogConfiguration(this);
-            stopSelf();
-        }
-*/
-    }
-
-/*
-    private boolean readSettings() {
-        deviceManager = new DeviceManager();
-        for (int i = 0; i < deviceManager.size(); i++) {
-            dataQueue.put(deviceManager.get(i).getDeviceId(), new ArrayList<Data>());
-            lastSampleTimestamps.put(deviceManager.get(i).getDeviceId(), 0L);
-            lastSampleSeqNumbers.put(deviceManager.get(i).getDeviceId(), 0L);
-        }
-        return deviceManager.size() != 0;
-    }
-
-
-    private void connectDataKit() {
-        dataKitAPI = DataKitAPI.getInstance(getApplicationContext());
+        dataKitAPI=DataKitAPI.getInstance(this);
         try {
-            dataKitAPI.connect(new org.md2k.datakitapi.messagehandler.OnConnectionListener() {
+            dataKitAPI.connect(new OnConnectionListener() {
                 @Override
                 public void onConnected() {
-                    try {
-                        deviceManager.start();
-                    } catch (DataKitException e) {
-//                        clearDataKitSettingsBluetooth();
-                        stopSelf();
-                        e.printStackTrace();
-                    }
+                    startForeground(98764, getCompatNotification());
+//                    applicationManager.startAll();
                 }
             });
         } catch (DataKitException e) {
@@ -109,90 +78,21 @@ public class ServiceStudy extends Service {
         }
     }
 
-
-
-    @Override
-    public void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverRestart);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiverStop);
-        try {
-            deviceManager.stop();
-        } catch (DataKitException ignored) {
-
-        }
-        if (dataKitAPI != null) {
-            dataKitAPI.disconnect();
-        }
-        super.onDestroy();
-    }
-*/
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
-
-    void showAlertDialogConfiguration(final Context context) {
-/*
-        AlertDialogs.AlertDialog(this, "Error: MotionSense Settings", "Please configure MotionSense", R.drawable.ic_error_red_50dp, "Settings", "Cancel", null, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == AlertDialog.BUTTON_POSITIVE) {
-                    Intent intent = new Intent(context, ActivitySettings.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
-            }
-        });
-*/
-    }
-
-    private BroadcastReceiver mMessageReceiverRestart = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            AutoSensePlatform autoSensePlatform = (AutoSensePlatform) intent.getSerializableExtra(AutoSensePlatform.class.getSimpleName());
-/*
-            String deviceId = intent.getStringExtra("device_id");
-            if (myBlueTooth != null && deviceId != null) {
-                myBlueTooth.disconnect(deviceId);
-                if (bluetoothDevices.containsKey(deviceId)) {
-                    myBlueTooth.connect(bluetoothDevices.get(deviceId));
-                }
-            }
-*/
+    @Override
+    public void onDestroy(){
+        if (dataKitAPI!=null && dataKitAPI.isConnected()) {
+            dataKitAPI.disconnect();
         }
-    };
-
-    private BroadcastReceiver mMessageReceiverStop = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            stopSelf();
-        }
-    };
-
-
-}
-
-/*
-class Data {
-    long timestamp;
-    BlData blData;
-    int sequenceNumber;
-
-    public Data(long timestamp, BlData blData) {
-        this.timestamp = timestamp;
-        this.blData = blData;
+//        applicationManager.stopAll();
+        super.onDestroy();
     }
-
-    public Data(BlData blData) {
-        this.timestamp = DateTime.getDateTime();
-        this.blData = blData;
-    }
-
-    Data(BlData blData, int sequenceNumber) {
-        this.timestamp = DateTime.getDateTime();
-        this.blData = blData;
-        this.sequenceNumber = sequenceNumber;
+    private android.app.Notification getCompatNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(getResources().getString(R.string.app_name));
+        return builder.build();
     }
 }
-*/

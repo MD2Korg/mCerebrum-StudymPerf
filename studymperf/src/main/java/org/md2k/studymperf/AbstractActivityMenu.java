@@ -20,7 +20,7 @@ import org.md2k.studymperf.ui.main.FragmentHome;
 
 import es.dmoral.toasty.Toasty;
 
-public abstract class AbstractActivityMenu extends AppCompatActivity {
+public abstract class AbstractActivityMenu extends AbstractActivityBasics {
     private Drawer result = null;
     int selectedMenu=MyMenu.MENU_HOME;
     long backPressedLastTime=-1;
@@ -29,11 +29,6 @@ public abstract class AbstractActivityMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
-        updateUI();
     }
     public void updateUI() {
         createDrawer();
@@ -43,7 +38,7 @@ public abstract class AbstractActivityMenu extends AppCompatActivity {
     }
 
     void createDrawer() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)

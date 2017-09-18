@@ -50,6 +50,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*
                 Dialog.editbox_numeric(PieChartActivity.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
@@ -60,6 +61,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
 //                        Toast.makeText(PieChartActivity.this,"value="+goal,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
+*/
             }
         });
 
