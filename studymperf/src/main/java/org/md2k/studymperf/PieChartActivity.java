@@ -236,7 +236,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
                     getResources().getDrawable(R.drawable.star)));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Step Counts");
+        PieDataSet dataSet = new PieDataSet(entries, "");
 //        dataSet.setColor(R.color.colorAccent);
 
         dataSet.setDrawIcons(false);

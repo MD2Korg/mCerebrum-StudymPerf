@@ -37,10 +37,8 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         OnChartValueSelectedListener {
 
     private PieChart mChart;
-    private PieChart mChart_data;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
-    private FancyButton buttonSetGoal;
     private FancyButton buttonSetLocation;
 
     @Override
@@ -238,8 +236,8 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
                     getResources().getDrawable(R.drawable.star)));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Step Counts");
-       dataSet.setColor(R.color.colorAccent);
+        PieDataSet dataSet = new PieDataSet(entries, "");
+     //  dataSet.setColor(R.color.white);
 
         dataSet.setDrawIcons(false);
 
