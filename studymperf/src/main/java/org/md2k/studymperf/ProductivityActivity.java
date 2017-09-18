@@ -1,5 +1,6 @@
 package org.md2k.studymperf;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -40,15 +41,23 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     private FancyButton buttonSetLocation;
-
+    private FancyButton work_close;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_work_duration);
 
-        buttonSetLocation= (FancyButton) findViewById(R.id.btn_set_location);
 
+        work_close= (FancyButton) findViewById(R.id.btn_close_work);
+        work_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                finish();
+            }
+        });
+        buttonSetLocation= (FancyButton) findViewById(R.id.btn_set_location);
         buttonSetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

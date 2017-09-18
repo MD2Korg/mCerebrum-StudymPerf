@@ -1,5 +1,6 @@
 package org.md2k.studymperf;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -40,28 +41,38 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     private FancyButton buttonSetGoal;
+    private FancyButton step_close;
     public String goal="6000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fitness);
+        step_close= (FancyButton) findViewById(R.id.btn_close_step);
+        step_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                finish();
+            }
+        });
+
         buttonSetGoal= (FancyButton) findViewById(R.id.btn_setgoal_stepcount);
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
+
                 Dialog.editbox_numeric(PieChartActivity.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
                         goal=value;
-//                        generateCenterSpannableText();
+                        generateCenterSpannableText();
                         mChart.setCenterText(generateCenterSpannableText());
 
-//                        Toast.makeText(PieChartActivity.this,"value="+goal,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PieChartActivity.this,"value="+goal,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
-*/
+
             }
         });
 
