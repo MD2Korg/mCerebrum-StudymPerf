@@ -67,12 +67,13 @@
             android:layout_height="match_parent"
             android:id="@+id/btn_setgoal_stepcount"
             fancy:fb_defaultColor="@color/backGroundDark"
-            fancy:fb_borderWidth="1dp"
+            fancy:fb_borderWidth="0dp"
+            fancy:fb_fontIconResource="&#xf041;"
             fancy:fb_radius="10dp"
             fancy:fb_borderColor="@color/tealsecondary"
             fancy:fb_text="Set Goal"
             fancy:fb_textSize="16sp"
-            fancy:fb_textColor="@color/fontPrimanry"/>
+            fancy:fb_textColor="#ffff"/>
 
     </LinearLayout>
     <LinearLayout
@@ -88,7 +89,7 @@
             android:layout_height="match_parent"
             android:id="@+id/btn_close_step"
             fancy:fb_defaultColor="@color/backGroundDark"
-            fancy:fb_borderWidth="1dp"
+            fancy:fb_borderWidth="0dp"
             fancy:fb_radius="10dp"
             fancy:fb_borderColor="@color/tealsecondary"
             fancy:fb_text="Close"
