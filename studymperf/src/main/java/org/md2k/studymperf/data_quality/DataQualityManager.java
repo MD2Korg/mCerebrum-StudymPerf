@@ -58,7 +58,6 @@ public class DataQualityManager {
     public void set() {
         final ArrayList<DataSource> dataQuality = getDataSources();
         for (int i = 0; i < dataQuality.size(); i++) {
-            dataQualityInfos.add(new DataQualityInfo());
             final int finalI = i;
             dataQualities.add(new DataQuality(MyApplication.getContext(), dataQuality.get(i), new ReceiveCallBack() {
                 @Override

@@ -50,6 +50,7 @@ public class UserViewDataQuality{
     }
 
     public void updateView(){
+        if(dataQualityManager==null || dataQualityManager.dataQualityInfos==null || dataQualityManager.dataQualityInfos.size()==0)  return;
         int[] result=new int[dataQualityManager.dataQualityInfos.size()];
         ArrayList<DataQualityInfo> dataQualityInfos = dataQualityManager.dataQualityInfos;
         for (int i = 0; i < dataQualityInfos.size(); i++) {
