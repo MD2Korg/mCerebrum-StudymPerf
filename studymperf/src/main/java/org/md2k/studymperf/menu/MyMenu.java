@@ -52,11 +52,12 @@ public class MyMenu {
     public static final int MENU_SETTINGS = 2;
     public static final int MENU_LOGIN = 3;
     public static final int MENU_LOGOUT = 4;
+    public static final int MENU_START_STOP=5;
 
 
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
-    public IProfile[] getHeaderContent(final Context context, String userTitle, boolean isLoggedin, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
+    public IProfile[] getHeaderContent(String userTitle, boolean isLoggedin, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
         IProfile[] iProfiles=new IProfile[2];
         iProfiles[0]=new ProfileDrawerItem().withName(userTitle).withIcon(R.drawable.mcerebrum);
         if(isLoggedin){
@@ -78,26 +79,26 @@ public class MyMenu {
         }
         return iProfiles;
     }
-    private MenuContent[] menuContent = new MenuContent[]{
+    private MenuContent[] menuContentWithStart = new MenuContent[]{
             new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
             new MenuContent("Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_SETTINGS,0),
+            new MenuContent("Start Data Collection", FontAwesome.Icon.faw_play_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
-//            new MenuContent("Step by Step Settings", FontAwesome.Icon.faw_cogs, MenuContent.PRIMARY_DRAWER_ITEM, MENU_APP_SETTINGS,0),
-//            new MenuContent("Report",FontAwesome.Icon.faw_bar_chart,MenuContent.PRIMARY_DRAWER_ITEM, OP_REPORT),
-//            new MenuContent("Plot",FontAwesome.Icon.faw_line_chart,MenuContent.PRIMARY_DRAWER_ITEM, OP_PLOT),
-//            new MenuContent("Export Data",FontAwesome.Icon.faw_upload,MenuContent.PRIMARY_DRAWER_ITEM, OP_EXPORT_DATA),
-//            new MenuContent("Help",null,MenuContent.SECTION_DRAWER_ITEM, OP_HELP),
-//            new MenuContent("Quick Tour",FontAwesome.Icon.faw_film,MenuContent.SECONDARY_DRAWER_ITEM, OP_QUICK_TOUR),
-//            new MenuContent("Frequently asked question",FontAwesome.Icon.faw_question_circle,MenuContent.SECONDARY_DRAWER_ITEM),
-//            new MenuContent("About",null,MenuContent.SECTION_DRAWER_ITEM, OP_ABOUT),
-//            new MenuContent("Who we are",FontAwesome.Icon.faw_users,MenuContent.SECONDARY_DRAWER_ITEM),
-//            new MenuContent("Terms and Conditions",FontAwesome.Icon.faw_pencil_square_o,MenuContent.SECONDARY_DRAWER_ITEM),
-//            new MenuContent("Privacy Policy",FontAwesome.Icon.faw_lock,MenuContent.SECONDARY_DRAWER_ITEM),
-//            new MenuContent("Contact",FontAwesome.Icon.faw_envelope_o,MenuContent.SECONDARY_DRAWER_ITEM),
-//            new MenuContent("Feedback",FontAwesome.Icon.faw_comment,MenuContent.SECONDARY_DRAWER_ITEM),
+    };
+    private MenuContent[] menuContentWithStop = new MenuContent[]{
+            new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
+            new MenuContent("Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_SETTINGS,0),
+            new MenuContent("Stop Data Collection", FontAwesome.Icon.faw_pause_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
+            new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
     };
 
-    public IDrawerItem[] getMenuContent(final ResponseCallBack responseCallBack) {
+    public IDrawerItem[] getMenuContent(boolean start, final ResponseCallBack responseCallBack) {
+        MenuContent[] menuContent;
+        if(start){
+            menuContent=menuContentWithStop;
+        }else{
+            menuContent=menuContentWithStart;
+        }
         return getMenuContent(menuContent, responseCallBack);
     }
 

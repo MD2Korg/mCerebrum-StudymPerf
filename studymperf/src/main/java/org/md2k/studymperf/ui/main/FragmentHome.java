@@ -17,27 +17,28 @@ import com.ohoussein.playpause.PlayPauseView;
 
 import org.md2k.datakitapi.source.platform.PlatformId;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
+import org.md2k.studymperf.ActivityLeftWrist;
 import org.md2k.studymperf.ActivityMain;
-import org.md2k.studymperf.FragmentLeftWrist;
-import org.md2k.studymperf.PieChartActivity;
 import org.md2k.studymperf.ProductivityActivity;
 import org.md2k.studymperf.R;
-import org.md2k.studymperf.RightWristActivity;
-import org.md2k.studymperf.StackedBarActivity;
+import org.md2k.studymperf.data_collection.UserViewDataCollection;
 import org.md2k.studymperf.data_quality.ResultCallback;
 import org.md2k.studymperf.data_quality.UserViewDataQuality;
+import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
+import org.md2k.studymperf.step_count.UserViewStepCount;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class FragmentHome extends Fragment {
 
-    FancyButton fitness;
     FancyButton productivity;
-    FancyButton pause_resume_data_collection;
+//    FancyButton pause_resume_data_collection;
     FancyButton left_wrist;
     FancyButton right_wrist;
-    PlayPauseView pause_play;
     UserViewDataQuality userViewDataQuality;
+    UserViewPrivacyControl userViewPrivacyControl;
+    UserViewStepCount userViewStepCount;
+    UserViewDataCollection userViewDataCollection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -45,18 +46,12 @@ public class FragmentHome extends Fragment {
         return inflater.inflate(R.layout.fragment_main, parent, false);
     }
     @Override
-
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         setDataQuality(view);
+        userViewPrivacyControl = new UserViewPrivacyControl(getActivity(), view);
+        userViewStepCount=new UserViewStepCount(getActivity(), view);
+        userViewDataCollection=new UserViewDataCollection(getActivity(), view);
 
-        fitness= (FancyButton) view.findViewById(R.id.btn_fitness);
-        fitness.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(),PieChartActivity.class);
-                startActivity(intent);
-            }
-        });
 
         productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
         productivity.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +62,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
+/*
         pause_resume_data_collection= (FancyButton) view.findViewById(R.id.btn_pause_resume_data_collection);
         pause_resume_data_collection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,17 +71,22 @@ public class FragmentHome extends Fragment {
               //  startActivity(intent);
             }
         });
+*/
 
         left_wrist= (FancyButton) view.findViewById(R.id.btn_dq_left_wrist);
         left_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+/*
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, FragmentLeftWrist.newInstance(PlatformId.LEFT_WRIST, "Left Wrist"), "findThisFragment")
                         .addToBackStack(null)
                         .commit();
-//                Intent intent=new Intent(getActivity(),FragmentLeftWrist.class);
-//                startActivity(intent);
+*/
+                Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
+                intent.putExtra("id",PlatformId.LEFT_WRIST);
+                intent.putExtra("title","Left Wrist");
+                startActivity(intent);
             }
         });
 
@@ -93,10 +94,17 @@ public class FragmentHome extends Fragment {
         right_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
+                intent.putExtra("id",PlatformId.RIGHT_WRIST);
+                intent.putExtra("title","Right Wrist");
+                startActivity(intent);
+
+/*
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, FragmentLeftWrist.newInstance(PlatformId.RIGHT_WRIST, "Right Wrist"),"findThisFragment")
                         .addToBackStack(null)
                         .commit();
+*/
 
 /*
                 Intent intent=new Intent(getActivity(),RightWristActivity.class);
@@ -104,6 +112,7 @@ public class FragmentHome extends Fragment {
 */
             }
         });
+//        ((TextView) view.findViewById(R.id.textview_userid)).setText(getUserId());
     }
     void setDataQuality(final View view){
         try {
@@ -111,12 +120,11 @@ public class FragmentHome extends Fragment {
             userViewDataQuality.set(new ResultCallback() {
                 @Override
                 public void onResult(int[] result) {
-/*
+
                     ((ImageView) view.findViewById(R.id.imageview_left_wrist)).setImageDrawable(getDataQualityImage(result[0]));
                     ((ImageView) view.findViewById(R.id.imageview_right_wrist)).setImageDrawable(getDataQualityImage(result[1]));
                     ((TextView) view.findViewById(R.id.textview_left_wrist)).setText(getDataQualityText(result[0]));
                     ((TextView) view.findViewById(R.id.textview_right_wrist)).setText(getDataQualityText(result[1]));
-*/
                 }
             });
         }catch (Exception ignored){
@@ -137,6 +145,21 @@ public class FragmentHome extends Fragment {
             default: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_exclamation_triangle).sizeDp(24).color(Color.YELLOW);
         }
     }
+    @Override
+    public void onResume(){
+        userViewPrivacyControl.set();
+        userViewStepCount.set();
+        userViewDataCollection.set();
+        super.onResume();
+    }
+    @Override
+    public void onPause(){
+        userViewPrivacyControl.clear();
+        userViewStepCount.clear();
+        userViewDataCollection.clear();
+        super.onPause();
+    }
+
     @Override
     public void onDestroyView(){
         userViewDataQuality.clear();

@@ -1,15 +1,17 @@
-package org.md2k.studymperf;
+package org.md2k.studymperf.data_collection;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
+import org.md2k.studymperf.R;
+
 /**
  * Created by nusrat on 8/15/2017.
  */
 
-public abstract class DemoBaseStepCount extends FragmentActivity {
+public abstract class DemoBaseDataCollection extends FragmentActivity {
 
     protected String[] mMonths = new String[] {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
