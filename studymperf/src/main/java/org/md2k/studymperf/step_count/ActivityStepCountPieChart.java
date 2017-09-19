@@ -1,11 +1,10 @@
-package org.md2k.studymperf;
+package org.md2k.studymperf.step_count;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,28 +26,35 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import org.md2k.datakitapi.DataKitAPI;
+import org.md2k.datakitapi.datatype.DataTypeInt;
+import org.md2k.datakitapi.exception.DataKitException;
+import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
+import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.commons.dialog.Dialog;
 import org.md2k.mcerebrum.commons.dialog.DialogCallback;
+import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSeekBarChangeListener,
+public class ActivityStepCountPieChart extends DemoBaseStepCount implements SeekBar.OnSeekBarChangeListener,
         OnChartValueSelectedListener {
 
     private PieChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
-    private FancyButton buttonSetGoal;
-    private FancyButton step_close;
-    public String goal="6000";
+    int goal, totalSteps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        goal = getIntent().getIntExtra("goal",10000);
+        totalSteps=getIntent().getIntExtra("total_steps",0);
         setContentView(R.layout.activity_fitness);
-        step_close= (FancyButton) findViewById(R.id.btn_close_step);
+        FancyButton step_close = (FancyButton) findViewById(R.id.btn_close_step);
         step_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,19 +63,21 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
             }
         });
 
-        buttonSetGoal= (FancyButton) findViewById(R.id.btn_setgoal_stepcount);
+        FancyButton buttonSetGoal = (FancyButton) findViewById(R.id.btn_setgoal_stepcount);
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Dialog.editbox_numeric(PieChartActivity.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
+                Dialog.editbox_numeric(ActivityStepCountPieChart.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
-                        goal=value;
+                        goal=Integer.parseInt(value);
+                        saveToDataKit(goal);
                         generateCenterSpannableText();
                         mChart.setCenterText(generateCenterSpannableText());
+                        setData(2,2);
 
-                        Toast.makeText(PieChartActivity.this,"value="+goal,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ActivityPieChartDataCollection.this,"value="+goal,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
 
@@ -143,7 +151,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     }
     @Override
     public void onResume(){
-        Toast.makeText(this, "abc",Toast.LENGTH_SHORT).show();;
+//        Toast.makeText(this, "abc",Toast.LENGTH_SHORT).show();;
         super.onResume();
     }
 
@@ -234,10 +242,26 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     }
 
     private void setData(int count, float range) {
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        if(goal>totalSteps) {
+            entries.add(new PieEntry(totalSteps /(float)(goal),
+                    mParties[0],
+                    getResources().getDrawable(R.drawable.star)));
+            entries.add(new PieEntry((goal-totalSteps) /(float)(goal),
+                    mParties[1],
+                    getResources().getDrawable(R.drawable.star)));
+        }else{
+            entries.add(new PieEntry(1,
+                    mParties[0],
+                    getResources().getDrawable(R.drawable.star)));
+            entries.add(new PieEntry(0,
+                    mParties[1],
+                    getResources().getDrawable(R.drawable.star)));
 
+        }
+/*
         float mult = range;
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
@@ -246,6 +270,7 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
                     mParties[i % mParties.length],
                     getResources().getDrawable(R.drawable.star)));
         }
+*/
 
         PieDataSet dataSet = new PieDataSet(entries, "");
 //        dataSet.setColor(R.color.colorAccent);
@@ -303,16 +328,12 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     }
 
     private SpannableString generateCenterSpannableText() {
-
-        int step=2000;
-        int goalint=10000;
-        String stepStr= String.valueOf(step);
-        String goalStr= String.valueOf(goalint);
-        String togoStr= goal;
+        String stepStr= String.valueOf(totalSteps);
+        String goalStr= String.valueOf(goal);
         String steps="steps";
         String today="today";
         String achieve= "more to achieve goal";
-        String str= "Today \n\n"+stepStr+"/"+goal+"\n\n"+"Daily steps";
+        String str= "Today \n\n"+stepStr+"/"+goalStr+"\n\n"+"Daily steps";
 
         SpannableString s = new SpannableString(str);
         s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, str.length(), 0);
@@ -373,5 +394,15 @@ public class PieChartActivity extends DemoBaseStepCount implements SeekBar.OnSee
     public void onStopTrackingTouch(SeekBar seekBar) {
         // TODO Auto-generated method stub
 
+    }
+    void saveToDataKit(int goal){
+        DataKitAPI dataKitAPI=DataKitAPI.getInstance(this);
+        DataSourceBuilder dataSourceBuilder = new DataSourceBuilder().setType("GOAL_STEP_COUNT");
+        try {
+            DataSourceClient dataSourceClient = dataKitAPI.register(dataSourceBuilder);
+            dataKitAPI.insert(dataSourceClient, new DataTypeInt(DateTime.getDateTime(), goal));
+        } catch (DataKitException e) {
+            Toasty.error(this, "Can't save data. Please try again",Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -60,7 +60,7 @@ public class DataQualityManager {
         for (int i = 0; i < dataQuality.size(); i++) {
             dataQualityInfos.add(new DataQualityInfo());
             final int finalI = i;
-            dataQualities.add(new DataQuality(MyApplication.getContext(), dataQuality.get(i),dataQualityInfos.get(i),  new ReceiveCallBack() {
+            dataQualities.add(new DataQuality(MyApplication.getContext(), dataQuality.get(i), new ReceiveCallBack() {
                 @Override
                 public void onReceive(DataTypeInt sample) {
                     dataQualityInfos.get(finalI).set(sample);

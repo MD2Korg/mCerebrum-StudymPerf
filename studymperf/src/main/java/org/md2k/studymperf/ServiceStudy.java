@@ -1,15 +1,26 @@
 package org.md2k.studymperf;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 
 import org.md2k.datakitapi.DataKitAPI;
 import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.messagehandler.OnConnectionListener;
 import org.md2k.md2k.system.app.AppInfo;
+import org.md2k.studymperf.app.ApplicationManager;
+
+import java.util.concurrent.TimeUnit;
+
+import br.com.goncalves.pugnotification.notification.PugNotification;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.functions.Func1;
 
 /*
  * Copyright (c) 2015, The University of Memphis, MD2K Center
@@ -40,42 +51,62 @@ import org.md2k.md2k.system.app.AppInfo;
  */
 
 public class ServiceStudy extends Service {
-    DataKitAPI dataKitAPI;
+    ApplicationManager applicationManager;
+    Subscription subscription;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("abc","---------------service onCreate()");
+        applicationManager=new ApplicationManager();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        Log.d("abc","---------------service onStartCommand()...start");
+        startForeground(98764, getCompatNotification());
+        applicationManager.stop();
         AppInfo[] appInfos=null;
-        Parcelable[] p= intent.getParcelableArrayExtra("AppInfo");
+        Parcelable[] p= intent.getParcelableArrayExtra("app_info");
         if(p!=null && p.length!=0) {
             appInfos = new AppInfo[p.length];
             for (int i = 0; i < p.length; i++) {
                 appInfos[i] = (AppInfo) p[i];
             }
         }
+        Log.d("abc","---------------service onStartCommand()...start...appInfo="+appInfos.length);
+        applicationManager.set(appInfos);
 
-//        applicationManager=new ApplicationManager(appInfos);
-        load();
+        applicationManager.start();
+        watchDog();
         return START_STICKY; // or whatever your flag
     }
+    void watchDog(){
 
-    void load() {
-        dataKitAPI=DataKitAPI.getInstance(this);
-        try {
-            dataKitAPI.connect(new OnConnectionListener() {
-                @Override
-                public void onConnected() {
-                    startForeground(98764, getCompatNotification());
-//                    applicationManager.startAll();
-                }
-            });
-        } catch (DataKitException e) {
-            stopSelf();
-        }
+        subscription=Observable.interval(0,30, TimeUnit.SECONDS)
+                .map(new Func1<Long, Boolean>() {
+                    @Override
+                    public Boolean call(Long aLong) {
+                        Log.d("abc","-------------------run-----------");
+                        applicationManager.startBackground();
+                        return false;
+                    }
+                }).subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+
+                    }
+                });
     }
 
     @Override
@@ -84,15 +115,24 @@ public class ServiceStudy extends Service {
     }
     @Override
     public void onDestroy(){
-        if (dataKitAPI!=null && dataKitAPI.isConnected()) {
-            dataKitAPI.disconnect();
-        }
-//        applicationManager.stopAll();
+        if(subscription!=null && !subscription.isUnsubscribed())
+            subscription.unsubscribe();
+
+        applicationManager.stopBackground();
+        applicationManager.stop();
         super.onDestroy();
     }
     private android.app.Notification getCompatNotification() {
+        Intent myIntent = new Intent(this, ActivityMain.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                myIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(getResources().getString(R.string.app_name));
+        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(getResources().getString(R.string.app_name)).setContentText("Running...").setContentIntent(pendingIntent);
         return builder.build();
     }
 }

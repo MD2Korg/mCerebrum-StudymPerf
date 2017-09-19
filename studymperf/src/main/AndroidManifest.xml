@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PieChartActivity"
+            android:name=".step_count.ActivityStepCountPieChart"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProductivityActivity"
@@ -21,6 +21,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RightWristActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityLeftWrist"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityMain"

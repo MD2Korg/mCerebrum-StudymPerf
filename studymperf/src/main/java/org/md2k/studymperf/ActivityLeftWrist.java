@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,10 @@ import org.md2k.studymperf.ui.main.FragmentHome;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class FragmentLeftWrist extends Fragment {
-    public static FragmentLeftWrist newInstance(String id, String title) {
-        FragmentLeftWrist myFragment = new FragmentLeftWrist();
+public class ActivityLeftWrist extends FragmentActivity {
+/*
+    public static ActivityLeftWrist newInstance(String id, String title) {
+        ActivityLeftWrist myFragment = new ActivityLeftWrist();
 
         Bundle args = new Bundle();
         args.putString("id", id);
@@ -32,23 +34,21 @@ public class FragmentLeftWrist extends Fragment {
         return myFragment;
     }
 
+*/
     FancyButton wrist_graph;
     FancyButton wrist_video;
     FancyButton wrist_close;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.activity_left_wrist, parent, false);
-    }
+        setContentView(R.layout.activity_left_wrist);
+        final String id = getIntent().getStringExtra("id");
+        String title = getIntent().getStringExtra("title");
+        ((TextView) findViewById(R.id.textview_wrist_title)).setText(title);
 
-    @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
-        final String id = getArguments().getString("id");
-        String title = getArguments().getString("title");
-        ((TextView) view.findViewById(R.id.textview_wrist_title)).setText(title);
-
-        wrist_graph = (FancyButton) view.findViewById(R.id.btn_left_wrist_graph);
+        wrist_graph = (FancyButton) findViewById(R.id.btn_left_wrist_graph);
         wrist_graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,28 +60,25 @@ public class FragmentLeftWrist extends Fragment {
                 intent.putExtras(b);
                 intent.setComponent(new ComponentName("org.md2k.motionsense", "org.md2k.motionsense.plot.ActivityPlot"));
                 startActivity(intent);
-//                Intent intent=new Intent(FragmentLeftWrist.this,PieChartActivity.class);
+//                Intent intent=new Intent(ActivityLeftWrist.this,ActivityPieChartDataCollection.class);
 //                startActivity(intent);
             }
         });
 
-        wrist_video = (FancyButton) view.findViewById(R.id.btn_left_wrist_video);
+        wrist_video = (FancyButton) findViewById(R.id.btn_left_wrist_video);
         wrist_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ActivityYouTube.class);
+                Intent intent = new Intent(ActivityLeftWrist.this, ActivityYouTube.class);
                 startActivity(intent);
             }
         });
 
-        wrist_close = (FancyButton) view.findViewById(R.id.btn_left_wrist_close);
+        wrist_close = (FancyButton) findViewById(R.id.btn_left_wrist_close);
         wrist_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentHome(), "mPerf Study")
-                        .addToBackStack(null)
-                        .commit();
+                finish();
             }
         });
     }

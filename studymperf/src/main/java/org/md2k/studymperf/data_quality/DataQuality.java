@@ -54,14 +54,12 @@ class DataQuality {
     private Context context;
     private DataSourceClient dataSourceClient;
     private Handler handlerSubscribe;
-    private DataQualityInfo dataQualityInfo;
     private Handler handlerNoData;
 
-    DataQuality(Context context, DataSource dataSource, DataQualityInfo dataQualityInfo, ReceiveCallBack receiveCallBack) {
+    DataQuality(Context context, DataSource dataSource, ReceiveCallBack receiveCallBack) {
         this.dataSource = dataSource;
         this.receiveCallBack = receiveCallBack;
         this.context = context;
-        this.dataQualityInfo=dataQualityInfo;
         handlerSubscribe = new Handler();
         handlerNoData=new Handler();
     }
@@ -89,7 +87,7 @@ class DataQuality {
     private Runnable runnableSubscribe = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG,"runnableSubscribe..."+dataSource.getType()+" "+dataSource.getId());
+//            Log.d(TAG,"runnableSubscribe..."+dataSource.getType()+" "+dataSource.getId());
 //            if(dataSource.getId().equals("ECG"))
 //                Log.d(TAG,"here");
 

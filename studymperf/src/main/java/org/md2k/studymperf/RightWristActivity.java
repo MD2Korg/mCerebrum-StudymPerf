@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import org.md2k.studymperf.step_count.ActivityStepCountPieChart;
+
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class RightWristActivity extends AppCompatActivity {
@@ -23,7 +26,7 @@ public class RightWristActivity extends AppCompatActivity {
         wrist_graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(RightWristActivity.this,PieChartActivity.class);
+                Intent intent=new Intent(RightWristActivity.this,ActivityStepCountPieChart.class);
                 startActivity(intent);
             }
         });
@@ -32,7 +35,7 @@ public class RightWristActivity extends AppCompatActivity {
         wrist_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(RightWristActivity.this,PieChartActivity.class);
+                Intent intent=new Intent(RightWristActivity.this,ActivityStepCountPieChart.class);
                 startActivity(intent);
             }
         });

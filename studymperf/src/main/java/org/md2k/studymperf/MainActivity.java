@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 
+import org.md2k.studymperf.step_count.ActivityStepCountPieChart;
+
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         fitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,PieChartActivity.class);
+                Intent intent=new Intent(MainActivity.this,ActivityStepCountPieChart.class);
                 startActivity(intent);
             }
         });
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         left_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,FragmentLeftWrist.class);
+                Intent intent=new Intent(MainActivity.this,ActivityLeftWrist.class);
                 startActivity(intent);
             }
         });
