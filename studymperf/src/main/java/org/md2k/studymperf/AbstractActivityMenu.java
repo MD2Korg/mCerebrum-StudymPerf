@@ -14,6 +14,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import org.md2k.studymperf.menu.MyMenu;
+import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHome;
 
 import es.dmoral.toasty.Toasty;
@@ -116,6 +117,9 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     }else{
                         Toasty.error(AbstractActivityMenu.this,"mCerebrum app not found", Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case MyMenu.MENU_CONTACT_US:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentContactUs()).commitAllowingStateLoss();
                     break;
 
 
