@@ -34,6 +34,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.beardedhen.androidbootstrap.BootstrapText;
+import com.beardedhen.androidbootstrap.api.view.BootstrapTextView;
+
 import org.md2k.studymperf.ProductivityActivity;
 import org.md2k.studymperf.R;
 import org.md2k.studymperf.data_collection.UserViewDataCollection;
@@ -45,11 +48,12 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class FragmentContactUs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_main, parent, false);
+        return inflater.inflate(R.layout.fragment_contact_us, parent, false);
     }
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        FancyButton productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
+     /*   FancyButton productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
         productivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +61,19 @@ public class FragmentContactUs extends Fragment {
                 startActivity(intent);
             }
         });
+*/
+        BootstrapTextView contact_name= (BootstrapTextView) view.findViewById(R.id.textview_contact_name);
+        contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("David Rudd").build());
+
+        BootstrapTextView contact_phone= (BootstrapTextView) view.findViewById(R.id.textview_contact_phone);
+        contact_phone.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("901 678 1111").build());
+
+        BootstrapTextView contact_email= (BootstrapTextView) view.findViewById(R.id.textview_contact_email);
+        contact_email.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("abcd@memphis.edu").build());
+
+        BootstrapTextView contact_address= (BootstrapTextView) view.findViewById(R.id.textview_contact_address);
+        contact_address.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("110 BRister Ave, Memphis, TN").build());
+
 
     }
 }

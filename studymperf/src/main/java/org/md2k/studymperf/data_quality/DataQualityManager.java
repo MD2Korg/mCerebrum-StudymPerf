@@ -56,7 +56,7 @@ public class DataQualityManager {
     }
 
     public void set() {
-        final ArrayList<DataSource> dataQuality = getDataSources();
+/*        final ArrayList<DataSource> dataQuality = getDataSources();
         for (int i = 0; i < dataQuality.size(); i++) {
             final int finalI = i;
             dataQualities.add(new DataQuality(MyApplication.getContext(), dataQuality.get(i), new ReceiveCallBack() {
@@ -68,6 +68,7 @@ public class DataQualityManager {
         }
         for (int i = 0; i < dataQuality.size(); i++)
             dataQualities.get(i).start();
+*/
     }
 
     public void clear() {
