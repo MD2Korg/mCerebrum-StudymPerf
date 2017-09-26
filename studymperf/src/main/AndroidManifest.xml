@@ -14,6 +14,9 @@
             android:name=".step_count.ActivityStepCountPieChart"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".data_collection.ActivityPieChartDataCollection"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ProductivityActivity"
             android:screenOrientation="portrait" />
         <activity

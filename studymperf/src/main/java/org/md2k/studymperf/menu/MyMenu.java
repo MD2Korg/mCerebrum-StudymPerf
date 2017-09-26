@@ -54,7 +54,7 @@ public class MyMenu {
     public static final int MENU_LOGOUT = 4;
     public static final int MENU_START_STOP=5;
     public static final int MENU_CONTACT_US=6;
-
+    public static final int MENU_WORK_ANNONATION=7;
 
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
@@ -86,6 +86,8 @@ public class MyMenu {
             new MenuContent("Start Data Collection", FontAwesome.Icon.faw_play_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
             new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
+            new MenuContent("Work Annonation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNONATION,0),
+
     };
     private MenuContent[] menuContentWithStop = new MenuContent[]{
             new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
@@ -93,6 +95,7 @@ public class MyMenu {
             new MenuContent("Stop Data Collection", FontAwesome.Icon.faw_pause_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
             new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
+            new MenuContent("Workplace Annonation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNONATION,0),
     };
 
     public IDrawerItem[] getMenuContent(boolean start, final ResponseCallBack responseCallBack) {

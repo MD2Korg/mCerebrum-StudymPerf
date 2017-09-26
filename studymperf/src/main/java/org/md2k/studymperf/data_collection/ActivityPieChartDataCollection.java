@@ -47,14 +47,16 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
     private PieChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
-    int goal, totalSteps;
+    int goal =20;
+    int totalSteps =2;
+    int moretogo=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        goal = getIntent().getIntExtra("goal",10000);
-        totalSteps=getIntent().getIntExtra("total_steps",0);
-        setContentView(R.layout.activity_fitness);
-        FancyButton step_close = (FancyButton) findViewById(R.id.btn_close_step);
+        goal = getIntent().getIntExtra("goal",12);
+        totalSteps=getIntent().getIntExtra("total_steps",2);
+        setContentView(R.layout.activity_data_collection_duration);
+        FancyButton step_close = (FancyButton) findViewById(R.id.btn_close_dcd);
         step_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +65,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
             }
         });
 
-        FancyButton buttonSetGoal = (FancyButton) findViewById(R.id.btn_setgoal_stepcount);
+        FancyButton buttonSetGoal = (FancyButton) findViewById(R.id.btn_setgoal_dcd);
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,11 +331,12 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
     private SpannableString generateCenterSpannableText() {
         String stepStr= String.valueOf(totalSteps);
-        String goalStr= String.valueOf(goal);
+        moretogo=goal-totalSteps;
+        String goalStr= String.valueOf(moretogo);
         String steps="steps";
         String today="today";
         String achieve= "more to achieve goal";
-        String str= "Today \n\n"+stepStr+"/"+goalStr+"\n\n"+"Daily steps";
+        String str= "Today \n"+stepStr+" hours of data collected\n"+goalStr+" hours more to go";
 
         SpannableString s = new SpannableString(str);
         s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, str.length(), 0);

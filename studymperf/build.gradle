@@ -26,7 +26,7 @@ android {
             }
         }
     }
-    configurations.all{
+    configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
 }
@@ -44,20 +44,21 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {
         transitive = true
     }
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    //Bootstrap
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
     compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
     compile 'com.github.medyo:fancybuttons:1.8'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-
-    //Bootstrap
     compile 'com.beardedhen:androidbootstrap:2.3.1'
     compile 'com.google.apis:google-api-services-youtube:v3-rev171-1.22.0'
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
 }

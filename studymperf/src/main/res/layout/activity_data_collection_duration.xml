@@ -16,13 +16,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Step Count"
+            android:text="Data Collection Duration"
             android:textColor="@color/fontPrimanry"
             android:textSize="18sp"
             android:gravity="center"/>
 
     </LinearLayout>
-  <!-- sub-app name bar-->
+    <!-- sub-app name bar-->
 
     <!-- view chart -->
     <LinearLayout
@@ -43,7 +43,7 @@
             android:id="@+id/seekBar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           />
+            />
 
         <SeekBar
             android:id="@+id/seekBar1"
@@ -65,10 +65,10 @@
         <mehdi.sakout.fancybuttons.FancyButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btn_setgoal_stepcount"
+            android:id="@+id/btn_setgoal_dcd"
             fancy:fb_defaultColor="@color/backGroundDark"
             fancy:fb_borderWidth="0dp"
-            fancy:fb_fontIconResource="&#xf018;"
+            fancy:fb_fontIconResource="&#xf017;"
             fancy:fb_radius="10dp"
             fancy:fb_borderColor="@color/tealsecondary"
             fancy:fb_text="Set Goal"
@@ -87,7 +87,7 @@
         <mehdi.sakout.fancybuttons.FancyButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btn_close_step"
+            android:id="@+id/btn_close_dcd"
             fancy:fb_defaultColor="@color/backGroundDark"
             fancy:fb_borderWidth="0dp"
             fancy:fb_radius="10dp"

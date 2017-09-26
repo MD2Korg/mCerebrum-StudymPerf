@@ -21,10 +21,12 @@ import org.md2k.studymperf.ActivityLeftWrist;
 import org.md2k.studymperf.ActivityMain;
 import org.md2k.studymperf.ProductivityActivity;
 import org.md2k.studymperf.R;
+import org.md2k.studymperf.data_collection.ActivityPieChartDataCollection;
 import org.md2k.studymperf.data_collection.UserViewDataCollection;
 import org.md2k.studymperf.data_quality.ResultCallback;
 import org.md2k.studymperf.data_quality.UserViewDataQuality;
 import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
+import org.md2k.studymperf.step_count.ActivityStepCountPieChart;
 import org.md2k.studymperf.step_count.UserViewStepCount;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -32,6 +34,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class FragmentHome extends Fragment {
 
     FancyButton productivity;
+    FancyButton data_collection;
 //    FancyButton pause_resume_data_collection;
     FancyButton left_wrist;
     FancyButton right_wrist;
@@ -58,6 +61,16 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(),ProductivityActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        data_collection=(FancyButton) view.findViewById(R.id.btn_data_collection);
+        data_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),ActivityPieChartDataCollection.class);
                 startActivity(intent);
             }
         });

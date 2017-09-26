@@ -16,6 +16,7 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHome;
+import org.md2k.studymperf.ui.main.FragmentWorkAnnonation;
 
 import es.dmoral.toasty.Toasty;
 
@@ -120,6 +121,9 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     break;
                 case MyMenu.MENU_CONTACT_US:
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentContactUs()).commitAllowingStateLoss();
+                    break;
+                case MyMenu.MENU_WORK_ANNONATION:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentWorkAnnonation()).commitAllowingStateLoss();
                     break;
 
 
