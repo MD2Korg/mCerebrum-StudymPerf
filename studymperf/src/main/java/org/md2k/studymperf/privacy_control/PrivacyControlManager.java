@@ -1,5 +1,9 @@
 package org.md2k.studymperf.privacy_control;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 import com.google.gson.Gson;
 
 import org.md2k.datakitapi.DataKitAPI;
@@ -11,6 +15,7 @@ import org.md2k.datakitapi.source.datasource.DataSourceClient;
 import org.md2k.datakitapi.source.datasource.DataSourceType;
 import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.data_format.privacy.PrivacyData;
+import org.md2k.studymperf.AbstractActivityBasics;
 import org.md2k.studymperf.MyApplication;
 
 import java.util.ArrayList;
@@ -69,13 +74,14 @@ class PrivacyControlManager {
                         privacyData = gson.fromJson(dataTypeJSONObject.getSample().toString(), PrivacyData.class);
                     } catch (Exception ignored) {
                         privacyData = null;
-//                        LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
+                        LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
                     }
                 }
             }
         } catch (DataKitException e) {
             privacyData=null;
-//            LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
+            Context context = MyApplication.getContext();
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
         }
         return privacyData;
     }

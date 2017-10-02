@@ -1,6 +1,7 @@
 package org.md2k.studymperf.privacy_control;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -14,11 +15,15 @@ import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
+import org.md2k.mcerebrum.commons.app_info.AppInfo;
 import org.md2k.studymperf.R;
+import org.md2k.studymperf.ServiceStudy;
 
 import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 /**
@@ -83,6 +88,14 @@ public class UserViewPrivacyControl {
                 button.setFontIconSize(16);
                 button.setIconResource("\uf00d");
                 button.setIconColor(ContextCompat.getColor(activity, R.color.headerOrange));
+
+                NotificationManager notificationManager =
+                        (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
+                boolean start = AppInfo.isServiceRunning(activity, ServiceStudy.class.getName());
+                if(start)
+                notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(activity,"Data Collection - PAUSED ("+show+")"));
+                else notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(activity,"Data Collection - OFF"));
+
 /*
                 button.setIconResource(new IconicsDrawable(activity)
                         .icon(FontAwesome.Icon.faw_stop)
@@ -105,6 +118,13 @@ public class UserViewPrivacyControl {
                 button.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorBackground));
                 button.setIconResource("\uf04c");
                 String show="Data Collection Active";
+                NotificationManager notificationManager =
+                        (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
+                boolean start = AppInfo.isServiceRunning(activity, ServiceStudy.class.getName());
+                if(start)
+                    notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(activity,"Data Collection - ON"));
+                else notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(activity,"Data Collection - OFF (click to start)"));
+
 /*
                 TextView t = ((TextView) view.findViewById(R.id.textview_privacy_status));
                 t.setText(show);

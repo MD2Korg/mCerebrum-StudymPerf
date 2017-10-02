@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
 import org.md2k.datakitapi.time.DateTime;
+import org.md2k.studymperf.AbstractActivityBasics;
 import org.md2k.studymperf.MyApplication;
 import org.md2k.studymperf.R;
 
@@ -102,7 +104,7 @@ public class UserViewStepCount {
                 }
             }
         } catch (DataKitException e) {
-//            LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
+            LocalBroadcastManager.getInstance(activity).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
         }
         return totalSteps;
     }
@@ -122,7 +124,7 @@ public class UserViewStepCount {
                     }
                 }
             } catch (DataKitException e) {
-//                Toasty.error(this, "Can't save data. Please try again", Toast.LENGTH_SHORT).show();
+                LocalBroadcastManager.getInstance(activity).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
             }
        return 10000;
     }

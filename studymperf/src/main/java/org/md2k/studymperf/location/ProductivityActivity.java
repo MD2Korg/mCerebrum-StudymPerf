@@ -1,5 +1,6 @@
-package org.md2k.studymperf;
+package org.md2k.studymperf.location;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -27,14 +27,13 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
-import org.md2k.mcerebrum.commons.dialog.Dialog;
-import org.md2k.mcerebrum.commons.dialog.DialogCallback;
+import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarChangeListener,
+public class ProductivityActivity extends DemoBaseProductivity implements SeekBar.OnSeekBarChangeListener,
         OnChartValueSelectedListener {
 
     private PieChart mChart;
@@ -47,6 +46,8 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_work_duration);
+        readData();
+        prepare();
 
 
         work_close= (FancyButton) findViewById(R.id.btn_close_work);
@@ -61,6 +62,9 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         buttonSetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("org.md2k.phonesensor", "org.md2k.phonesensor.ActivitySettingsGeofence"));
+                startActivity(intent);/*
                 Dialog.singleChoice(ProductivityActivity.this, "Set Location", new String[]{"Home", "Work", "Other"}, 0, new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
@@ -76,7 +80,7 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
                         Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
-
+*/
             }
         });
 
@@ -123,13 +127,16 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this);
 
-        setData(4, 4);
+        setData(locationNames.length, 4);
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        mChart.getDescription().setText("");
+        mChart.getLegend().setEnabled(false);
         // mChart.spin(2000, 0, 360);
 
 //piechart for data collection starts:
 
+/*
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -138,11 +145,12 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+*/
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
-        mChart.setEntryLabelTextSize(10f);
+        mChart.setEntryLabelTextSize(14f);
     }
 
     @Override
@@ -233,15 +241,13 @@ public class ProductivityActivity extends DemoBase implements SeekBar.OnSeekBarC
 
     private void setData(int count, float range) {
 
-        float mult = range;
-
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < count ; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-                    mParties[i % mParties.length],
+            entries.add(new PieEntry(mTimes[i],
+                    locationNames[i],
                     getResources().getDrawable(R.drawable.star)));
         }
 

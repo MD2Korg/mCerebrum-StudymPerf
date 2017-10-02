@@ -17,7 +17,7 @@
             android:name=".data_collection.ActivityPieChartDataCollection"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProductivityActivity"
+            android:name=".location.ProductivityActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".StackedBarActivity"
@@ -31,6 +31,7 @@
         <activity
             android:name=".ActivityMain"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/MaterialDrawerTheme.TranslucentStatus">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -16,6 +16,7 @@ import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
 import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
+import org.md2k.studymperf.AbstractActivityBasics;
 
 import java.util.ArrayList;
 
@@ -97,13 +98,28 @@ class DataQuality {
                     handlerSubscribe.postDelayed(this, 1000);
                 else {
                     dataSourceClient = dataSourceClientArrayList.get(dataSourceClientArrayList.size() - 1);
+                    ArrayList<DataType> d = DataKitAPI.getInstance(context).query(dataSourceClient, 1);
+                    if(d.size()==1) prepare(d.get(0));
 //                    final ArrayList<ConfigDataQualityView> configDataQualityViews = ModelManager.getInstance(context).getConfigManager().getConfig().getData_quality_view();
                     DataKitAPI.getInstance(context).subscribe(dataSourceClient, new OnReceiveListener() {
                         @Override
                         public void onReceived(final DataType dataType) {
-                            if(dataType instanceof DataTypeInt) {
-                                handlerNoData.removeCallbacks(runnableNoData);
+                            prepare(dataType);
+                        }
+                    });
+                }
+            } catch (DataKitException e) {
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
+            }
+        }
+    };
+    void prepare(DataType dataType){
+        if(dataType instanceof DataTypeInt) {
+            handlerNoData.removeCallbacks(runnableNoData);
+            DataTypeInt sample = ((DataTypeInt) dataType);
+            receiveCallBack.onReceive(sample);
 
+/*
                                 Thread t = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -116,16 +132,10 @@ class DataQuality {
                                     }
                                 });
                                 t.start();
-                                handlerNoData.postDelayed(runnableNoData, DELAY_TIME);
-                            }
-                        }
-                    });
-                }
-            } catch (DataKitException e) {
-//                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.INTENT_RESTART));
-            }
+*/
+            handlerNoData.postDelayed(runnableNoData, DELAY_TIME);
         }
-    };
+    }
     void stop() {
         try {
             handlerSubscribe.removeCallbacks(runnableSubscribe);
@@ -136,7 +146,7 @@ class DataQuality {
                 dataSourceClient=null;
             }
         } catch (DataKitException e) {
-            e.printStackTrace();
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
         }
     }
 }

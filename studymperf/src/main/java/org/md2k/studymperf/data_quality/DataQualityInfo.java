@@ -1,7 +1,5 @@
 package org.md2k.studymperf.data_quality;
 
-import android.os.Handler;
-
 import org.md2k.datakitapi.datatype.DataTypeInt;
 import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
@@ -44,7 +42,7 @@ class DataQualityInfo {
     private int quality;
 
     DataQualityInfo() {
-        quality = DATA_QUALITY.BAND_OFF;
+        quality = -1;
         qualities=new ArrayList<>();
     }
 
@@ -63,6 +61,7 @@ class DataQualityInfo {
         int lastSample=translate(value.getSample());
         qualities.add(new DataTypeInt(value.getDateTime(), lastSample));
         switch(quality){
+            case -1: quality=lastSample;break;
             case DATA_QUALITY.BAND_OFF:
                 quality=lastSample;
                 break;

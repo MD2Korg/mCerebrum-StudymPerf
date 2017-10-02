@@ -39,12 +39,14 @@ import java.util.ArrayList;
  */
 public class DataQualityManager {
     private static final String TAG = DataQualityManager.class.getSimpleName();
-    private ArrayList<DataQuality> dataQualities;
-    ArrayList<DataQualityInfo> dataQualityInfos;
+    private DataQuality[] dataQualities;
+    DataQualityInfo[] dataQualityInfos;
 
     public DataQualityManager() {
-        dataQualityInfos = new ArrayList<>();
-        dataQualities = new ArrayList<>();
+        dataQualityInfos = new DataQualityInfo[2];
+        dataQualityInfos[0]=new DataQualityInfo();
+        dataQualityInfos[1]=new DataQualityInfo();
+        dataQualities = new DataQuality[2];
     }
     private ArrayList<DataSource> getDataSources(){
         ArrayList<DataSource> dataSources=new ArrayList<>();
@@ -56,28 +58,24 @@ public class DataQualityManager {
     }
 
     public void set() {
-/*        final ArrayList<DataSource> dataQuality = getDataSources();
+        final ArrayList<DataSource> dataQuality = getDataSources();
         for (int i = 0; i < dataQuality.size(); i++) {
             final int finalI = i;
-            dataQualities.add(new DataQuality(MyApplication.getContext(), dataQuality.get(i), new ReceiveCallBack() {
+            dataQualities[i]=new DataQuality(MyApplication.getContext(), dataQuality.get(i), new ReceiveCallBack() {
                 @Override
                 public void onReceive(DataTypeInt sample) {
-                    dataQualityInfos.get(finalI).set(sample);
+                    dataQualityInfos[finalI].set(sample);
                 }
-            }));
+            });
         }
         for (int i = 0; i < dataQuality.size(); i++)
-            dataQualities.get(i).start();
-*/
+            dataQualities[i].start();
     }
 
     public void clear() {
         if (dataQualities != null) {
-            for (int i = 0; i < dataQualities.size(); i++)
-                dataQualities.get(i).stop();
-            dataQualities.clear();
+            for (int i = 0; i < dataQualities.length; i++)
+                dataQualities[i].stop();
         }
-        if (dataQualityInfos != null)
-            dataQualityInfos.clear();
     }
 }

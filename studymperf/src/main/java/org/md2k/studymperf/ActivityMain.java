@@ -1,6 +1,5 @@
 package org.md2k.studymperf;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -9,5 +8,7 @@ public class ActivityMain extends AbstractActivityMenu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startDataCollection();
+        if(getIntent().getBooleanExtra("background", false)==true)
+            finish();
     }
 }

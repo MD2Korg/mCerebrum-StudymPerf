@@ -50,13 +50,18 @@ public class UserViewDataQuality{
     }
 
     public void updateView(){
-        if(dataQualityManager==null || dataQualityManager.dataQualityInfos==null || dataQualityManager.dataQualityInfos.size()==0)  return;
-        int[] result=new int[dataQualityManager.dataQualityInfos.size()];
-        ArrayList<DataQualityInfo> dataQualityInfos = dataQualityManager.dataQualityInfos;
-        for (int i = 0; i < dataQualityInfos.size(); i++) {
-            result[i]=dataQualityInfos.get(i).getQuality();
+        try {
+            if (dataQualityManager == null || dataQualityManager.dataQualityInfos == null || dataQualityManager.dataQualityInfos.length == 0)
+                return;
+            int[] result = new int[dataQualityManager.dataQualityInfos.length];
+            DataQualityInfo[] dataQualityInfos = dataQualityManager.dataQualityInfos;
+            for (int i = 0; i < dataQualityInfos.length; i++) {
+                result[i] = dataQualityInfos[i].getQuality();
+            }
+            resultCallback.onResult(result);
+        }catch (Exception e){
+
         }
-        resultCallback.onResult(result);
     }
 
 
@@ -64,7 +69,7 @@ public class UserViewDataQuality{
         @Override
         public void run() {
             updateView();
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 1000);
         }
     };
 

@@ -1,10 +1,7 @@
 package org.md2k.studymperf;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -13,12 +10,11 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
+import org.md2k.mcerebrum.commons.app_info.AppInfo;
 import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHome;
 import org.md2k.studymperf.ui.main.FragmentWorkAnnonation;
-
-import es.dmoral.toasty.Toasty;
 
 public abstract class AbstractActivityMenu extends AbstractActivityBasics {
     private Drawer result = null;
@@ -45,26 +41,14 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                 .withCompactStyle(true)
                 .addProfiles(new MyMenu().getHeaderContent(getUserName(), isLoggedIn(), responseCallBack))
                 .build();
+        boolean start =AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
 
-        result = new DrawerBuilder()
+            result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(new MyMenu().getMenuContent(start, responseCallBack))
                 .build();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //handle the click on the back arrow click
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -76,6 +60,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
             if (selectedMenu != MyMenu.MENU_HOME) {
                 responseCallBack.onResponse(null, MyMenu.MENU_HOME);
             } else {
+                stopAll();
                 super.onBackPressed();
             }
         }
@@ -92,7 +77,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
 //        super.onSaveInstanceState(outState);
     }
 
-    ResponseCallBack responseCallBack = new ResponseCallBack() {
+    public ResponseCallBack responseCallBack = new ResponseCallBack() {
         @Override
         public void onResponse(IDrawerItem drawerItem, int responseId) {
             selectedMenu = responseId;
@@ -105,19 +90,18 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentHome()).commitAllowingStateLoss();
                     break;
                 case MyMenu.MENU_START_STOP:
-                    if(start)
+                    boolean start =AppInfo.isServiceRunning(AbstractActivityMenu.this, ServiceStudy.class.getName());
+
+                    if(start) {
                         stopDataCollection();
-                    else startDataCollection();
+                    }
+                    else {
+                        startDataCollection();
+                    }
                     toolbar.setTitle(getStudyName());
                     break;
                 case MyMenu.MENU_SETTINGS:
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.md2k.mcerebrum");
-                    if(launchIntent!=null) {
-                        startActivity(launchIntent);
-                        finish();
-                    }else{
-                        Toasty.error(AbstractActivityMenu.this,"mCerebrum app not found", Toast.LENGTH_SHORT).show();
-                    }
+                    stopAndQuit();
                     break;
                 case MyMenu.MENU_CONTACT_US:
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentContactUs()).commitAllowingStateLoss();

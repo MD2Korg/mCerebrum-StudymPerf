@@ -2,21 +2,21 @@ package org.md2k.studymperf;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import org.md2k.datakitapi.DataKitAPI;
-import org.md2k.datakitapi.exception.DataKitException;
-import org.md2k.datakitapi.messagehandler.OnConnectionListener;
-import org.md2k.md2k.system.app.AppInfo;
 import org.md2k.studymperf.app.ApplicationManager;
+import org.md2k.system.constant.MCEREBRUM;
+import org.md2k.system.provider.AppCP;
+import org.md2k.system.provider.appinfo.AppInfoCursor;
+import org.md2k.system.provider.appinfo.AppInfoSelection;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import br.com.goncalves.pugnotification.notification.PugNotification;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -53,53 +53,40 @@ import rx.functions.Func1;
 public class ServiceStudy extends Service {
     ApplicationManager applicationManager;
     Subscription subscription;
+    public static final int NOTIFY_ID=98764;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("abc","---------------service onCreate()");
-        applicationManager=new ApplicationManager();
+        ArrayList<AppCP> appInfos=readApp();
+        applicationManager=new ApplicationManager(this, appInfos);
+        applicationManager.startMCerebrumService();
+        watchDog();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         Log.d("abc","---------------service onStartCommand()...start");
-        startForeground(98764, getCompatNotification());
-        applicationManager.stop();
-        AppInfo[] appInfos=null;
-        Parcelable[] p= intent.getParcelableArrayExtra("app_info");
-        if(p!=null && p.length!=0) {
-            appInfos = new AppInfo[p.length];
-            for (int i = 0; i < p.length; i++) {
-                appInfos[i] = (AppInfo) p[i];
-            }
-        }
-        Log.d("abc","---------------service onStartCommand()...start...appInfo="+appInfos.length);
-        applicationManager.set(appInfos);
-
-        applicationManager.start();
-        watchDog();
+        startForeground(NOTIFY_ID, getCompatNotification(this, "Data Collection - ON"));
         return START_STICKY; // or whatever your flag
     }
     void watchDog(){
-
-        subscription=Observable.interval(0,30, TimeUnit.SECONDS)
+        subscription=Observable.interval(2,30, TimeUnit.SECONDS)
                 .map(new Func1<Long, Boolean>() {
                     @Override
                     public Boolean call(Long aLong) {
-                        Log.d("abc","-------------------run-----------");
-                        applicationManager.startBackground();
+                        start();
                         return false;
                     }
                 }).subscribe(new Observer<Boolean>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        stop();
                     }
 
                     @Override
@@ -113,26 +100,66 @@ public class ServiceStudy extends Service {
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    @Override
-    public void onDestroy(){
+    void unsubscribe(){
         if(subscription!=null && !subscription.isUnsubscribed())
             subscription.unsubscribe();
-
-        applicationManager.stopBackground();
-        applicationManager.stop();
+    }
+    @Override
+    public void onDestroy(){
+        Log.d("abc","------------------------> onDestroy...................");
+        unsubscribe();
+        stop();
+        applicationManager.stopMCerebrumService();
         super.onDestroy();
     }
-    private android.app.Notification getCompatNotification() {
-        Intent myIntent = new Intent(this, ActivityMain.class);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                myIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(getResources().getString(R.string.app_name)).setContentText("Running...").setContentIntent(pendingIntent);
+    public static android.app.Notification getCompatNotification(Context context, String msg) {
+        Intent myIntent = new Intent(context, ActivityMain.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(context.getResources().getString(R.string.app_name)).setContentText(msg).setContentIntent(pendingIntent);
         return builder.build();
+    }
+    ArrayList<AppCP> readApp(){
+        AppInfoSelection s= new AppInfoSelection();
+        AppInfoCursor c = s.query(this);
+        ArrayList<AppCP> appInfos=new ArrayList<>();
+        while(c.moveToNext()) {
+            AppCP a = new AppCP();
+            a.setFromCP(c);
+            appInfos.add(a);
+        }
+        c.close();
+        return appInfos;
+    }
+    void stop(){
+        for(int i=0;i<applicationManager.get().size();i++){
+            if(!applicationManager.get(i).getmCerebrumController().ismCerebrumSupported()) continue;
+            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_STUDY)) continue;
+            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_MCEREBRUM)) continue;
+//            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
+            if(applicationManager.get(i).getmCerebrumController()==null) continue;
+            if(!applicationManager.get(i).getmCerebrumController().isRunInBackground()) continue;
+            if(applicationManager.get(i).getmCerebrumController().isServiceRunning())
+                applicationManager.get(i).getmCerebrumController().stopBackground(null);
+        }
+        applicationManager.stopMCerebrumService();
+
+    }
+    void start(){
+        for(int i=0;i<applicationManager.get().size();i++){
+            if(!applicationManager.get(i).getmCerebrumController().ismCerebrumSupported()) continue;
+            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_STUDY)) continue;
+            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_MCEREBRUM)) continue;
+ //           if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
+            if(applicationManager.get(i).getmCerebrumController()==null) continue;
+            if(!applicationManager.get(i).getmCerebrumController().isServiceRunning())
+                applicationManager.startMCerebrumService(applicationManager.get(i));
+            else {
+                if (!applicationManager.get(i).getmCerebrumController().isRunInBackground())
+                    continue;
+                else applicationManager.get(i).getmCerebrumController().startBackground(null);
+            }
+        }
     }
 }

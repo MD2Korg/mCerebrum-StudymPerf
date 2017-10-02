@@ -59,8 +59,9 @@ public class MyMenu {
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
     public IProfile[] getHeaderContent(String userTitle, boolean isLoggedin, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
-        IProfile[] iProfiles=new IProfile[2];
+        IProfile[] iProfiles=new IProfile[1];
         iProfiles[0]=new ProfileDrawerItem().withName(userTitle).withIcon(R.drawable.mcerebrum);
+/*
         if(isLoggedin){
             iProfiles[1] = new ProfileSettingDrawerItem().withName("Login").withIcon(FontAwesome.Icon.faw_sign_in).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                 @Override
@@ -78,6 +79,7 @@ public class MyMenu {
                 }
             });
         }
+*/
         return iProfiles;
     }
     private MenuContent[] menuContentWithStart = new MenuContent[]{

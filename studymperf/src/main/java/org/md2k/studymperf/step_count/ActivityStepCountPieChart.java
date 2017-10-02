@@ -134,7 +134,10 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
 
         mSeekBarX.setOnSeekBarChangeListener(this);
         mSeekBarY.setOnSeekBarChangeListener(this);
+        mChart.getLegend().setEnabled(false);
+        mChart.getDescription().setText("");
 
+/*
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -143,11 +146,12 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+*/
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
-        mChart.setEntryLabelTextSize(12f);
+        mChart.setEntryLabelTextSize(14f);
     }
     @Override
     public void onResume(){
@@ -267,7 +271,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         // the chart.
         for (int i = 0; i < count ; i++) {
             entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-                    mParties[i % mParties.length],
+                    locationNames[i % locationNames.length],
                     getResources().getDrawable(R.drawable.star)));
         }
 */

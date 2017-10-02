@@ -1,5 +1,6 @@
 package org.md2k.studymperf.ui.main;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,25 +12,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.AwesomeTextView;
+import com.beardedhen.androidbootstrap.BootstrapText;
+import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.ohoussein.playpause.PlayPauseView;
 
 import org.md2k.datakitapi.source.platform.PlatformId;
+import org.md2k.mcerebrum.commons.app_info.AppInfo;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
 import org.md2k.studymperf.ActivityLeftWrist;
 import org.md2k.studymperf.ActivityMain;
-import org.md2k.studymperf.ProductivityActivity;
 import org.md2k.studymperf.R;
+import org.md2k.studymperf.ServiceStudy;
 import org.md2k.studymperf.data_collection.ActivityPieChartDataCollection;
 import org.md2k.studymperf.data_collection.UserViewDataCollection;
 import org.md2k.studymperf.data_quality.ResultCallback;
 import org.md2k.studymperf.data_quality.UserViewDataQuality;
+import org.md2k.studymperf.location.ProductivityActivity;
 import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
-import org.md2k.studymperf.step_count.ActivityStepCountPieChart;
 import org.md2k.studymperf.step_count.UserViewStepCount;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class FragmentHome extends Fragment {
 
@@ -42,7 +49,7 @@ public class FragmentHome extends Fragment {
     UserViewPrivacyControl userViewPrivacyControl;
     UserViewStepCount userViewStepCount;
     UserViewDataCollection userViewDataCollection;
-
+    AwesomeTextView tv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
@@ -54,6 +61,7 @@ public class FragmentHome extends Fragment {
         userViewPrivacyControl = new UserViewPrivacyControl(getActivity(), view);
         userViewStepCount=new UserViewStepCount(getActivity(), view);
         userViewDataCollection=new UserViewDataCollection(getActivity(), view);
+        tv = (AwesomeTextView) view.findViewById(R.id.textview_status);
 
 
         productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
@@ -133,7 +141,6 @@ public class FragmentHome extends Fragment {
             userViewDataQuality.set(new ResultCallback() {
                 @Override
                 public void onResult(int[] result) {
-
                     ((ImageView) view.findViewById(R.id.imageview_left_wrist)).setImageDrawable(getDataQualityImage(result[0]));
                     ((ImageView) view.findViewById(R.id.imageview_right_wrist)).setImageDrawable(getDataQualityImage(result[1]));
                     ((TextView) view.findViewById(R.id.textview_left_wrist)).setText(getDataQualityText(result[0]));
@@ -146,6 +153,7 @@ public class FragmentHome extends Fragment {
     }
     String getDataQualityText(int value){
         switch(value){
+            case -1: return "";
             case DATA_QUALITY.GOOD: return "Good";
             case DATA_QUALITY.BAND_OFF: return "No Data";
             default: return "Poor";
@@ -153,6 +161,7 @@ public class FragmentHome extends Fragment {
     }
     Drawable getDataQualityImage(int value){
         switch(value){
+            case -1: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_refresh).sizeDp(24).color(Color.GRAY);
             case DATA_QUALITY.GOOD: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_check_circle).sizeDp(24).color(Color.GREEN);
             case DATA_QUALITY.BAND_OFF: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_times_circle).sizeDp(24).color(Color.RED);
             default: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_exclamation_triangle).sizeDp(24).color(Color.YELLOW);
@@ -163,6 +172,19 @@ public class FragmentHome extends Fragment {
         userViewPrivacyControl.set();
         userViewStepCount.set();
         userViewDataCollection.set();
+        boolean start = AppInfo.isServiceRunning(getActivity(), ServiceStudy.class.getName());
+
+        if(!start) {
+            updateStatus("Data collection off", DefaultBootstrapBrand.DANGER, false);
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(getActivity(),"Data Collection - OFF (click to start)"));
+
+        }else{
+            updateStatus(null, DefaultBootstrapBrand.SUCCESS, true);
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(getActivity(),"Data Collection - ON"));
+        }
+
         super.onResume();
     }
     @Override
@@ -177,6 +199,13 @@ public class FragmentHome extends Fragment {
     public void onDestroyView(){
         userViewDataQuality.clear();
         super.onDestroyView();
+    }
+    void updateStatus(String msg, BootstrapBrand brand, boolean isSuccess){
+        tv.setBootstrapBrand(brand);
+        if(isSuccess)
+            tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_check_circle").build());
+        else
+            tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_times_circle").addText(" ("+msg+")").build());
     }
 
 }

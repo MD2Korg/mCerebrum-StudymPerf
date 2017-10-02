@@ -25,10 +25,12 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.md2k.studymperf.location.DemoBaseProductivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class StackedBarActivity extends DemoBase implements OnSeekBarChangeListener, OnChartValueSelectedListener {
+public class StackedBarActivity extends DemoBaseProductivity implements OnSeekBarChangeListener, OnChartValueSelectedListener {
 
     private BarChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;

@@ -26,10 +26,8 @@ package org.md2k.studymperf.ui.main;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +35,7 @@ import android.view.ViewGroup;
 import com.beardedhen.androidbootstrap.BootstrapText;
 import com.beardedhen.androidbootstrap.api.view.BootstrapTextView;
 
-import org.md2k.studymperf.ProductivityActivity;
 import org.md2k.studymperf.R;
-import org.md2k.studymperf.data_collection.UserViewDataCollection;
-import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
-import org.md2k.studymperf.step_count.UserViewStepCount;
-
-import mehdi.sakout.fancybuttons.FancyButton;
 
 public class FragmentContactUs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -63,16 +55,17 @@ public class FragmentContactUs extends Fragment {
         });
 */
         BootstrapTextView contact_name= (BootstrapTextView) view.findViewById(R.id.textview_contact_name);
-        contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("David Rudd").build());
+        contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Shahin Samiei").build());
 
         BootstrapTextView contact_phone= (BootstrapTextView) view.findViewById(R.id.textview_contact_phone);
-        contact_phone.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("901 678 1111").build());
+        contact_phone.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("901 678 0000").build());
 
         BootstrapTextView contact_email= (BootstrapTextView) view.findViewById(R.id.textview_contact_email);
         contact_email.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("abcd@memphis.edu").build());
 
         BootstrapTextView contact_address= (BootstrapTextView) view.findViewById(R.id.textview_contact_address);
-        contact_address.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("110 BRister Ave, Memphis, TN").build());
+        contact_address.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("365 Innovation Drive\n" +
+                "Memphis, TN 38152-3115").build());
 
 
     }
