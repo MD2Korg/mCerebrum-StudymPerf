@@ -3,10 +3,14 @@ package org.md2k.studymperf.location;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +34,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -41,9 +46,23 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
     private TextView tvX, tvY;
     private FancyButton buttonSetLocation;
     private FancyButton work_close;
+    int[] MY_COLORS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MY_COLORS = new int[]{
+                Color.GRAY,
+                ContextCompat.getColor(this, R.color.tealsecondary),
+                ContextCompat.getColor(this, R.color.md_blue_700),
+                ContextCompat.getColor(this, R.color.md_light_green_700),
+                ContextCompat.getColor(this, R.color.md_amber_900),
+                ContextCompat.getColor(this, R.color.md_yellow_700),
+                ContextCompat.getColor(this, R.color.md_green_700),
+                ContextCompat.getColor(this, R.color.md_brown_600),
+                ContextCompat.getColor(this, R.color.md_deep_orange_700),
+                ContextCompat.getColor(this, R.color.md_indigo_700),
+                ContextCompat.getColor(this, R.color.md_red_700),
+                ContextCompat.getColor(this, R.color.md_purple_600)};
 
         setContentView(R.layout.activity_work_duration);
         readData();
@@ -103,7 +122,8 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
      //   mChart.setDragDecelerationFrictionCoef(0.95f);
 
         mChart.setCenterTextTypeface(mTfLight);
-        //  mChart.setCenterText(generateCenterSpannableText());
+        mChart.setCenterText(generateCenterSpannableText());
+        mChart.setCenterTextSize(14.0f);
 
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.TRANSPARENT);
@@ -111,14 +131,14 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         mChart.setTransparentCircleColor(Color.TRANSPARENT);
         mChart.setTransparentCircleAlpha(110);
 
-        mChart.setHoleRadius(78f);
+        mChart.setHoleRadius(70f);
         mChart.setTransparentCircleRadius(0f);
 
         mChart.setDrawCenterText(true);
 
         mChart.setRotationAngle(270);
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
+        mChart.setRotationEnabled(false);
      //   mChart.setHighlightPerTapEnabled(true);
 
         // mChart.setUnit(" €");
@@ -283,8 +303,6 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
 
         colors.add(ColorTemplate.getHoloBlue());
 */
-        final int[] MY_COLORS = {Color.rgb(150,122,228),
-                Color.rgb(127,127,127), Color.rgb(0,128,128), Color.rgb(0,0,128)};
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         for(int c: MY_COLORS) colors.add(c);
@@ -305,36 +323,6 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         mChart.highlightValues(null);
 
         mChart.invalidate();
-    }
-
-    private SpannableString generateCenterSpannableText() {
-        int step=2000;
-        int goal=10000;
-        String stepStr= String.valueOf(step);
-        String goalStr= String.valueOf(goal);
-        String str=stepStr+"/\n"+goalStr;
-        SpannableString s = new SpannableString(str);
-        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
-        s.setSpan(new RelativeSizeSpan(1.7f), 0,s.length(), 0);
-
-//        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-
-//        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
-//        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
-//        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);
-//        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-//        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
-
-/*
-        SpannableString s = new SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda");
-        s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
-        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);
-        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
-*/
-        return s;
     }
 
     @Override
@@ -363,4 +351,81 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         // TODO Auto-generated method stub
 
     }
+    private SpannableString generateCenterSpannableText() {
+        String ss="";
+        int curLen=0;
+        for(int i=0;i<locationWithTime.length;i++){
+            ss+=locationWithTime[i]+"\n";
+        }
+        SpannableString s = new SpannableString(ss);
+        for(int i=0;i<locationWithTime.length;i++){
+            s.setSpan(new ForegroundColorSpan(MY_COLORS[i%MY_COLORS.length]), curLen, curLen+locationWithTime[i].length(), 0);
+            curLen+=locationWithTime[i].length()+1;
+        }
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+/*
+//        String stepStr= String.valueOf(totalSteps)+"/";
+        int totalDataCollectionMin=totalDataCollection/(1000*60);
+        String stepStr = String.format(Locale.getDefault(), "%02d:%02d",totalDataCollectionMin/60, totalDataCollectionMin%60)+"/";
+
+        int goalMin=goal/(1000*60);
+        String goalStr = String.format(Locale.getDefault(), "%02d:%02d",goalMin/60, goalMin%60);
+
+
+//        String goalStr= String.valueOf(goal);
+        String totalStr= stepStr+goalStr;
+
+        SpannableString s = new SpannableString(totalStr);
+        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.tealsecondary)), 0, stepStr.length()-1, 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length()-1, stepStr.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length(), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(0.5f), stepStr.length(), s.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+*/
+/*
+        String stepStr= String.valueOf(totalSteps);
+        moretogo=goal-totalSteps;
+        String goalStr= String.valueOf(moretogo);
+        String steps="steps";
+        String today="today";
+        String achieve= "more to achieve goal";
+        String str= "Today \n"+stepStr+" hours of data collected\n"+goalStr+" hours more to go";
+
+        SpannableString s = new SpannableString(str);
+        s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, str.length(), 0);
+*/
+        /*
+        String str=stepStr+" "+steps+"\n"+ today+"\n"+goal+" "+achieve;
+        SpannableString s = new SpannableString(str);
+        s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, stepStr.length(), 0);
+        s.setSpan(new RelativeSizeSpan(1.7f), 0,stepStr.length(), 0);
+
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), stepStr.length(), (stepStr.length()+steps.length()+1), 0);
+        s.setSpan(new RelativeSizeSpan(0.9f), stepStr.length(), (stepStr.length()+steps.length()+1), 0);
+
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), (stepStr.length()+steps.length()+1), (stepStr.length()+steps.length()+2+today.length()), 0);
+        s.setSpan(new RelativeSizeSpan(1.5f),  (stepStr.length()+steps.length()+1), (stepStr.length()+steps.length()+2+today.length()), 0);
+
+        s.setSpan(new ForegroundColorSpan(Color.RED), (stepStr.length()+steps.length()+2+today.length()),  (stepStr.length()+steps.length()+4+today.length()+togoStr.length()), 0);
+        s.setSpan(new RelativeSizeSpan(0.9f), (stepStr.length()+steps.length()+2+today.length()),  (stepStr.length()+steps.length()+4+today.length()+togoStr.length()), 0);
+
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), (stepStr.length()+steps.length()+4+today.length()+togoStr.length()), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(0.7f), (stepStr.length()+steps.length()+4+today.length()+togoStr.length()), s.length(), 0);
+*/
+/*
+        SpannableString s = new SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda");
+        s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
+        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 14, s.length() - 15, 0);
+        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);
+        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
+*/
+        return s;
+
+
+    }
+
 }

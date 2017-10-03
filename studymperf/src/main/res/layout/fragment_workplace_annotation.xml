@@ -1,186 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorbackground"
-    android:weightSum="1"
     android:orientation="vertical"
-    >
+    android:weightSum="1">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:background="@color/backGroundDark"
-        android:layout_weight="0.8"
-        >
+        android:layout_weight="0.1"
+        android:background="@color/tealsecondary">
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="30dp"
-            android:weightSum="1"
-            android:layout_gravity="center_vertical">
-
-        <!--Caption -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2">
-            <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/textview_workplace_title"
-                app:bootstrapBrand="success"
-                app:bootstrapText="Workplace Annotation"
-                android:textSize="20sp"/>
-
-          </LinearLayout>
-
-
-        <!--Work Type :Not selected  -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:orientation="horizontal"
-            android:weightSum="1">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4">
-                <com.beardedhen.androidbootstrap.AwesomeTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textview_workplace"
-                    android:layout_marginLeft="30dp"
-                    app:bootstrapBrand="success"
-                    app:bootstrapText="Work Type:"
-                    android:textSize="15sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6">
-                <com.beardedhen.androidbootstrap.AwesomeTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textview_workplace_type"
-                    app:bootstrapBrand="success"
-                    app:bootstrapText="Not selected"
-                    android:textSize="15sp"/>
-            </LinearLayout>
-
-
-
-
-            </LinearLayout>
-
-        <!--work type selection button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:layout_marginLeft="40dp">
-
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_work_type"
-                app:bootstrapText="{fa_list} Select your work type"
-
-                app:bootstrapBrand="success"
-                app:bootstrapSize="md"
-                app:buttonMode="regular"
-                app:showOutline="true"
-                app:roundedCorners="true"
-                />
-
-        </LinearLayout>
-
-        <!--start/stop button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:weightSum="1"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
-
-                <com.beardedhen.androidbootstrap.BootstrapButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_work_start"
-                    android:layout_marginLeft="40dp"
-                    app:bootstrapText="{fa_play} Start"
-                    app:bootstrapBrand="success"
-                    app:bootstrapSize="md"
-                    app:buttonMode="regular"
-                    app:showOutline="false"
-                    app:roundedCorners="true"
-                    />
-                </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
-
-                <com.beardedhen.androidbootstrap.BootstrapButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_work_stop"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="30dp"
-                    app:bootstrapText="{fa_stop} Stop"
-                    app:bootstrapBrand="success"
-                    app:bootstrapSize="md"
-                    app:buttonMode="regular"
-                    app:showOutline="false"
-                    app:roundedCorners="true"
-                    />
-
-            </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-
+            android:gravity="center"
+            android:text="Work Annotation"
+            android:textColor="@color/fontPrimanry"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-
-<!--close -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.8"
+        android:background="@color/backGroundDark"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            app:bootstrapBrand="success"
+            android:textSize="16dp"
+            app:bootstrapText="Select Work Type"
+            android:layout_marginTop="20dp"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.5"
+            android:id="@+id/spinner_list"
+            >
+
+        </Spinner>
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.1"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/btn_work_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    app:bootstrapBrand="success"
+                    app:bootstrapSize="md"
+                    app:bootstrapText="{fa_play} Start"
+                    app:buttonMode="regular"
+                    app:roundedCorners="true"
+                    app:showOutline="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/btn_work_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="30dp"
+                    app:bootstrapBrand="success"
+                    app:bootstrapSize="md"
+                    app:bootstrapText="{fa_stop} Stop"
+                    app:buttonMode="regular"
+                    app:roundedCorners="true"
+                    app:showOutline="false" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="30dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+        &lt;!&ndash;
+
+                    &lt;!&ndash;Caption &ndash;&gt;
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.2">
+
+                        <com.beardedhen.androidbootstrap.AwesomeTextView
+                            android:id="@+id/textview_workplace_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="20sp"
+                            app:bootstrapBrand="success"
+                            app:bootstrapText="Workplace Annotation" />
+
+                    </LinearLayout>
+
+        &ndash;&gt;
+
+                    &lt;!&ndash;Work Type :Not selected  &ndash;&gt;
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4">
+
+                            <com.beardedhen.androidbootstrap.AwesomeTextView
+                                android:id="@+id/textview_workplace"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="30dp"
+                                android:textSize="15sp"
+                                app:bootstrapBrand="success"
+                                app:bootstrapText="Work Type:" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.6">
+
+                            <com.beardedhen.androidbootstrap.AwesomeTextView
+                                android:id="@+id/textview_workplace_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="15sp"
+                                app:bootstrapBrand="success"
+                                app:bootstrapText="Not selected" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    &lt;!&ndash;work type selection button &ndash;&gt;
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_weight="0.1">
+
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:id="@+id/btn_work_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:bootstrapBrand="success"
+
+                            app:bootstrapSize="md"
+                            app:bootstrapText="{fa_list} Select your work type"
+                            app:buttonMode="regular"
+                            app:roundedCorners="true"
+                            app:showOutline="true" />
+
+                    </LinearLayout>
+
+                    &lt;!&ndash;start/stop button &ndash;&gt;
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.1"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.beardedhen.androidbootstrap.BootstrapButton
+                                android:id="@+id/btn_work_start"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40dp"
+                                app:bootstrapBrand="success"
+                                app:bootstrapSize="md"
+                                app:bootstrapText="{fa_play} Start"
+                                app:buttonMode="regular"
+                                app:roundedCorners="true"
+                                app:showOutline="false" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.beardedhen.androidbootstrap.BootstrapButton
+                                android:id="@+id/btn_work_stop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="30dp"
+                                app:bootstrapBrand="success"
+                                app:bootstrapSize="md"
+                                app:bootstrapText="{fa_stop} Stop"
+                                app:buttonMode="regular"
+                                app:roundedCorners="true"
+                                app:showOutline="false" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        -->
+
+        <!--close -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="0.1">
 
         <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_work_close"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btn_work_close"
-            fancy:fb_defaultColor="@color/backGroundDark"
-            fancy:fb_borderWidth="0dp"
-            fancy:fb_radius="10dp"
             fancy:fb_borderColor="@color/tealsecondary"
-            fancy:fb_text="Close"
+            fancy:fb_borderWidth="0dp"
+            fancy:fb_defaultColor="@color/backGroundDark"
             fancy:fb_fontIconResource="&#xf00d;"
-            fancy:fb_textSize="16sp"
-            fancy:fb_textColor="#ff00"/>
-
+            fancy:fb_radius="10dp"
+            fancy:fb_text="Close"
+            fancy:fb_textColor="#ff00"
+            fancy:fb_textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

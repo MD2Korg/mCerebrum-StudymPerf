@@ -3,175 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorbackground"
-    >
+    android:background="@color/colorbackground">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:layout_margin="20dp"
         android:background="@color/backGroundDark"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_gravity="center_vertical">
+        android:weightSum="1">
 
-<!--name-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:weightSum="1"
-        android:orientation="horizontal">
+        <!--name-->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2">
-        <com.beardedhen.androidbootstrap.AwesomeTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:bootstrapBrand="success"
-            app:bootstrapSize="lg"
-            app:fontAwesomeIcon="fa_user"
-            />
-        </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="150dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8">
             <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/textview_contact_name"
-                app:bootstrapBrand="success"
-                app:bootstrapText="M. David Rudd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_horizontal"
                 android:textSize="20sp"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!--phone-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:weightSum="1"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2">
-            <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 app:bootstrapBrand="success"
-                app:bootstrapSize="lg"
-                app:fontAwesomeIcon="fa_phone"
-                />
+                app:bootstrapText="  - " />
+
         </LinearLayout>
 
+        <!--phone-->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal"
+            android:weightSum="1">
             <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/textview_contact_phone"
-                app:bootstrapBrand="success"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_horizontal"
                 android:textSize="15sp"
-                app:bootstrapText="901 678 9999"
-                />
+                app:bootstrapBrand="success"
+                app:bootstrapText="  - " />
+
         </LinearLayout>
 
-    </LinearLayout>
-    <!-- Email-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:weightSum="1"
-        android:orientation="horizontal">
+        <!-- Email-->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal"
+            android:weightSum="1">
             <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:bootstrapBrand="success"
-                app:bootstrapSize="lg"
-                app:fontAwesomeIcon="fa_envelope_o"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8">
-            <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:bootstrapBrand="success"
                 android:id="@+id/textview_contact_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_horizontal"
                 android:textSize="15sp"
-                app:bootstrapText="abc@memphis.edu"
-                />
+                app:bootstrapBrand="success"
+                app:bootstrapText="  - " />
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <!-- address-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:weightSum="1"
-        android:orientation="horizontal">
+        <!-- address-->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal"
+            android:weightSum="1">
             <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:bootstrapBrand="success"
-                app:bootstrapSize="lg"
-                app:fontAwesomeIcon="fa_map_marker"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8">
-            <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:bootstrapBrand="success"
                 android:id="@+id/textview_contact_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_horizontal"
                 android:textSize="15sp"
-                app:bootstrapText="101 brister Ave, Memphis TN"
-                />
+                app:bootstrapBrand="success"
+                app:bootstrapText="  - " />
+
         </LinearLayout>
-
-    </LinearLayout>
-
-
-
     </LinearLayout>
 
 </LinearLayout>

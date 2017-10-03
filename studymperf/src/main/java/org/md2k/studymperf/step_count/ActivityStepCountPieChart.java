@@ -2,9 +2,16 @@ package org.md2k.studymperf.step_count;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,11 +78,14 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
                 Dialog.editbox_numeric(ActivityStepCountPieChart.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
-                        goal=Integer.parseInt(value);
-                        saveToDataKit(goal);
-                        generateCenterSpannableText();
-                        mChart.setCenterText(generateCenterSpannableText());
-                        setData(2,2);
+                        try {
+                            goal = Integer.parseInt(value);
+                            saveToDataKit(goal);
+                            mChart.setCenterText(generateCenterSpannableText());
+                            setData(2, 2);
+                        }catch (Exception e){
+
+                        }
 
 //                        Toast.makeText(ActivityPieChartDataCollection.this,"value="+goal,Toast.LENGTH_SHORT).show();
                     }
@@ -103,6 +113,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
         mChart.setCenterTextTypeface(mTfLight);
+        mChart.setCenterTextSize(30.0f);
         mChart.setCenterText(generateCenterSpannableText());
 
         mChart.setDrawHoleEnabled(true);
@@ -111,14 +122,14 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         mChart.setTransparentCircleColor(Color.TRANSPARENT);
         mChart.setTransparentCircleAlpha(110);
 
-        mChart.setHoleRadius(88f);
+        mChart.setHoleRadius(70f);
         mChart.setTransparentCircleRadius(41f);
 
         mChart.setDrawCenterText(true);
 
         mChart.setRotationAngle(270);
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
+        mChart.setRotationEnabled(false);
         mChart.setHighlightPerTapEnabled(true);
 
         // mChart.setUnit(" €");
@@ -135,7 +146,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         mSeekBarX.setOnSeekBarChangeListener(this);
         mSeekBarY.setOnSeekBarChangeListener(this);
         mChart.getLegend().setEnabled(false);
-        mChart.getDescription().setText("");
+        mChart.getDescription().setText("abc");
 
 /*
         Legend l = mChart.getLegend();
@@ -151,7 +162,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
-        mChart.setEntryLabelTextSize(14f);
+        mChart.setEntryLabelTextSize(16f);
     }
     @Override
     public void onResume(){
@@ -308,8 +319,13 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
 
         colors.add(ColorTemplate.getHoloBlue());
 */
+/*
         final int[] MY_COLORS = {Color.rgb(0,128,128),
                 Color.rgb(127,127,127)};
+*/
+        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.tealsecondary),
+                Color.GRAY};
+
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         for(int c: MY_COLORS) colors.add(c);
@@ -332,15 +348,18 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
     }
 
     private SpannableString generateCenterSpannableText() {
-        String stepStr= String.valueOf(totalSteps);
-        String goalStr= String.valueOf(goal);
-        String steps="steps";
-        String today="today";
-        String achieve= "more to achieve goal";
-        String str= "Today \n\n"+stepStr+"/"+goalStr+"\n\n"+"Daily steps";
+        String stepStr= String.valueOf(totalSteps)+"/";
 
-        SpannableString s = new SpannableString(str);
-        s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, str.length(), 0);
+
+        String goalStr= String.valueOf(goal);
+        String totalStr= stepStr+goalStr;
+
+        SpannableString s = new SpannableString(totalStr);
+        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.tealsecondary)), 0, stepStr.length()-1, 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length()-1, stepStr.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length(), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(0.5f), stepStr.length(), s.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         /*
         String str=stepStr+" "+steps+"\n"+ today+"\n"+goal+" "+achieve;
         SpannableString s = new SpannableString(str);

@@ -26,7 +26,6 @@ import org.md2k.studymperf.ActivityLeftWrist;
 import org.md2k.studymperf.ActivityMain;
 import org.md2k.studymperf.R;
 import org.md2k.studymperf.ServiceStudy;
-import org.md2k.studymperf.data_collection.ActivityPieChartDataCollection;
 import org.md2k.studymperf.data_collection.UserViewDataCollection;
 import org.md2k.studymperf.data_quality.ResultCallback;
 import org.md2k.studymperf.data_quality.UserViewDataQuality;
@@ -74,15 +73,18 @@ public class FragmentHome extends Fragment {
         });
 
 
+/*
         data_collection=(FancyButton) view.findViewById(R.id.btn_data_collection);
         data_collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(),ActivityPieChartDataCollection.class);
+                ...
                 startActivity(intent);
             }
         });
 
+*/
 /*
         pause_resume_data_collection= (FancyButton) view.findViewById(R.id.btn_pause_resume_data_collection);
         pause_resume_data_collection.setOnClickListener(new View.OnClickListener() {

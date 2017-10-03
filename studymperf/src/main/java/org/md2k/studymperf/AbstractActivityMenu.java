@@ -13,6 +13,7 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import org.md2k.mcerebrum.commons.app_info.AppInfo;
 import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
+import org.md2k.studymperf.ui.main.FragmentHelp;
 import org.md2k.studymperf.ui.main.FragmentHome;
 import org.md2k.studymperf.ui.main.FragmentWorkAnnonation;
 
@@ -37,7 +38,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
+                .withHeaderBackground(R.drawable.cover_image)
                 .withCompactStyle(true)
                 .addProfiles(new MyMenu().getHeaderContent(getUserName(), isLoggedIn(), responseCallBack))
                 .build();
@@ -108,6 +109,9 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     break;
                 case MyMenu.MENU_WORK_ANNONATION:
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentWorkAnnonation()).commitAllowingStateLoss();
+                    break;
+                case MyMenu.MENU_HELP:
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentHelp()).commitAllowingStateLoss();
                     break;
 
 

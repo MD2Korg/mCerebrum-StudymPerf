@@ -31,6 +31,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -66,13 +68,22 @@ public class FragmentWorkAnnonation extends Fragment {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
         try {
             dataSourceClient = DataKitAPI.getInstance(getActivity()).register(new DataSourceBuilder().setType(DataSourceType.WORK_ANNOTATION));
                 DataKitAPI.getInstance(getActivity()).insert(dataSourceClient, new DataTypeString(DateTime.getDateTime(), "OPEN"));
         } catch (DataKitException e) {
 
         }
-        final BootstrapTextView textview_work= (BootstrapTextView) view.findViewById(R.id.textview_workplace_type);
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_list);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.work_list, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+/*        final BootstrapTextView textview_work= (BootstrapTextView) view.findViewById(R.id.textview_workplace_type);
         start=(BootstrapButton)view.findViewById(R.id.btn_work_start);
         work_type=(BootstrapButton) view.findViewById(R.id.btn_work_type);
         stop=(BootstrapButton)view.findViewById(R.id.btn_work_stop);
@@ -163,6 +174,7 @@ public class FragmentWorkAnnonation extends Fragment {
             }
         });
 
+*/
         /*
         BootstrapTextView contact_name= (BootstrapTextView) view.findViewById(R.id.textview_contact_name);
         contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("David Rudd").build());

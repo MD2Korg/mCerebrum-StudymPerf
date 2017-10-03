@@ -26,6 +26,7 @@ package org.md2k.studymperf.ui.main;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,8 +37,13 @@ import com.beardedhen.androidbootstrap.BootstrapText;
 import com.beardedhen.androidbootstrap.api.view.BootstrapTextView;
 
 import org.md2k.studymperf.R;
+import org.md2k.studymperf.configuration.CConfig;
+import org.md2k.studymperf.configuration.CContact;
+import org.md2k.studymperf.configuration.ConfigManager;
 
 public class FragmentContactUs extends Fragment {
+    CContact contact;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_contact_us, parent, false);
@@ -45,6 +51,10 @@ public class FragmentContactUs extends Fragment {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        CConfig config= ConfigManager.read();
+        if(config==null) return;
+        contact = config.getContact();
+        if(contact==null) return;
      /*   FancyButton productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
         productivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,19 +64,16 @@ public class FragmentContactUs extends Fragment {
             }
         });
 */
-        BootstrapTextView contact_name= (BootstrapTextView) view.findViewById(R.id.textview_contact_name);
-        contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Shahin Samiei").build());
+        BootstrapTextView contact_name = (BootstrapTextView) view.findViewById(R.id.textview_contact_name);
+        contact_name.setBootstrapText(new BootstrapText.Builder(getActivity()).addFontAwesomeIcon("fa_user").addText("       "+contact.getName()).build());
+        BootstrapTextView contact_phone = (BootstrapTextView) view.findViewById(R.id.textview_contact_phone);
+        contact_phone.setBootstrapText(new BootstrapText.Builder(getActivity()).addFontAwesomeIcon("fa_phone").addText("         "+contact.getPhone()).build());
 
-        BootstrapTextView contact_phone= (BootstrapTextView) view.findViewById(R.id.textview_contact_phone);
-        contact_phone.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("901 678 0000").build());
+        BootstrapTextView contact_email = (BootstrapTextView) view.findViewById(R.id.textview_contact_email);
+        contact_email.setBootstrapText(new BootstrapText.Builder(getActivity()).addFontAwesomeIcon("fa_envelope_o").addText("         "+contact.getEmail()).build());
 
-        BootstrapTextView contact_email= (BootstrapTextView) view.findViewById(R.id.textview_contact_email);
-        contact_email.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("abcd@memphis.edu").build());
-
-        BootstrapTextView contact_address= (BootstrapTextView) view.findViewById(R.id.textview_contact_address);
-        contact_address.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("365 Innovation Drive\n" +
-                "Memphis, TN 38152-3115").build());
-
-
+        BootstrapTextView contact_address = (BootstrapTextView) view.findViewById(R.id.textview_contact_address);
+        contact_address.setBootstrapText(new BootstrapText.Builder(getActivity()).addFontAwesomeIcon("fa_map_marker").addText("         "+contact.getAddress()).build());
     }
+
 }

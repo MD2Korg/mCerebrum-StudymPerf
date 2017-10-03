@@ -18,7 +18,7 @@ public abstract class DemoBaseDataCollection extends FragmentActivity {
     };
 
     protected String[] mParties = new String[] {
-            "Hours of data collected", "More to go"
+            "Data Collected", "Remaining"
     };
 
     protected Typeface mTfRegular;

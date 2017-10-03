@@ -18,7 +18,7 @@ public abstract class DemoBaseStepCount extends FragmentActivity {
     };
 
     protected String[] mParties = new String[] {
-            "Steps", "More to go"
+            "Steps", "Remaining"
     };
 
     protected Typeface mTfRegular;

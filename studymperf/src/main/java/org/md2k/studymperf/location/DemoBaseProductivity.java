@@ -21,6 +21,7 @@ import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by nusrat on 8/15/2017.
@@ -33,6 +34,8 @@ public abstract class DemoBaseProductivity extends FragmentActivity {
     };
 
     protected String[] locationNames;
+    protected String[] locationWithTime;
+
     protected float[] mTimes;
     protected Typeface mTfRegular;
     protected Typeface mTfLight;
@@ -92,27 +95,32 @@ public abstract class DemoBaseProductivity extends FragmentActivity {
     }
     void prepare(){
         locationNames =new String[locations.size()+2];
+        locationWithTime =new String[locations.size()+2];
         mTimes=new float[locations.size()+2];
         int spentTime = 0;
         for(int i=0;i<locations.size();i++){
             int t=time.get(i)/(1000*60);
             int m=t%60;
             int h=t/60;
-            locationNames[i]=locations.get(i)+" ("+h+" h, "+m+" m)";
-            mTimes[i]= time.get(i)/(float)((24*60*60*1000));
+            locationWithTime[i+2]=String.format(Locale.getDefault(), "%-10s %02d:%02d",locations.get(i), h,m,0);
+            locationNames[i+2]=locations.get(i);
+//            locationNames[i]=locations.get(i)+":"+h+" h, "+m+" m)";
+            mTimes[i+2]= time.get(i)/(float)((24*60*60*1000));
             spentTime+=time.get(i);
         }
         int time=(getTimeTillNow()-spentTime)/(1000*60);
         int m=time%60;
         int h=time/60;
-        locationNames[locations.size()]="Other "+"("+h+" h, "+m+" m)";
-        mTimes[locations.size()]=time/(float)((24*60));
+        locationWithTime[1]=String.format(Locale.getDefault(), "%-10s %02d:%02d","Other", h,m,0);
+        locationNames[1]="Other";
+        mTimes[1]=time/(float)((24*60));
          time=(getTimeToMidNight())/(1000*60);
          m=time%60;
          h=time/60;
 
-        locationNames[locations.size()+1]="Remaining"+" ("+h+" h, "+m+" m)";
-        mTimes[locations.size()+1]=time/(float)(24*60);
+        locationWithTime[0]=String.format(Locale.getDefault(), "%-10s %02d:%02d","Remaining", h,m,0);
+        locationNames[0]="Remaining";
+        mTimes[0]=time/(float)(24*60);
 
     }
     int getTimeTillNow(){

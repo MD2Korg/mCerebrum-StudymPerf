@@ -1,16 +1,23 @@
 package org.md2k.studymperf.data_collection;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -37,6 +44,8 @@ import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -48,19 +57,18 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     int goal =20;
-    int totalSteps =2;
+    int totalDataCollection =2;
     int moretogo=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        goal = getIntent().getIntExtra("goal",12);
-        totalSteps=getIntent().getIntExtra("total_steps",2);
+        goal = getIntent().getIntExtra("goal",14*60*60*1000);
+        totalDataCollection=getIntent().getIntExtra("total_data_collection",0);
         setContentView(R.layout.activity_data_collection_duration);
         FancyButton step_close = (FancyButton) findViewById(R.id.btn_close_dcd);
         step_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
                 finish();
             }
         });
@@ -69,7 +77,14 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TimePickerDialog a=new TimePickerDialog(
+                        ActivityPieChartDataCollection.this,onTimeSetListener,
+                        14,
+                        0,
+                        true
+                );
+                a.show();
+/*
                 Dialog.editbox_numeric(ActivityPieChartDataCollection.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
@@ -82,6 +97,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 //                        Toast.makeText(ActivityPieChartDataCollection.this,"value="+goal,Toast.LENGTH_SHORT).show();
                     }
                 }).show();
+*/
 
             }
         });
@@ -105,6 +121,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
         mChart.setCenterTextTypeface(mTfLight);
+        mChart.setCenterTextSize(30.0f);
         mChart.setCenterText(generateCenterSpannableText());
 
         mChart.setDrawHoleEnabled(true);
@@ -113,14 +130,14 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         mChart.setTransparentCircleColor(Color.TRANSPARENT);
         mChart.setTransparentCircleAlpha(110);
 
-        mChart.setHoleRadius(88f);
+        mChart.setHoleRadius(70f);
         mChart.setTransparentCircleRadius(41f);
 
         mChart.setDrawCenterText(true);
 
         mChart.setRotationAngle(270);
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
+        mChart.setRotationEnabled(false);
         mChart.setHighlightPerTapEnabled(true);
 
         // mChart.setUnit(" €");
@@ -136,7 +153,9 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         mSeekBarX.setOnSeekBarChangeListener(this);
         mSeekBarY.setOnSeekBarChangeListener(this);
+        mChart.getLegend().setEnabled(false);
 
+/*
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -145,17 +164,30 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+*/
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
-        mChart.setEntryLabelTextSize(12f);
+        mChart.setEntryLabelTextSize(16f);
     }
     @Override
     public void onResume(){
 //        Toast.makeText(this, "abc",Toast.LENGTH_SHORT).show();;
         super.onResume();
     }
+    TimePickerDialog.OnTimeSetListener onTimeSetListener=new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+            goal=(hourOfDay*60+minute)*60*1000;
+            saveToDataKit(goal);
+            generateCenterSpannableText();
+            mChart.setCenterText(generateCenterSpannableText());
+            setData(2,2);
+
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -245,11 +277,11 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
     private void setData(int count, float range) {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        if(goal>totalSteps) {
-            entries.add(new PieEntry(totalSteps /(float)(goal),
+        if(goal>totalDataCollection) {
+            entries.add(new PieEntry(totalDataCollection /(float)(goal),
                     mParties[0],
                     getResources().getDrawable(R.drawable.star)));
-            entries.add(new PieEntry((goal-totalSteps) /(float)(goal),
+            entries.add(new PieEntry((goal-totalDataCollection) /(float)(goal),
                     mParties[1],
                     getResources().getDrawable(R.drawable.star)));
         }else{
@@ -306,8 +338,8 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         colors.add(ColorTemplate.getHoloBlue());
 */
-        final int[] MY_COLORS = {Color.rgb(0,128,128),
-                Color.rgb(127,127,127)};
+        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.tealsecondary),
+                Color.GRAY};
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         for(int c: MY_COLORS) colors.add(c);
@@ -330,6 +362,25 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
     }
 
     private SpannableString generateCenterSpannableText() {
+//        String stepStr= String.valueOf(totalSteps)+"/";
+        int totalDataCollectionMin=totalDataCollection/(1000*60);
+        String stepStr = String.format(Locale.getDefault(), "%02d:%02d",totalDataCollectionMin/60, totalDataCollectionMin%60)+"/";
+
+        int goalMin=goal/(1000*60);
+        String goalStr = String.format(Locale.getDefault(), "%02d:%02d",goalMin/60, goalMin%60);
+
+
+//        String goalStr= String.valueOf(goal);
+        String totalStr= stepStr+goalStr;
+
+        SpannableString s = new SpannableString(totalStr);
+        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.tealsecondary)), 0, stepStr.length()-1, 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length()-1, stepStr.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length(), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(0.5f), stepStr.length(), s.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+/*
         String stepStr= String.valueOf(totalSteps);
         moretogo=goal-totalSteps;
         String goalStr= String.valueOf(moretogo);
@@ -340,6 +391,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         SpannableString s = new SpannableString(str);
         s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, str.length(), 0);
+*/
         /*
         String str=stepStr+" "+steps+"\n"+ today+"\n"+goal+" "+achieve;
         SpannableString s = new SpannableString(str);
@@ -400,7 +452,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
     }
     void saveToDataKit(int goal){
         DataKitAPI dataKitAPI=DataKitAPI.getInstance(this);
-        DataSourceBuilder dataSourceBuilder = new DataSourceBuilder().setType("GOAL_STEP_COUNT");
+        DataSourceBuilder dataSourceBuilder = new DataSourceBuilder().setType("GOAL_DATA_COLLECTION");
         try {
             DataSourceClient dataSourceClient = dataKitAPI.register(dataSourceBuilder);
             dataKitAPI.insert(dataSourceClient, new DataTypeInt(DateTime.getDateTime(), goal));

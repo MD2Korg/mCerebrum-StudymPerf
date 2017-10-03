@@ -443,11 +443,12 @@
                             android:id="@+id/textview_total_step"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
                             android:layout_marginLeft="35dp"
                             android:layout_weight=".6"
                             android:text="3000/"
                             android:textAppearance="@style/ButtonText"
-                            android:textColor="#ff00"
+                            android:textColor="@color/bootstrap_brand_success"
 
                             android:textSize="20dp" />
 
@@ -460,7 +461,7 @@
                             android:layout_weight=".4"
                             android:text="6000"
                             android:textAppearance="@style/ButtonText"
-                            android:textColor="#00FF00"
+                            android:textColor="@color/grey_500"
                             android:textSize="12dp" />
 
                     </LinearLayout>

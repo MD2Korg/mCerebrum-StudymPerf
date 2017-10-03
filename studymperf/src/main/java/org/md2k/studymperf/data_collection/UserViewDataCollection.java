@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapText;
@@ -67,7 +66,7 @@ public class UserViewDataCollection {
     }
     public void set() {
         handler.removeCallbacks(runnable);
-//        prepareButton();
+        prepareButton();
         handler.post(runnable);
     }
 
@@ -83,7 +82,7 @@ public class UserViewDataCollection {
             int min=value%60;
             value/=60;
             int hour = value;
-            String timeStr=String.format(Locale.getDefault(), "%02d hr : %02d min",hour, min);
+            String timeStr=String.format(Locale.getDefault(), "Wrist  %02d h : %02d m",hour, min);
             BootstrapText bootstrapText=new BootstrapText.Builder(activity).addText(timeStr).build();
             ((AwesomeTextView)view.findViewById(R.id.textview_data_collected)).setBootstrapText(bootstrapText);
             handler.postDelayed(this, 60000);
@@ -118,7 +117,7 @@ public class UserViewDataCollection {
     private DataSourceBuilder createDataSourceBuilder() {
         return new DataSourceBuilder().setType("DATA_QUALITY_SUMMARY_DAY");
     }
-    int readGoal(){
+    private int readGoal(){
             DataKitAPI dataKitAPI=DataKitAPI.getInstance(activity);
             DataSourceBuilder dataSourceBuilder = new DataSourceBuilder().setType("GOAL_DATA_COLLECTION");
             try {
@@ -134,6 +133,23 @@ public class UserViewDataCollection {
             }
        return 10000;
     }
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(activity,ActivityPieChartDataCollection.class);
+            intent.putExtra("total_data_collection",readFromDataKit());
+            intent.putExtra("goal",readGoal());
+            activity.startActivity(intent);
+        }
+    };
+    private void prepareButton(){
+        FancyButton dataCollection= (FancyButton) view.findViewById(R.id.btn_data_collection);
+        dataCollection.setOnClickListener(onClickListener);
+        AwesomeTextView t= (AwesomeTextView) view.findViewById(R.id.textview_data_collected);
+        t.setOnClickListener(onClickListener);
+
+    }
+
 /*
     void prepareButton(){
         FancyButton fitness= (FancyButton) view.findViewById(R.id.btn_fitness);
