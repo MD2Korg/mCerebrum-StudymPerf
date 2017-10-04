@@ -7,7 +7,7 @@
     android:background="@color/colorbackground"
     android:orientation="vertical"
     android:weightSum="1">
-
+<!-- work annotation title-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,12 +30,15 @@
         android:layout_marginTop="20dp"
         android:layout_weight="0.8"
         android:background="@color/backGroundDark"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <!--select work type  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:layout_gravity="center"
             >
         <com.beardedhen.androidbootstrap.AwesomeTextView
             android:layout_width="0dp"
@@ -43,25 +46,198 @@
             android:layout_weight="0.5"
             app:bootstrapBrand="success"
             android:textSize="16dp"
-            app:bootstrapText="Work Type"
-            android:layout_marginTop="30dp"
+            app:bootstrapText="Select Work Type"
+            android:layout_marginTop="5dp"
             />
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:layout_weight="0.5"
-            android:id="@+id/spinner_list"
-            >
-
-        </Spinner>
 
 </LinearLayout>
+        <!-- list with check box-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_weight="0.5"
+            android:weightSum="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <CheckBox android:id="@+id/checkbox_meeting"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Meeting"
+                        android:textSize="15dp"/>
+
+                    <CheckBox android:id="@+id/checkbox_phone_call"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Phone Calls"
+                        android:textSize="15dp"/>
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <CheckBox android:id="@+id/checkbox_email"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Email"
+                        android:textSize="15dp"/>
+
+                    <CheckBox android:id="@+id/checkbox_lab_work"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Lab Work"
+                        android:textSize="15dp"/>
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <CheckBox android:id="@+id/checkbox_personnel"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Personnel Management"
+                        android:textSize="15dp"/>
+
+                    <CheckBox android:id="@+id/checkbox_research"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Research"
+                        android:textSize="15dp"/>
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <CheckBox android:id="@+id/checkbox_computer"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Computer Work"
+                        android:textSize="15dp"/>
+
+                    <CheckBox android:id="@+id/checkbox_patient"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Patient Care"
+                        android:textSize="15dp"/>
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+                    <CheckBox android:id="@+id/checkbox_presentation"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Presentation"
+                        android:textSize="15dp"/>
+
+                    <CheckBox android:id="@+id/checkbox_other"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:text="Other"
+                        android:textSize="15dp"/>
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+<!-- editbox for Notes -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_weight="0.1"
@@ -74,8 +250,8 @@
                 android:layout_weight="0.3"
                 app:bootstrapBrand="success"
                 android:textSize="16dp"
-                app:bootstrapText="Other: "
-                android:layout_marginTop="30dp"
+                app:bootstrapText="Notes: "
+                android:layout_marginTop="10dp"
                 />
             <EditText
                 android:layout_width="0dp"
@@ -84,30 +260,13 @@
 
 
 </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.1">
 
-            <com.beardedhen.androidbootstrap.AwesomeTextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1"
-                app:bootstrapBrand="warning"
-                android:textSize="13dp"
-                app:bootstrapText="(If type of work is not listed) "
-                android:layout_marginTop="30dp"
-                />
-
-
-            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_weight="0.1"
@@ -173,14 +332,14 @@
     android:layout_height="0dp"
     android:layout_gravity="center"
     android:layout_margin="0dp"
-    android:layout_weight="0.3">
+    android:layout_weight="0.1">
     <com.beardedhen.androidbootstrap.AwesomeTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textview_work_duration"
         app:bootstrapBrand="success"
         android:textSize="16dp"
-        app:bootstrapText="Typing started: 00:00:05" />
+        app:bootstrapText="" />
 
 </LinearLayout>
 
