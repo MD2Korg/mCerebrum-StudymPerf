@@ -338,7 +338,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         colors.add(ColorTemplate.getHoloBlue());
 */
-        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.tealsecondary),
+        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.green),
                 Color.GRAY};
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
@@ -371,12 +371,12 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
 
 //        String goalStr= String.valueOf(goal);
-        String totalStr= stepStr+goalStr;
+        String totalStr= stepStr+goalStr+"\n(hh:mm)";
 
         SpannableString s = new SpannableString(totalStr);
-        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.tealsecondary)), 0, stepStr.length()-1, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length()-1, stepStr.length(), 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length(), s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.green)), 0, stepStr.length()-1, 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), stepStr.length()-1, stepStr.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), stepStr.length(), s.length(), 0);
         s.setSpan(new RelativeSizeSpan(0.5f), stepStr.length(), s.length(), 0);
         s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 

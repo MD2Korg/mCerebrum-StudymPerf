@@ -323,7 +323,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         final int[] MY_COLORS = {Color.rgb(0,128,128),
                 Color.rgb(127,127,127)};
 */
-        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.tealsecondary),
+        final int[] MY_COLORS = {ContextCompat.getColor(this, R.color.green),
                 Color.GRAY};
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -355,9 +355,9 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
         String totalStr= stepStr+goalStr;
 
         SpannableString s = new SpannableString(totalStr);
-        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.tealsecondary)), 0, stepStr.length()-1, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length()-1, stepStr.length(), 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), stepStr.length(), s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.green)), 0, stepStr.length()-1, 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), stepStr.length()-1, stepStr.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), stepStr.length(), s.length(), 0);
         s.setSpan(new RelativeSizeSpan(0.5f), stepStr.length(), s.length(), 0);
         s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         /*

@@ -69,20 +69,22 @@ public class FragmentWorkAnnonation extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
+/*
         try {
             dataSourceClient = DataKitAPI.getInstance(getActivity()).register(new DataSourceBuilder().setType(DataSourceType.WORK_ANNOTATION));
                 DataKitAPI.getInstance(getActivity()).insert(dataSourceClient, new DataTypeString(DateTime.getDateTime(), "OPEN"));
         } catch (DataKitException e) {
 
         }
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_list);
+*/
+//        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_list);
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.work_list, android.R.layout.simple_spinner_item);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+  //              R.array.work_list, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      //  adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+    //    spinner.setAdapter(adapter);
 /*        final BootstrapTextView textview_work= (BootstrapTextView) view.findViewById(R.id.textview_workplace_type);
         start=(BootstrapButton)view.findViewById(R.id.btn_work_start);
         work_type=(BootstrapButton) view.findViewById(R.id.btn_work_type);

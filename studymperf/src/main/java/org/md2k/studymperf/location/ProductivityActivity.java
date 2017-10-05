@@ -52,7 +52,7 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         super.onCreate(savedInstanceState);
         MY_COLORS = new int[]{
                 Color.GRAY,
-                ContextCompat.getColor(this, R.color.tealsecondary),
+                ContextCompat.getColor(this, R.color.green),
                 ContextCompat.getColor(this, R.color.md_blue_700),
                 ContextCompat.getColor(this, R.color.md_light_green_700),
                 ContextCompat.getColor(this, R.color.md_amber_900),
@@ -168,6 +168,7 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
 */
 
         // entry label styling
+        mChart.setDrawEntryLabels(false);
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
         mChart.setEntryLabelTextSize(14f);
