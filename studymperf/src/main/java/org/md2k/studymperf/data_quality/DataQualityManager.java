@@ -74,8 +74,11 @@ public class DataQualityManager {
 
     public void clear() {
         if (dataQualities != null) {
-            for (int i = 0; i < dataQualities.length; i++)
-                dataQualities[i].stop();
+            for (int i = 0; i < dataQualities.length; i++) {
+                try {
+                    dataQualities[i].stop();
+                }catch (Exception e){}
+            }
         }
     }
 }

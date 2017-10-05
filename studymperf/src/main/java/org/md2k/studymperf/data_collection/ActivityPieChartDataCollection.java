@@ -1,7 +1,6 @@
 package org.md2k.studymperf.data_collection;
 
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -39,12 +37,9 @@ import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
 import org.md2k.datakitapi.time.DateTime;
-import org.md2k.mcerebrum.commons.dialog.Dialog;
-import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -62,7 +57,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        goal = getIntent().getIntExtra("goal",14*60*60*1000);
+        goal = getIntent().getIntExtra("goal",12*60*60*1000);
         totalDataCollection=getIntent().getIntExtra("total_data_collection",0);
         setContentView(R.layout.activity_data_collection_duration);
         FancyButton step_close = (FancyButton) findViewById(R.id.btn_close_dcd);
@@ -116,7 +111,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         mChart = (PieChart) findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
         mChart.getDescription().setEnabled(false);
-       // mChart.setExtraOffsets(5, 10, 0, 0);
+        mChart.setExtraOffsets(20, 0, 20, 0);
 
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
@@ -129,7 +124,6 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         mChart.setTransparentCircleColor(Color.TRANSPARENT);
         mChart.setTransparentCircleAlpha(110);
-
         mChart.setHoleRadius(70f);
         mChart.setTransparentCircleRadius(41f);
 

@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" 1) Close the application, wait 15 seconds, reopen the application, and check again.\n 2) Restart the phone, wait one minute and check again. \n 3) Make sure the wrist band is charged."
+            android:text=" 1) In the menu, tap Reset Application, wait 15 seconds and check again.\n\n 2) Restart the phone, wait one minute and check again.\n\n 3) Make sure the wrist sensor is charged and LED lights are on."
             android:textColor="#ffff"
             android:textSize="14sp"
             android:layout_marginLeft="25dp"

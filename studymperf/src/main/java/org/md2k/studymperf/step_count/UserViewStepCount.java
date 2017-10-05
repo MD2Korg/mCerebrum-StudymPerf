@@ -83,7 +83,7 @@ public class UserViewStepCount {
             int goal = readGoal();
             ((TextView)view.findViewById(R.id.textview_total_step)).setText(String.valueOf(value)+"/");
             ((TextView)view.findViewById(R.id.textview_step_goal)).setText(String.valueOf(goal));
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, 5000);
         }
     };
 
@@ -112,7 +112,7 @@ public class UserViewStepCount {
     private DataSourceBuilder createDataSourceBuilder() {
         return new DataSourceBuilder().setType("STEP_COUNT_SUMMARY_DAY");
     }
-    int readGoal(){
+    private int readGoal(){
             DataKitAPI dataKitAPI=DataKitAPI.getInstance(activity);
             DataSourceBuilder dataSourceBuilder = new DataSourceBuilder().setType("GOAL_STEP_COUNT");
             try {
@@ -128,7 +128,7 @@ public class UserViewStepCount {
             }
        return 10000;
     }
-    void prepareButton(){
+    private void prepareButton(){
         FancyButton fitness= (FancyButton) view.findViewById(R.id.btn_fitness);
         fitness.setOnClickListener(new View.OnClickListener() {
             @Override

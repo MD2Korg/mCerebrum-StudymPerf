@@ -15,7 +15,7 @@ import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHelp;
 import org.md2k.studymperf.ui.main.FragmentHome;
-import org.md2k.studymperf.ui.main.FragmentWorkAnnonation;
+import org.md2k.studymperf.ui.main.FragmentWorkAnnotation;
 
 public abstract class AbstractActivityMenu extends AbstractActivityBasics {
     private Drawer result = null;
@@ -87,8 +87,8 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
             else toolbar.setTitle(getStudyName());
             switch (responseId) {
                 case MyMenu.MENU_HOME:
-                    toolbar.setTitle(getStudyName());
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentHome()).commitAllowingStateLoss();
+                    result.setSelection(MyMenu.MENU_HOME, false);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commitAllowingStateLoss();
                     break;
                 case MyMenu.MENU_START_STOP:
                     boolean start =AppInfo.isServiceRunning(AbstractActivityMenu.this, ServiceStudy.class.getName());
@@ -101,17 +101,29 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     }
                     toolbar.setTitle(getStudyName());
                     break;
+                case MyMenu.MENU_RESET:
+                    boolean startt =AppInfo.isServiceRunning(AbstractActivityMenu.this, ServiceStudy.class.getName());
+
+                    if(startt) {
+                        resetDataCollection();
+                    }
+                    else {
+                        startDataCollection();
+                    }
+                    toolbar.setTitle(getStudyName());
+                    break;
+
                 case MyMenu.MENU_SETTINGS:
                     stopAndQuit();
                     break;
                 case MyMenu.MENU_CONTACT_US:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentContactUs()).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentContactUs()).commit();
                     break;
                 case MyMenu.MENU_WORK_ANNONATION:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentWorkAnnonation()).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentWorkAnnotation()).commitAllowingStateLoss();
                     break;
                 case MyMenu.MENU_HELP:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentHelp()).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHelp()).commitAllowingStateLoss();
                     break;
 
 

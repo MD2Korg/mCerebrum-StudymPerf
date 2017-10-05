@@ -85,16 +85,6 @@ public class FragmentHome extends Fragment {
         });
 
 */
-/*
-        pause_resume_data_collection= (FancyButton) view.findViewById(R.id.btn_pause_resume_data_collection);
-        pause_resume_data_collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(),StackedBarActivity.class);
-              //  startActivity(intent);
-            }
-        });
-*/
 
         left_wrist= (FancyButton) view.findViewById(R.id.btn_dq_left_wrist);
         left_wrist.setOnClickListener(new View.OnClickListener() {

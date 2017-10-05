@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.Utils;
 
 import org.md2k.datakitapi.DataKitAPI;
@@ -24,7 +24,6 @@ import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.mcerebrum.commons.permission.Permission;
 import org.md2k.mcerebrum.commons.permission.PermissionCallback;
 import org.md2k.studymperf.data_quality.DataQualityManager;
-import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.system.provider.AppCP;
 import org.md2k.system.provider.StudyCP;
 import org.md2k.system.provider.UserCP;
@@ -48,12 +47,14 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     public StudyCP studyInfo;
     ArrayList<AppCP> appInfos;
     Toolbar toolbar;
+    Handler handler;
 
     abstract void updateUI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler=new Handler();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter(INTENT_RESTART));
         Utils.init(this);
         readStudy();
@@ -75,10 +76,7 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                     dataQualityManager.set();
                 }
             });
-        } catch (
-                DataKitException e)
-
-        {
+        } catch (DataKitException e) {
             LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
         }
 
@@ -99,6 +97,12 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                 });
 
     }
+    Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+            startDataCollection();
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,6 +188,20 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
             }
         }).show();
     }
+    public void resetDataCollection(){
+        Dialog.simple(this, "Reset Application", "Do you want to reset application?", "Yes", "Cancel", new DialogCallback() {
+            @Override
+            public void onSelected(String value) {
+                if (value.equals("Yes")) {
+                    Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
+                    stopService(intent);
+
+                    handler.postDelayed(runnable, 2000);
+                }
+                updateUI();
+            }
+        }).show();
+    }
 
     public void stopAndQuit() {
         boolean start = AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
@@ -249,6 +267,9 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            try{
+                DataKitAPI.getInstance(MyApplication.getContext()).disconnect();
+            }catch (Exception ignored){}
             try {
                 DataKitAPI.getInstance(MyApplication.getContext()).connect(new OnConnectionListener() {
                     @Override
@@ -257,6 +278,8 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                     }
                 });
             } catch (DataKitException e) {
+                Toasty.error(AbstractActivityBasics.this, "DataKit:"+e.getMessage(), Toast.LENGTH_LONG).show();
+                finish();
 //                LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
             }
         }

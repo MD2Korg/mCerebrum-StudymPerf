@@ -20,9 +20,6 @@
             android:name=".location.ProductivityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StackedBarActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".RightWristActivity"
             android:screenOrientation="portrait" />
         <activity

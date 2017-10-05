@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import org.md2k.studymperf.app.ApplicationManager;
+import org.md2k.system.app.ApplicationManager;
 import org.md2k.system.constant.MCEREBRUM;
 import org.md2k.system.provider.AppCP;
 import org.md2k.system.provider.appinfo.AppInfoCursor;

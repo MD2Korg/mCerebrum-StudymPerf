@@ -254,6 +254,7 @@
                 android:layout_marginTop="10dp"
                 />
             <EditText
+                android:id="@+id/textView_notes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"/>
@@ -283,7 +284,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bootstrapBrand="success"
-                    app:bootstrapSize="md"
                     app:bootstrapText="{fa_play} Start"
                     app:buttonMode="regular"
                     app:roundedCorners="true"
@@ -296,12 +296,12 @@
                 android:layout_weight="0.33">
 
                 <com.beardedhen.androidbootstrap.BootstrapButton
-                    android:id="@+id/btn_work_stop"
+                    android:id="@+id/btn_work_finish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bootstrapBrand="success"
                     app:bootstrapSize="md"
-                    app:bootstrapText="{fa_stop} Stop"
+                    app:bootstrapText="{fa_stop} Finish"
                     app:buttonMode="regular"
                     app:roundedCorners="true"
                     app:showOutline="false" />
@@ -336,8 +336,8 @@
     <com.beardedhen.androidbootstrap.AwesomeTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/textview_work_duration"
-        app:bootstrapBrand="success"
+        android:id="@+id/textview_message"
+        app:bootstrapBrand="warning"
         android:textSize="16dp"
         app:bootstrapText="" />
 

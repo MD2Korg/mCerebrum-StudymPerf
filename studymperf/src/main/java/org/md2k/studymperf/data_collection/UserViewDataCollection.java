@@ -131,7 +131,7 @@ public class UserViewDataCollection {
             } catch (DataKitException e) {
                 LocalBroadcastManager.getInstance(activity).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
             }
-       return 10000;
+       return 12*60*60*1000;
     }
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
