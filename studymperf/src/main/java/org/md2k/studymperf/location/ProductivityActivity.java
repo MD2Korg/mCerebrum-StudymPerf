@@ -54,7 +54,7 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
                 Color.GRAY,
                 ContextCompat.getColor(this, R.color.green),
                 ContextCompat.getColor(this, R.color.md_blue_700),
-                ContextCompat.getColor(this, R.color.md_light_green_700),
+                ContextCompat.getColor(this, R.color.md_red_900),
                 ContextCompat.getColor(this, R.color.md_amber_900),
                 ContextCompat.getColor(this, R.color.md_yellow_700),
                 ContextCompat.getColor(this, R.color.md_green_700),
