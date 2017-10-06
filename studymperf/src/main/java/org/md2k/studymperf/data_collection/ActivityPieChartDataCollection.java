@@ -1,6 +1,5 @@
 package org.md2k.studymperf.data_collection;
 
-import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -30,6 +29,9 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import org.md2k.datakitapi.DataKitAPI;
 import org.md2k.datakitapi.datatype.DataTypeInt;
@@ -40,20 +42,39 @@ import org.md2k.datakitapi.time.DateTime;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class ActivityPieChartDataCollection extends DemoBaseDataCollection implements SeekBar.OnSeekBarChangeListener,
-        OnChartValueSelectedListener {
+        OnChartValueSelectedListener, OnDateSetListener {
 
     private PieChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     int goal =20;
     int totalDataCollection =2;
-    int moretogo=0;
+    TimePickerDialog mDialogHourMinute;
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerDialog, long millseconds) {
+        Calendar c=Calendar.getInstance();
+        c.setTimeInMillis(millseconds);
+        int h=c.get(Calendar.HOUR_OF_DAY);
+        int m=c.get(Calendar.MINUTE);
+
+        goal= ((h*60)+m)*60*1000;
+
+        saveToDataKit(goal);
+        generateCenterSpannableText();
+        mChart.setCenterText(generateCenterSpannableText());
+        setData(2,2);
+
+//        String text = getDateToString(millseconds);
+//        mTvTime.setText(text);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,28 +93,21 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
         buttonSetGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog a=new TimePickerDialog(
-                        ActivityPieChartDataCollection.this,onTimeSetListener,
-                        14,
-                        0,
-                        true
-                );
-                a.show();
-/*
-                Dialog.editbox_numeric(ActivityPieChartDataCollection.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
-                    @Override
-                    public void onSelected(String value) {
-                        goal=Integer.parseInt(value);
-                        saveToDataKit(goal);
-                        generateCenterSpannableText();
-                        mChart.setCenterText(generateCenterSpannableText());
-                        setData(2,2);
-
-//                        Toast.makeText(ActivityPieChartDataCollection.this,"value="+goal,Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-*/
-
+                int h=goal/(1000*60*60);
+                int m=(goal-h*1000*60*60)/(1000*60);
+                Calendar c = Calendar.getInstance();c.set(Calendar.MINUTE, m);c.set(Calendar.HOUR_OF_DAY, h);
+                mDialogHourMinute = new TimePickerDialog.Builder()
+                        .setType(Type.HOURS_MINS)
+                        .setCallBack(ActivityPieChartDataCollection.this)
+                        .setHourText("Hour")
+                        .setMinuteText("Minute")
+                        .setCyclic(true)
+                        .setCancelStringId("Cancel")
+                        .setSureStringId("Ok")
+                        .setThemeColor(getResources().getColor(R.color.tealsecondary))
+                        .setCurrentMillseconds(c.getTimeInMillis())
+                        .build();
+                mDialogHourMinute.show(getSupportFragmentManager(), "hour_minute");
             }
         });
 
@@ -170,6 +184,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 //        Toast.makeText(this, "abc",Toast.LENGTH_SHORT).show();;
         super.onResume();
     }
+/*
     TimePickerDialog.OnTimeSetListener onTimeSetListener=new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -182,6 +197,7 @@ public class ActivityPieChartDataCollection extends DemoBaseDataCollection imple
 
         }
     };
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

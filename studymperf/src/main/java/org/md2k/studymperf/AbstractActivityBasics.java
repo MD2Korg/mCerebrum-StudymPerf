@@ -150,20 +150,6 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
         return studyName;
     }
 
-    public String getUserName() {
-        String studyName = "Default";
-        if (userInfo != null)
-            studyName = userInfo.getTitle();
-        return studyName;
-    }
-
-    public boolean isLoggedIn() {
-        boolean loggedIn = false;
-        if (userInfo != null)
-            loggedIn = userInfo.isLoggedIn();
-        return loggedIn;
-    }
-
     public void startDataCollection() {
         if (appInfos != null && appInfos.size() != 0) {
             if (!AppInfo.isServiceRunning(this, ServiceStudy.class.getName())) {

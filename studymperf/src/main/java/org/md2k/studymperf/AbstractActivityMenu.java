@@ -40,7 +40,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.cover_image)
                 .withCompactStyle(true)
-                .addProfiles(new MyMenu().getHeaderContent(getUserName(), isLoggedIn(), responseCallBack))
+                .addProfiles(new MyMenu().getHeaderContent(userInfo.getUserName(), responseCallBack))
                 .build();
         boolean start =AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
 
@@ -119,7 +119,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                 case MyMenu.MENU_CONTACT_US:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentContactUs()).commit();
                     break;
-                case MyMenu.MENU_WORK_ANNONATION:
+                case MyMenu.MENU_WORK_ANNOTATION:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentWorkAnnotation()).commitAllowingStateLoss();
                     break;
                 case MyMenu.MENU_HELP:

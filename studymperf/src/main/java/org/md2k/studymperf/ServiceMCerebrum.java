@@ -3,6 +3,10 @@ package org.md2k.studymperf;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.md2k.mcerebrum.commons.app_info.AppInfo;
+import org.md2k.mcerebrum.commons.permission.ActivityPermission;
+import org.md2k.mcerebrum.commons.permission.Permission;
+import org.md2k.mcerebrum.commons.permission.PermissionCallback;
 import org.md2k.mcerebrum.core.access.AbstractServiceMCerebrum;
 
 public class ServiceMCerebrum extends AbstractServiceMCerebrum {
@@ -16,20 +20,15 @@ public class ServiceMCerebrum extends AbstractServiceMCerebrum {
 
     @Override
     public void initialize(Bundle bundle) {
-/*
-        Permission.requestPermission(this, new PermissionCallback() {
-            @Override
-            public void OnResponse(boolean isGranted) {
-                if (isGranted) {
-                }
-            }
-        });
-*/
+        if (Permission.hasPermission(this)) return;
+        Intent intent = new Intent(this, ActivityPermission.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
     public void launch(Bundle bundle) {
-        Intent intent=new Intent(this, ActivityMain.class);
+        Intent intent = new Intent(this, ActivityMain.class);
 //        this.startActivity(intent);
 /*
         bundle.setClassLoader(Info.class.getClassLoader());
@@ -60,14 +59,15 @@ public class ServiceMCerebrum extends AbstractServiceMCerebrum {
 
     @Override
     public void startBackground(Bundle bundle) {
-
-        Intent intent =new Intent(this, ServiceStudy.class);
+        if (isRunning()) return;
+        Intent intent = new Intent(this, ServiceStudy.class);
         startService(intent);
     }
 
     @Override
     public void stopBackground(Bundle bundle) {
-        Intent intent =new Intent(this, ServiceStudy.class);
+        if (!isRunning()) return;
+        Intent intent = new Intent(this, ServiceStudy.class);
         stopService(intent);
     }
 
@@ -92,12 +92,12 @@ public class ServiceMCerebrum extends AbstractServiceMCerebrum {
 
     @Override
     public long getRunningTime() {
-        return -1;
+        return AppInfo.serviceRunningTime(this, ServiceStudy.class.getName());
     }
 
     @Override
     public boolean isRunning() {
-        return false;
+        return AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ServiceMCerebrum extends AbstractServiceMCerebrum {
 
     @Override
     public boolean hasInitialize() {
-        return false;
+        return true;
     }
 
     @Override

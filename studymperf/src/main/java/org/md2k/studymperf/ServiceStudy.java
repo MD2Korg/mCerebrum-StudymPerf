@@ -109,7 +109,7 @@ public class ServiceStudy extends Service {
         Log.d("abc","------------------------> onDestroy...................");
         unsubscribe();
         stop();
-        applicationManager.stopMCerebrumService();
+        stopForeground(true);
         super.onDestroy();
     }
     public static android.app.Notification getCompatNotification(Context context, String msg) {
@@ -151,13 +151,14 @@ public class ServiceStudy extends Service {
             if(!applicationManager.get(i).getmCerebrumController().ismCerebrumSupported()) continue;
             if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_STUDY)) continue;
             if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_MCEREBRUM)) continue;
- //           if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
+//            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
             if(applicationManager.get(i).getmCerebrumController()==null) continue;
             if(!applicationManager.get(i).getmCerebrumController().isServiceRunning())
                 applicationManager.startMCerebrumService(applicationManager.get(i));
             else {
                 if (!applicationManager.get(i).getmCerebrumController().isRunInBackground())
                     continue;
+                else if(applicationManager.get(i).getmCerebrumController().isRunning()) continue;
                 else applicationManager.get(i).getmCerebrumController().startBackground(null);
             }
         }

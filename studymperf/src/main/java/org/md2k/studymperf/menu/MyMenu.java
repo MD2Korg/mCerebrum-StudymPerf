@@ -26,9 +26,7 @@ package org.md2k.studymperf.menu;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -36,7 +34,6 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -54,12 +51,12 @@ public class MyMenu {
     public static final int MENU_LOGOUT = 4;
     public static final int MENU_START_STOP=5;
     public static final int MENU_CONTACT_US=6;
-    public static final int MENU_WORK_ANNONATION=7;
+    public static final int MENU_WORK_ANNOTATION =7;
     public static final int MENU_RESET=8;
 
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
-    public IProfile[] getHeaderContent(String userTitle, boolean isLoggedin, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
+    public IProfile[] getHeaderContent(String userTitle, /*UserInfo userInfo, StudyInfo studyInfo, */final ResponseCallBack responseCallBack) {
         IProfile[] iProfiles=new IProfile[1];
         iProfiles[0]=new ProfileDrawerItem().withName(userTitle).withIcon(R.mipmap.ic_launcher);
 /*
@@ -90,7 +87,7 @@ public class MyMenu {
             new MenuContent("Start Data Collection", FontAwesome.Icon.faw_play_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
             new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
-            new MenuContent("Work Annonation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNONATION,0),
+            new MenuContent("Work Annotation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNOTATION,0),
 
     };
     private MenuContent[] menuContentWithStop = new MenuContent[]{
@@ -100,7 +97,7 @@ public class MyMenu {
             new MenuContent("Stop Data Collection", FontAwesome.Icon.faw_pause_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
             new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
-            new MenuContent("Workplace Annonation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNONATION,0),
+            new MenuContent("Workplace Annotation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNOTATION,0),
     };
 
     public IDrawerItem[] getMenuContent(boolean start, final ResponseCallBack responseCallBack) {

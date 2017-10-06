@@ -60,5 +60,7 @@ dependencies {
     compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+
     testCompile 'junit:junit:4.12'
 }
