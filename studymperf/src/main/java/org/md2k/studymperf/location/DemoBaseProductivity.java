@@ -94,33 +94,31 @@ public abstract class DemoBaseProductivity extends FragmentActivity {
         }
     }
     void prepare(){
-        locationNames =new String[locations.size()+2];
-        locationWithTime =new String[locations.size()+2];
-        mTimes=new float[locations.size()+2];
+        locationNames =new String[locations.size()+1];
+        locationWithTime =new String[locations.size()+1];
+        mTimes=new float[locations.size()+1];
         int spentTime = 0;
         for(int i=0;i<locations.size();i++){
             int t=time.get(i)/(1000*60);
             int m=t%60;
             int h=t/60;
-            locationWithTime[i+2]=String.format(Locale.getDefault(), "%-10s %02d:%02d",locations.get(i), h,m,0);
-            locationNames[i+2]=locations.get(i);
+            locationWithTime[i]=String.format(Locale.getDefault(), "%-10s %02d:%02d",locations.get(i), h,m);
+            locationNames[i]=locations.get(i);
 //            locationNames[i]=locations.get(i)+":"+h+" h, "+m+" m)";
-            mTimes[i+2]= time.get(i)/(float)((24*60*60*1000));
+            mTimes[i]= time.get(i);
             spentTime+=time.get(i);
         }
         int time=(getTimeTillNow()-spentTime)/(1000*60);
+        if(time<0) time=0;
         int m=time%60;
         int h=time/60;
-        locationWithTime[1]=String.format(Locale.getDefault(), "%-10s %02d:%02d","Other", h,m,0);
-        locationNames[1]="Other";
-        mTimes[1]=time/(float)((24*60));
-         time=(getTimeToMidNight())/(1000*60);
-         m=time%60;
-         h=time/60;
-
-        locationWithTime[0]=String.format(Locale.getDefault(), "%-10s %02d:%02d","Remaining", h,m,0);
-        locationNames[0]="Remaining";
-        mTimes[0]=time/(float)(24*60);
+        locationWithTime[locations.size()]=String.format(Locale.getDefault(), "%-10s %02d:%02d","Other", h,m);
+        locationNames[locations.size()]="Other";
+        spentTime+=time;
+        mTimes[locations.size()]=time;
+        for(int i=0;i<mTimes.length;i++){
+            mTimes[i]/=spentTime;
+        }
 
     }
     int getTimeTillNow(){
