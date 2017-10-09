@@ -35,9 +35,9 @@ import java.util.Iterator;
  */
 class DataQualityInfo {
     private static final String TAG = DataQualityInfo.class.getSimpleName();
-    private static final long TIME_LIMIT_NODATA = 30*1000;
-    private static final long TIME_LIMIT_GOOD_TO_NOTWORN = 15*1000;
-    private static final long TIME_LIMIT_NOTWORN_TO_GOOD = 9*1000;
+    private static final long TIME_LIMIT_NODATA = 6*1000;
+    private static final long TIME_LIMIT_GOOD_TO_NOTWORN = 12*1000;
+    private static final long TIME_LIMIT_NOTWORN_TO_GOOD = 6*1000;
     private ArrayList<DataTypeInt> qualities;
     private int quality;
 
