@@ -256,6 +256,7 @@
             <EditText
                 android:id="@+id/textView_notes"
                 android:layout_width="0dp"
+                android:singleLine="true"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"/>
 
