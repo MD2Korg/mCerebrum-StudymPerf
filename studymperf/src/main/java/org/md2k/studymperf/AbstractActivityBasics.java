@@ -18,23 +18,13 @@ import com.blankj.utilcode.util.Utils;
 import org.md2k.datakitapi.DataKitAPI;
 import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.messagehandler.OnConnectionListener;
-import org.md2k.mcerebrum.commons.app_info.AppInfo;
 import org.md2k.mcerebrum.commons.dialog.Dialog;
 import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.mcerebrum.commons.permission.Permission;
 import org.md2k.mcerebrum.commons.permission.PermissionCallback;
+import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
+import org.md2k.mcerebrum.core.access.studyinfo.StudyCP;
 import org.md2k.studymperf.data_quality.DataQualityManager;
-import org.md2k.system.provider.AppCP;
-import org.md2k.system.provider.StudyCP;
-import org.md2k.system.provider.UserCP;
-import org.md2k.system.provider.appinfo.AppInfoCursor;
-import org.md2k.system.provider.appinfo.AppInfoSelection;
-import org.md2k.system.provider.studyinfo.StudyInfoCursor;
-import org.md2k.system.provider.studyinfo.StudyInfoSelection;
-import org.md2k.system.provider.userinfo.UserInfoCursor;
-import org.md2k.system.provider.userinfo.UserInfoSelection;
-
-import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
@@ -43,9 +33,6 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     public static final String INTENT_RESTART = "INTENT_RESTART";
     public DataQualityManager dataQualityManager;
 
-    public UserCP userInfo;
-    public StudyCP studyInfo;
-    ArrayList<AppCP> appInfos;
     Toolbar toolbar;
     Handler handler;
 
@@ -54,12 +41,9 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler=new Handler();
+        handler = new Handler();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter(INTENT_RESTART));
         Utils.init(this);
-        readStudy();
-        readUser();
-        readApp();
         dataQualityManager = new DataQualityManager();
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,7 +81,8 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                 });
 
     }
-    Runnable runnable=new Runnable() {
+
+    Runnable runnable = new Runnable() {
         @Override
         public void run() {
             startDataCollection();
@@ -144,21 +129,16 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     }
 
     public String getStudyName() {
-        String studyName = "mPerf Study";
-        if (studyInfo != null)
-            studyName = studyInfo.getTitle();
-        return studyName;
+        return StudyCP.getTitle(this);
     }
 
     public void startDataCollection() {
-        if (appInfos != null && appInfos.size() != 0) {
-            if (!AppInfo.isServiceRunning(this, ServiceStudy.class.getName())) {
-                Intent intent = new Intent(this, ServiceStudy.class);
-                startService(intent);
-            }
-            studyInfo.setStarted(this, true);
-            updateUI();
+        if (!AppInfo.isServiceRunning(this, ServiceStudy.class.getName())) {
+            Intent intent = new Intent(this, ServiceStudy.class);
+            startService(intent);
         }
+        StudyCP.setStarted(this, true);
+        updateUI();
     }
 
     public void stopDataCollection() {
@@ -168,20 +148,20 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                 if (value.equals("Yes")) {
                     Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
                     stopService(intent);
-                    studyInfo.setStarted(AbstractActivityBasics.this, false);
                 }
+                StudyCP.setStarted(AbstractActivityBasics.this, false);
                 updateUI();
             }
         }).show();
     }
-    public void resetDataCollection(){
+
+    public void resetDataCollection() {
         Dialog.simple(this, "Reset Application", "Do you want to reset application?", "Yes", "Cancel", new DialogCallback() {
             @Override
             public void onSelected(String value) {
                 if (value.equals("Yes")) {
                     Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
                     stopService(intent);
-
                     handler.postDelayed(runnable, 2000);
                 }
                 updateUI();
@@ -198,7 +178,7 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                     if (value.equals("Yes")) {
                         Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
                         stopService(intent);
-                        studyInfo.setStarted(AbstractActivityBasics.this, false);
+                        StudyCP.setStarted(AbstractActivityBasics.this, false);
                         Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.md2k.mcerebrum");
                         startActivity(launchIntent);
                         stopAll();
@@ -218,44 +198,14 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
         }
     }
 
-    void readStudy() {
-        StudyInfoSelection s = new StudyInfoSelection();
-        StudyInfoCursor c = s.query(this);
-        if (c.moveToNext()) {
-            studyInfo = new StudyCP();
-            studyInfo.setFromCP(c);
-        }
-        c.close();
-    }
-
-    void readUser() {
-        UserInfoSelection s = new UserInfoSelection();
-        UserInfoCursor c = s.query(this);
-        if (c.moveToNext()) {
-            userInfo = new UserCP();
-            userInfo.set(c);
-        }
-        c.close();
-    }
-
-    void readApp() {
-        AppInfoSelection s = new AppInfoSelection();
-        AppInfoCursor c = s.query(this);
-        appInfos = new ArrayList<>();
-        while (c.moveToNext()) {
-            AppCP a = new AppCP();
-            a.setFromCP(c);
-            appInfos.add(a);
-        }
-        c.close();
-    }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try{
+            try {
                 DataKitAPI.getInstance(MyApplication.getContext()).disconnect();
-            }catch (Exception ignored){}
+            } catch (Exception ignored) {
+            }
             try {
                 DataKitAPI.getInstance(MyApplication.getContext()).connect(new OnConnectionListener() {
                     @Override
@@ -264,7 +214,7 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                     }
                 });
             } catch (DataKitException e) {
-                Toasty.error(AbstractActivityBasics.this, "DataKit:"+e.getMessage(), Toast.LENGTH_LONG).show();
+                Toasty.error(AbstractActivityBasics.this, "DataKit:" + e.getMessage(), Toast.LENGTH_LONG).show();
                 finish();
 //                LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
             }

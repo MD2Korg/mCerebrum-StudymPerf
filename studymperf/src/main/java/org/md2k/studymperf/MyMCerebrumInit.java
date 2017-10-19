@@ -1,12 +1,4 @@
 package org.md2k.studymperf;
-
-import android.app.Application;
-import android.content.Context;
-
-import com.beardedhen.androidbootstrap.TypefaceProvider;
-
-import org.md2k.mcerebrum.core.access.MCerebrum;
-
 /*
  * Copyright (c) 2016, The University of Memphis, MD2K Center
  * - Syed Monowar Hossain <monowar.hossain@gmail.com>
@@ -34,16 +26,30 @@ import org.md2k.mcerebrum.core.access.MCerebrum;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class MyApplication extends Application {
-    static Context context;
+import android.content.Context;
+import android.content.Intent;
+
+import org.md2k.mcerebrum.commons.permission.ActivityPermission;
+import org.md2k.mcerebrum.commons.permission.Permission;
+import org.md2k.mcerebrum.commons.permission.PermissionInfo;
+import org.md2k.mcerebrum.commons.permission.ResultCallback;
+import org.md2k.mcerebrum.core.access.MCerebrum;
+import org.md2k.mcerebrum.core.access.MCerebrumInfo;
+
+public class MyMCerebrumInit extends MCerebrumInfo {
     @Override
-    public void onCreate() {
-        super.onCreate();
-        context=getApplicationContext();
-        MCerebrum.init(getApplicationContext(), MyMCerebrumInit.class);
-        TypefaceProvider.registerDefaultIconSets();
-    }
-    public static Context getContext(){
-        return context;
+    public void update(final Context context){
+        MCerebrum.setBackgroundService(context, ServiceStudy.class);
+/*
+        if(!MCerebrum.getPermission(context)){
+            if(Permission.hasPermission(context))
+                MCerebrum.setPermission(context, true);
+            else{
+                Intent intent = new Intent(context, ActivityPermission.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        }
+*/
     }
 }

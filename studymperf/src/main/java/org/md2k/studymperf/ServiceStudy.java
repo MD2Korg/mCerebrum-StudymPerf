@@ -1,18 +1,18 @@
 package org.md2k.studymperf;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import org.md2k.system.app.ApplicationManager;
-import org.md2k.system.constant.MCEREBRUM;
-import org.md2k.system.provider.AppCP;
-import org.md2k.system.provider.appinfo.AppInfoCursor;
-import org.md2k.system.provider.appinfo.AppInfoSelection;
+import org.md2k.mcerebrum.core.access.appinfo.AppAccess;
+import org.md2k.mcerebrum.core.access.appinfo.AppBasicInfo;
+import org.md2k.mcerebrum.system.update.Update;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -51,17 +51,23 @@ import rx.functions.Func1;
  */
 
 public class ServiceStudy extends Service {
-    ApplicationManager applicationManager;
+    ArrayList<String> packageNames;
+    String study;
+    String dataKit;
+    String mCerebrum;
     Subscription subscription;
+    Subscription subscriptionCheckUpdate;
     public static final int NOTIFY_ID=98764;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("abc","---------------service onCreate()");
-        ArrayList<AppCP> appInfos=readApp();
-        applicationManager=new ApplicationManager(this, appInfos);
-        applicationManager.startMCerebrumService();
+        packageNames= AppBasicInfo.get(this);
+        dataKit=AppBasicInfo.getDataKit(this);
+        study = getPackageName();
+        mCerebrum=AppBasicInfo.getMCerebrum(this);
         watchDog();
     }
     @Override
@@ -77,6 +83,8 @@ public class ServiceStudy extends Service {
                     @Override
                     public Boolean call(Long aLong) {
                         start();
+                        checkUpdateIfNecessary();
+                        updateNotification();
                         return false;
                     }
                 }).subscribe(new Observer<Boolean>() {
@@ -95,7 +103,19 @@ public class ServiceStudy extends Service {
                     }
                 });
     }
-
+    void updateNotification(){
+        startForeground(NOTIFY_ID, getCompatNotification(this, "Data Collection - ON"));
+    }
+    void checkUpdateIfNecessary(){
+        SharedPreferences sharedPref = getSharedPreferences("update", MODE_PRIVATE);
+        long lastChecked= sharedPref.getLong("last_time_checked",0);
+        if(System.currentTimeMillis() - lastChecked>=24*60*60*1000L) {
+            checkUpdate();
+            SharedPreferences.Editor editor = getSharedPreferences("update", MODE_PRIVATE).edit();
+            editor.putLong("last_time_checked", System.currentTimeMillis());
+            editor.apply();
+        }
+    }
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -103,6 +123,8 @@ public class ServiceStudy extends Service {
     void unsubscribe(){
         if(subscription!=null && !subscription.isUnsubscribed())
             subscription.unsubscribe();
+        if(subscriptionCheckUpdate!=null && !subscriptionCheckUpdate.isUnsubscribed())
+            subscriptionCheckUpdate.unsubscribe();
     }
     @Override
     public void onDestroy(){
@@ -113,54 +135,48 @@ public class ServiceStudy extends Service {
         super.onDestroy();
     }
     public static android.app.Notification getCompatNotification(Context context, String msg) {
+        String heading=context.getResources().getString(R.string.app_name);
         Intent myIntent = new Intent(context, ActivityMain.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(context.getResources().getString(R.string.app_name)).setContentText(msg).setContentIntent(pendingIntent);
+        Notification.Builder builder = new Notification.Builder(context);
+        if(Update.hasUpdate(context)!=0)
+            heading+= " (Update Available)";
+        builder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(heading).setContentText(msg).setContentIntent(pendingIntent);
         return builder.build();
     }
-    ArrayList<AppCP> readApp(){
-        AppInfoSelection s= new AppInfoSelection();
-        AppInfoCursor c = s.query(this);
-        ArrayList<AppCP> appInfos=new ArrayList<>();
-        while(c.moveToNext()) {
-            AppCP a = new AppCP();
-            a.setFromCP(c);
-            appInfos.add(a);
-        }
-        c.close();
-        return appInfos;
-    }
     void stop(){
-        for(int i=0;i<applicationManager.get().size();i++){
-            if(!applicationManager.get(i).getmCerebrumController().ismCerebrumSupported()) continue;
-            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_STUDY)) continue;
-            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_MCEREBRUM)) continue;
-//            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
-            if(applicationManager.get(i).getmCerebrumController()==null) continue;
-            if(!applicationManager.get(i).getmCerebrumController().isRunInBackground()) continue;
-            if(applicationManager.get(i).getmCerebrumController().isServiceRunning())
-                applicationManager.get(i).getmCerebrumController().stopBackground(null);
+        for(int i=0;i<packageNames.size();i++){
+            if(!AppAccess.getMCerebrumSupported(this, packageNames.get(i))) continue;
+            if(packageNames.get(i).equals(study)) continue;
+            if(packageNames.get(i).equals(mCerebrum)) continue;
+            AppAccess.stopBackground(this, packageNames.get(i));
         }
-        applicationManager.stopMCerebrumService();
-
     }
     void start(){
-        for(int i=0;i<applicationManager.get().size();i++){
-            if(!applicationManager.get(i).getmCerebrumController().ismCerebrumSupported()) continue;
-            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_STUDY)) continue;
-            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_MCEREBRUM)) continue;
-//            if(applicationManager.get(i).getAppBasicInfoController().isType(MCEREBRUM.APP.TYPE_DATAKIT)) continue;
-            if(applicationManager.get(i).getmCerebrumController()==null) continue;
-            if(!applicationManager.get(i).getmCerebrumController().isServiceRunning())
-                applicationManager.startMCerebrumService(applicationManager.get(i));
-            else {
-                if (!applicationManager.get(i).getmCerebrumController().isRunInBackground())
-                    continue;
-                else if(applicationManager.get(i).getmCerebrumController().isRunning()) continue;
-                else applicationManager.get(i).getmCerebrumController().startBackground(null);
-            }
+        for(int i=0;i<packageNames.size();i++){
+            if(!AppAccess.getMCerebrumSupported(this, packageNames.get(i))) continue;
+            if(packageNames.get(i).equals(study)) continue;
+            if(packageNames.get(i).equals(mCerebrum)) continue;
+            AppAccess.startBackground(this, packageNames.get(i));
         }
+    }
+    void checkUpdate(){
+        subscriptionCheckUpdate = Update.checkUpdate(this).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+
+            }
+        });
     }
 }

@@ -20,7 +20,7 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import org.md2k.datakitapi.source.platform.PlatformId;
-import org.md2k.mcerebrum.commons.app_info.AppInfo;
+import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
 import org.md2k.studymperf.ActivityLeftWrist;
 import org.md2k.studymperf.ActivityMain;
@@ -32,6 +32,7 @@ import org.md2k.studymperf.data_quality.UserViewDataQuality;
 import org.md2k.studymperf.location.ProductivityActivity;
 import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
 import org.md2k.studymperf.step_count.UserViewStepCount;
+import org.md2k.mcerebrum.system.update.Update;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -194,8 +195,15 @@ public class FragmentHome extends Fragment {
     }
     void updateStatus(String msg, BootstrapBrand brand, boolean isSuccess){
         tv.setBootstrapBrand(brand);
-        if(isSuccess)
+        if(isSuccess) {
+            int uNo=Update.hasUpdate(getActivity());
+            if(uNo==0)
             tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_check_circle").build());
+            else {
+                tv.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_check_circle").addText(" (Update Available)").build());
+            }
+        }
         else
             tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_times_circle").addText(" ("+msg+")").build());
     }

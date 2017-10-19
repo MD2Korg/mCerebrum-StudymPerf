@@ -1,5 +1,7 @@
 package org.md2k.studymperf;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -10,7 +12,9 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-import org.md2k.mcerebrum.commons.app_info.AppInfo;
+import org.md2k.mcerebrum.core.access.appinfo.AppBasicInfo;
+import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
+import org.md2k.mcerebrum.core.access.serverinfo.ServerCP;
 import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHelp;
@@ -40,9 +44,9 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.cover_image)
                 .withCompactStyle(true)
-                .addProfiles(new MyMenu().getHeaderContent(userInfo.getUserName(), responseCallBack))
+                .addProfiles(new MyMenu().getHeaderContent(ServerCP.getUserName(getBaseContext()), responseCallBack))
                 .build();
-        boolean start =AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
+        boolean start = AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
 
             result = new DrawerBuilder()
                 .withActivity(this)
@@ -112,7 +116,15 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     }
                     toolbar.setTitle(getStudyName());
                     break;
-
+                case MyMenu.MENU_UPDATE:
+                    stopDataCollection();
+                    Intent intent = new Intent();
+                    String p=AppBasicInfo.getMCerebrum(AbstractActivityMenu.this);
+                    intent.putExtra("STUDY",getPackageName());
+                    intent.setComponent(new ComponentName(p, p+".UI.check_update.ActivityCheckUpdate"));
+                    startActivity(intent);
+                    finish();
+                    break;
                 case MyMenu.MENU_SETTINGS:
                     stopAndQuit();
                     break;

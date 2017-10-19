@@ -39,6 +39,8 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import org.md2k.mcerebrum.system.update.Update;
+import org.md2k.studymperf.MyApplication;
 import org.md2k.studymperf.R;
 import org.md2k.studymperf.ResponseCallBack;
 
@@ -53,6 +55,7 @@ public class MyMenu {
     public static final int MENU_CONTACT_US=6;
     public static final int MENU_WORK_ANNOTATION =7;
     public static final int MENU_RESET=8;
+    public static final int MENU_UPDATE=9;
 
 //    abstract IProfile[] getHeaderContentType(final Context context, UserInfo userInfo, StudyInfo studyInfo, final ResponseCallBack responseCallBack);
 
@@ -83,21 +86,22 @@ public class MyMenu {
     private MenuContent[] menuContentWithStart = new MenuContent[]{
             new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
             new MenuContent("Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_SETTINGS,0),
-            new MenuContent("Reset Application", FontAwesome.Icon.faw_refresh, MenuContent.PRIMARY_DRAWER_ITEM, MENU_RESET,0),
+            new MenuContent("Reset Application", FontAwesome.Icon.faw_repeat, MenuContent.PRIMARY_DRAWER_ITEM, MENU_RESET,0),
             new MenuContent("Start Data Collection", FontAwesome.Icon.faw_play_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
-            new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
-            new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
             new MenuContent("Work Annotation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNOTATION,0),
-
+            new MenuContent("Check Update", FontAwesome.Icon.faw_refresh, MenuContent.PRIMARY_DRAWER_ITEM, MENU_UPDATE,Update.hasUpdate(MyApplication.getContext())),
+            new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
+            new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0)
     };
     private MenuContent[] menuContentWithStop = new MenuContent[]{
             new MenuContent("Home", FontAwesome.Icon.faw_home, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HOME,0),
             new MenuContent("Settings", FontAwesome.Icon.faw_cog, MenuContent.PRIMARY_DRAWER_ITEM, MENU_SETTINGS,0),
-            new MenuContent("Reset Application", FontAwesome.Icon.faw_refresh, MenuContent.PRIMARY_DRAWER_ITEM, MENU_RESET,0),
+            new MenuContent("Reset Application", FontAwesome.Icon.faw_repeat, MenuContent.PRIMARY_DRAWER_ITEM, MENU_RESET,0),
             new MenuContent("Stop Data Collection", FontAwesome.Icon.faw_pause_circle_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_START_STOP,0),
+            new MenuContent("Workplace Annotation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNOTATION,0),
+            new MenuContent("Check Update", FontAwesome.Icon.faw_refresh, MenuContent.PRIMARY_DRAWER_ITEM, MENU_UPDATE, Update.hasUpdate(MyApplication.getContext())),
             new MenuContent("Help", FontAwesome.Icon.faw_question, MenuContent.PRIMARY_DRAWER_ITEM, MENU_HELP,0),
             new MenuContent("Contact Us", FontAwesome.Icon.faw_envelope_o, MenuContent.PRIMARY_DRAWER_ITEM, MENU_CONTACT_US,0),
-            new MenuContent("Workplace Annotation", FontAwesome.Icon.faw_briefcase, MenuContent.PRIMARY_DRAWER_ITEM, MENU_WORK_ANNOTATION,0),
     };
 
     public IDrawerItem[] getMenuContent(boolean start, final ResponseCallBack responseCallBack) {
@@ -151,5 +155,6 @@ public class MyMenu {
         }
         return iDrawerItems;
     }
+
 }
 

@@ -7,15 +7,12 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapText;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
 
-import org.md2k.mcerebrum.commons.app_info.AppInfo;
+import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
 import org.md2k.studymperf.R;
 import org.md2k.studymperf.ServiceStudy;
 
