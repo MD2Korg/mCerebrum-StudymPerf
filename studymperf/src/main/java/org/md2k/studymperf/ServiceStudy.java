@@ -55,6 +55,7 @@ public class ServiceStudy extends Service {
     String study;
     String dataKit;
     String mCerebrum;
+    int motionSenseRunTime=0;
     Subscription subscription;
     Subscription subscriptionCheckUpdate;
     public static final int NOTIFY_ID=98764;

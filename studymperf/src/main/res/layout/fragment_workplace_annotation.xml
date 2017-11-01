@@ -7,7 +7,7 @@
     android:background="@color/colorbackground"
     android:orientation="vertical"
     android:weightSum="1">
-<!-- work annotation title-->
+    <!-- work annotation title-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,244 +33,184 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <!--select work type  -->
+        <!--select work activity  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
             android:layout_gravity="center"
-            >
-        <com.beardedhen.androidbootstrap.AwesomeTextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            app:bootstrapBrand="success"
-            android:textSize="16dp"
-            app:bootstrapText="Select Work Type"
-            android:layout_marginTop="5dp"
-            />
+            android:layout_weight="0.1">
 
-</LinearLayout>
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.5"
+                android:textSize="16dp"
+                app:bootstrapBrand="warning"
+                app:bootstrapText="Work Activity" />
+
+        </LinearLayout>
         <!-- list with check box-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:weightSum="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <CheckBox android:id="@+id/checkbox_meeting"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Meeting"
-                        android:textSize="15dp"/>
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:id="@+id/selected_activity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="0.7"
+                android:gravity="left"
+                android:textSize="14dp"
+                app:bootstrapBrand="secondary"
+                app:bootstrapText="Selected Activity: " />
 
-                    <CheckBox android:id="@+id/checkbox_phone_call"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Phone Calls"
-                        android:textSize="15dp"/>
-
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <CheckBox android:id="@+id/checkbox_email"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Email"
-                        android:textSize="15dp"/>
-
-                    <CheckBox android:id="@+id/checkbox_lab_work"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Lab Work"
-                        android:textSize="15dp"/>
-
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <CheckBox android:id="@+id/checkbox_personnel"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Personnel Management"
-                        android:textSize="15dp"/>
-
-                    <CheckBox android:id="@+id/checkbox_research"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Research"
-                        android:textSize="15dp"/>
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <CheckBox android:id="@+id/checkbox_computer"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Computer Work"
-                        android:textSize="15dp"/>
-
-                    <CheckBox android:id="@+id/checkbox_patient"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Patient Care"
-                        android:textSize="15dp"/>
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-                    <CheckBox android:id="@+id/checkbox_presentation"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Presentation"
-                        android:textSize="15dp"/>
-
-                    <CheckBox android:id="@+id/checkbox_other"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="match_parent"
-                        android:text="Other"
-                        android:textSize="15dp"/>
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/select_activity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_weight=".21"
+                android:gravity="right"
+                app:bootstrapBrand="success"
+                app:bootstrapText="Select"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="false" />
 
 
         </LinearLayout>
-<!-- editbox for Notes -->
+        <!-- editbox for Notes -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_weight="0.1"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.2"
             android:orientation="horizontal"
             android:weightSum="1">
 
             <com.beardedhen.androidbootstrap.AwesomeTextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
-                app:bootstrapBrand="success"
-                android:textSize="16dp"
-                app:bootstrapText="Notes: "
                 android:layout_marginTop="10dp"
-                />
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                app:bootstrapBrand="secondary"
+                app:bootstrapText="Other (Specify Activity): " />
+
             <EditText
-                android:id="@+id/textView_notes"
+                android:id="@+id/other_activity"
                 android:layout_width="0dp"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.7"/>
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:inputType="text"
+                android:layout_weight="0.5" />
 
 
-</LinearLayout>
+        </LinearLayout>
+        <!--select work context  -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.1">
+
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.5"
+                android:textSize="16dp"
+                app:bootstrapBrand="warning"
+                app:bootstrapText="Work Context" />
+
+        </LinearLayout>
+        <!-- list with check box-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:id="@+id/selected_context"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="0.7"
+                android:gravity="left"
+                android:textSize="14dp"
+                app:bootstrapBrand="secondary"
+                app:bootstrapText="Selected Activity: " />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/select_context"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_weight=".21"
+                android:gravity="right"
+                app:bootstrapBrand="success"
+                app:bootstrapText="Select"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="false" />
+
+
+        </LinearLayout>
+        <!-- editbox for Notes -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.2"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                app:bootstrapBrand="secondary"
+                app:bootstrapText="Other (Specify Context): " />
+
+            <EditText
+                android:id="@+id/other_context"
+                android:layout_width="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:layout_weight="0.5" />
+
+
+        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="0.1"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -328,21 +268,23 @@
 
             </LinearLayout>
         </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_gravity="center"
-    android:layout_margin="0dp"
-    android:layout_weight="0.1">
-    <com.beardedhen.androidbootstrap.AwesomeTextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/textview_message"
-        app:bootstrapBrand="warning"
-        android:textSize="16dp"
-        app:bootstrapText="" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:layout_weight="0.1">
+
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:id="@+id/textview_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="16dp"
+                app:bootstrapBrand="warning"
+                app:bootstrapText="" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -352,8 +294,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="0.1">
 
         <mehdi.sakout.fancybuttons.FancyButton

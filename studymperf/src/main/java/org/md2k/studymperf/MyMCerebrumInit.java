@@ -40,6 +40,11 @@ public class MyMCerebrumInit extends MCerebrumInfo {
     @Override
     public void update(final Context context){
         MCerebrum.setBackgroundService(context, ServiceStudy.class);
+        if(!Permission.hasPermission(context)){
+            Intent intent = new Intent(context, ActivityPermission.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
 /*
         if(!MCerebrum.getPermission(context)){
             if(Permission.hasPermission(context))

@@ -2,24 +2,41 @@ package org.md2k.studymperf;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.holder.StringHolder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.access.appinfo.AppBasicInfo;
 import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
 import org.md2k.mcerebrum.core.access.serverinfo.ServerCP;
+import org.md2k.mcerebrum.system.update.Update;
+import org.md2k.studymperf.menu.MenuContent;
 import org.md2k.studymperf.menu.MyMenu;
 import org.md2k.studymperf.ui.main.FragmentContactUs;
 import org.md2k.studymperf.ui.main.FragmentHelp;
 import org.md2k.studymperf.ui.main.FragmentHome;
 import org.md2k.studymperf.ui.main.FragmentWorkAnnotation;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
+import static org.md2k.studymperf.menu.MyMenu.MENU_START_STOP;
 
 public abstract class AbstractActivityMenu extends AbstractActivityBasics {
     private Drawer result = null;
@@ -31,11 +48,60 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
         super.onCreate(savedInstanceState);
     }
 
+    public void createUI() {
+        Observable.just(true).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).map(new Func1<Boolean, Boolean>() {
+            @Override
+            public Boolean call(Boolean aBoolean) {
+                createDrawer();
+                result.resetDrawerContent();
+                result.getHeader().refreshDrawableState();
+                result.setSelection(MyMenu.MENU_HOME);
+                return true;
+            }
+        }).subscribe();
+    }
+
     public void updateUI() {
-        createDrawer();
-        result.resetDrawerContent();
-        result.getHeader().refreshDrawableState();
+        if(result==null) {
+            createUI();
+            return;
+        }
+        int index = (int) result.getCurrentSelection();
+        if(index==-1) index = MyMenu.MENU_HOME;
+        int badgeValue= Update.hasUpdate(AbstractActivityMenu.this);
+        if(badgeValue>0){
+            StringHolder a = new StringHolder(String.valueOf(badgeValue));
+            result.updateBadge(MyMenu.MENU_UPDATE, a);
+        }else{
+            StringHolder a = new StringHolder("");
+            result.updateBadge(MyMenu.MENU_UPDATE, a);
+        }
+        boolean start = AppInfo.isServiceRunning(this, ServiceStudy.class.getName());
+        PrimaryDrawerItem pd = (PrimaryDrawerItem) result.getDrawerItem(MENU_START_STOP);
+        MenuContent m;
+        if(start==false){
+            pd = pd.withName("Start Data Collection").withIcon(FontAwesome.Icon.faw_play_circle_o);
+        }else{
+            pd = pd.withName("Stop Data Collection").withIcon(FontAwesome.Icon.faw_pause_circle_o);
+        }
+        int pos = result.getPosition(MENU_START_STOP);
+        result.removeItem(MENU_START_STOP);
+        result.addItemAtPosition(pd, pos);
         result.setSelection(MyMenu.MENU_HOME);
+/*
+        Observable.just(true).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).map(new Func1<Boolean, Boolean>() {
+            @Override
+            public Boolean call(Boolean aBoolean) {
+                Log.d("abc","time10="+ DateTime.getDateTime());
+                createDrawer();
+                result.resetDrawerContent();
+                result.getHeader().refreshDrawableState();
+                result.setSelection(MyMenu.MENU_HOME);
+                Log.d("abc","time11="+ DateTime.getDateTime());
+                return true;
+            }
+        }).subscribe();
+*/
     }
 
     void createDrawer() {
@@ -94,7 +160,7 @@ public abstract class AbstractActivityMenu extends AbstractActivityBasics {
                     result.setSelection(MyMenu.MENU_HOME, false);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commitAllowingStateLoss();
                     break;
-                case MyMenu.MENU_START_STOP:
+                case MENU_START_STOP:
                     boolean start =AppInfo.isServiceRunning(AbstractActivityMenu.this, ServiceStudy.class.getName());
 
                     if(start) {

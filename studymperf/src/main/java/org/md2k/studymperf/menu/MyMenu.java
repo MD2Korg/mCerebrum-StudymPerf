@@ -115,7 +115,7 @@ public class MyMenu {
     }
 
 
-    private IDrawerItem[] getMenuContent(MenuContent[] menuContent, final ResponseCallBack responseCallBack) {
+    public static IDrawerItem[] getMenuContent(MenuContent[] menuContent, final ResponseCallBack responseCallBack) {
         IDrawerItem[] iDrawerItems = new IDrawerItem[menuContent.length];
         for (int i = 0; i < menuContent.length; i++) {
             switch (menuContent[i].type) {

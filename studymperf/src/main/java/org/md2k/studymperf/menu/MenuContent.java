@@ -28,8 +28,8 @@ package org.md2k.studymperf.menu;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 
-class MenuContent {
-    static final String PRIMARY_DRAWER_ITEM = "PRIMARY_DRAWER_ITEM";
+public class MenuContent {
+    public static final String PRIMARY_DRAWER_ITEM = "PRIMARY_DRAWER_ITEM";
     static final String SECTION_DRAWER_ITEM = "SECTION_DRAWER_ITEM";
     static final String SECONDARY_DRAWER_ITEM = "SECONDARY_DRAWER_ITEM";
     String name;
@@ -38,7 +38,7 @@ class MenuContent {
     long identifier;
     int badgeValue;
 
-    MenuContent(String name, FontAwesome.Icon icon, String type, long identifier, int badgeValue) {
+    public MenuContent(String name, FontAwesome.Icon icon, String type, long identifier, int badgeValue) {
         this.name = name;
         this.icon = icon;
         this.type = type;

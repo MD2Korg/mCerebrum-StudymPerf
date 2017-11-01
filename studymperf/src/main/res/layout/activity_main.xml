@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context="org.md2k.studymperf.MainActivity">
+    tools:context="org.md2k.studymperf.ActivityMain">
     <RelativeLayout
         android:id="@+id/transparentOverlay"
         android:layout_width="match_parent"

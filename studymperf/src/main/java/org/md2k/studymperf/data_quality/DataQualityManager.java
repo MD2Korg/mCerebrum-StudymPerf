@@ -52,8 +52,8 @@ public class DataQualityManager {
         ArrayList<DataSource> dataSources=new ArrayList<>();
         Platform pl=new PlatformBuilder().setId(PlatformId.LEFT_WRIST).build();
         Platform pr=new PlatformBuilder().setId(PlatformId.RIGHT_WRIST).build();
-        dataSources.add(new DataSourceBuilder().setType(DataSourceType.DATA_QUALITY).setPlatform(pl).build());
-        dataSources.add(new DataSourceBuilder().setType(DataSourceType.DATA_QUALITY).setPlatform(pr).build());
+        dataSources.add(new DataSourceBuilder().setType(DataSourceType.DATA_QUALITY).setId(DataSourceType.LED).setPlatform(pl).build());
+        dataSources.add(new DataSourceBuilder().setType(DataSourceType.DATA_QUALITY).setId(DataSourceType.LED).setPlatform(pr).build());
         return dataSources;
     }
 

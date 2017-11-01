@@ -16,12 +16,14 @@ import org.md2k.datakitapi.datatype.DataTypeIntArray;
 import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.datakitapi.source.datasource.DataSourceType;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
 import org.md2k.studymperf.AbstractActivityBasics;
 import org.md2k.studymperf.MyApplication;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -96,7 +98,14 @@ public class UserViewDataCollection {
             ArrayList<DataSourceClient> dataSourceClients = dataKitAPI.find(createDataSourceBuilder());
             if (dataSourceClients.size() > 0) {
                 for(int i=0;i<dataSourceClients.size();i++) {
-                    ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(i), 1);
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.MILLISECOND, 0);c.set(Calendar.SECOND,0);
+                    c.set(Calendar.MINUTE, 0);c.set(Calendar.HOUR_OF_DAY, 0);
+                    long sTime = c.getTimeInMillis();
+                    long eTime = c.getTimeInMillis()+1000;
+                    ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(0), sTime, eTime);
+
+//                    ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(i), 1);
                     if (dataTypes.size() != 0) {
                         try {
                             DataTypeIntArray dataTypeIntArray = (DataTypeIntArray) dataTypes.get(0);
@@ -115,7 +124,7 @@ public class UserViewDataCollection {
     }
 
     private DataSourceBuilder createDataSourceBuilder() {
-        return new DataSourceBuilder().setType("DATA_QUALITY_SUMMARY_DAY");
+        return new DataSourceBuilder().setType("DATA_QUALITY_SUMMARY_DAY").setId(DataSourceType.LED);
     }
     private int readGoal(){
             DataKitAPI dataKitAPI=DataKitAPI.getInstance(activity);

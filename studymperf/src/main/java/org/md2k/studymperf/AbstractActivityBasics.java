@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -18,6 +19,7 @@ import com.blankj.utilcode.util.Utils;
 import org.md2k.datakitapi.DataKitAPI;
 import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.messagehandler.OnConnectionListener;
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.commons.dialog.Dialog;
 import org.md2k.mcerebrum.commons.dialog.DialogCallback;
 import org.md2k.mcerebrum.commons.permission.Permission;
@@ -27,6 +29,9 @@ import org.md2k.mcerebrum.core.access.studyinfo.StudyCP;
 import org.md2k.studymperf.data_quality.DataQualityManager;
 
 import es.dmoral.toasty.Toasty;
+import rx.Observable;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public abstract class AbstractActivityBasics extends AppCompatActivity {
     static final String TAG = AbstractActivityBasics.class.getSimpleName();
@@ -35,26 +40,28 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
 
     Toolbar toolbar;
     Handler handler;
+    int count = 0;
 
     abstract void updateUI();
+    abstract void createUI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("abc","time="+ DateTime.getDateTime());
         handler = new Handler();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter(INTENT_RESTART));
         Utils.init(this);
+        Log.d("abc","time="+ DateTime.getDateTime());
         dataQualityManager = new DataQualityManager();
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().
-
-                setTitle(getStudyName());
+        getSupportActionBar().setTitle(getStudyName());
         try {
-            DataKitAPI.getInstance(this).connect(new OnConnectionListener() {
+            DataKitAPI.getInstance(AbstractActivityBasics.this).connect(new OnConnectionListener() {
                 @Override
                 public void onConnected() {
                     dataQualityManager.set();
@@ -63,22 +70,32 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
         } catch (DataKitException e) {
             LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
         }
+        Log.d("abc","time="+ DateTime.getDateTime());
+        SharedPreferences sharedpreferences = getSharedPreferences("permission", Context.MODE_PRIVATE);
+        if(sharedpreferences.getBoolean("permission",false)==true){
+            createUI();
+        }else {
 
-        Permission.requestPermission(this, new
-
-                PermissionCallback() {
-                    @Override
-                    public void OnResponse(boolean isGranted) {
-                        if (!isGranted) {
-                            Toasty.error(getApplicationContext(), "!PERMISSION DENIED !!! Could not continue...", Toast.LENGTH_SHORT).show();
-                            stopAll();
-                            finish();
-                        } else {
-                            updateUI();
-                            Log.d("abc", "abc");
-                        }
+            Permission.requestPermission(this, new PermissionCallback() {
+                @Override
+                public void OnResponse(boolean isGranted) {
+                    SharedPreferences sharedpreferences = getSharedPreferences("permission", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putBoolean("permission", isGranted);
+                    editor.apply();
+                    if (!isGranted) {
+                        Toasty.error(getApplicationContext(), "!PERMISSION DENIED !!! Could not continue...", Toast.LENGTH_SHORT).show();
+                        stopAll();
+                        finish();
+                    } else {
+                        Log.d("abc", "count=" + (++count));
+                        createUI();
+                        Log.d("abc", "count=" + (++count));
                     }
-                });
+                }
+            });
+        }
+        Log.d("abc","time="+ DateTime.getDateTime());
 
     }
 
@@ -133,12 +150,18 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
     }
 
     public void startDataCollection() {
-        if (!AppInfo.isServiceRunning(this, ServiceStudy.class.getName())) {
-            Intent intent = new Intent(this, ServiceStudy.class);
-            startService(intent);
-        }
-        StudyCP.setStarted(this, true);
-        updateUI();
+        Observable.just(true).subscribeOn(Schedulers.newThread()).map(new Func1<Boolean, Object>() {
+            @Override
+            public Object call(Boolean aBoolean) {
+                if (!AppInfo.isServiceRunning(AbstractActivityBasics.this, ServiceStudy.class.getName())) {
+                    Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
+                    startService(intent);
+                }
+                StudyCP.setStarted(AbstractActivityBasics.this, true);
+                updateUI();
+                return null;
+            }
+        }).subscribe();
     }
 
     public void stopDataCollection() {
@@ -162,7 +185,7 @@ public abstract class AbstractActivityBasics extends AppCompatActivity {
                 if (value.equals("Yes")) {
                     Intent intent = new Intent(AbstractActivityBasics.this, ServiceStudy.class);
                     stopService(intent);
-                    handler.postDelayed(runnable, 2000);
+                    handler.postDelayed(runnable, 3000);
                 }
                 updateUI();
             }

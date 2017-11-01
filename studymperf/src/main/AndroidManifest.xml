@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.md2k.studymperf">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".MyApplication"
@@ -18,9 +20,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".location.ProductivityActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RightWristActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityLeftWrist"
@@ -41,11 +40,6 @@
             android:name=".ServiceStudy"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name=".ServiceMCerebrum"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity android:name=".ui.main.ActivityYouTube"></activity>
 
         <meta-data

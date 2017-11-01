@@ -23,6 +23,7 @@ import org.md2k.studymperf.MyApplication;
 import org.md2k.studymperf.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -93,7 +94,12 @@ public class UserViewStepCount {
             DataKitAPI dataKitAPI = DataKitAPI.getInstance(MyApplication.getContext());
             ArrayList<DataSourceClient> dataSourceClients = dataKitAPI.find(createDataSourceBuilder());
             if (dataSourceClients.size() > 0) {
-                ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(0), 1);
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.MILLISECOND, 0);c.set(Calendar.SECOND,0);
+                c.set(Calendar.MINUTE, 0);c.set(Calendar.HOUR_OF_DAY, 0);
+                long sTime = c.getTimeInMillis();
+                long eTime = c.getTimeInMillis()+1000;
+                ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(0), sTime, eTime);
                 if (dataTypes.size() != 0) {
                     try {
                         DataTypeIntArray dataTypeIntArray = (DataTypeIntArray) dataTypes.get(0);
@@ -101,7 +107,7 @@ public class UserViewStepCount {
                     } catch (Exception ignored) {
 //                        LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
                     }
-                }
+                }else totalSteps=0;
             }
         } catch (DataKitException e) {
             LocalBroadcastManager.getInstance(activity).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));

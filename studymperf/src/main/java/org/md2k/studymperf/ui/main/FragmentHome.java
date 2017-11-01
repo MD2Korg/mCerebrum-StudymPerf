@@ -120,10 +120,6 @@ public class FragmentHome extends Fragment {
                         .commit();
 */
 
-/*
-                Intent intent=new Intent(getActivity(),RightWristActivity.class);
-                startActivity(intent);
-*/
             }
         });
 //        ((TextView) view.findViewById(R.id.textview_userid)).setText(getUserId());
@@ -177,6 +173,8 @@ public class FragmentHome extends Fragment {
             NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(getActivity(),"Data Collection - ON"));
         }
+
+
 
         super.onResume();
     }
