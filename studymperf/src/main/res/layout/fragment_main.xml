@@ -365,7 +365,7 @@
                 android:text="View Report"
                 android:textAlignment="center"
                 android:textColor="#ffff"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 app:bootstrapBrand="success"
                 app:bootstrapText="Data Collected: " />
 </mehdi.sakout.fancybuttons.FancyButton>

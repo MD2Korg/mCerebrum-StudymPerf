@@ -80,11 +80,18 @@ public class UserViewDataCollection {
         @Override
         public void run() {
             int value = readFromDataKit();
+            int value7= readFromDataKit7();
             value/=(1000*60);
             int min=value%60;
             value/=60;
             int hour = value;
-            String timeStr=String.format(Locale.getDefault(), "Wrist  %02d h : %02d m",hour, min);
+
+            value7/=(1000*60);
+            int min7=value%60;
+            value7/=60;
+            int hour7 = value;
+
+            String timeStr=String.format(Locale.getDefault(), "Daily (Wrist):                    %2d h : %02d m\nLast 7 days (Wrist):       %3d h : %02d m",hour, min, hour7, min7);
             BootstrapText bootstrapText=new BootstrapText.Builder(activity).addText(timeStr).build();
             ((AwesomeTextView)view.findViewById(R.id.textview_data_collected)).setBootstrapText(bootstrapText);
             handler.postDelayed(this, 60000);
@@ -111,6 +118,40 @@ public class UserViewDataCollection {
                             DataTypeIntArray dataTypeIntArray = (DataTypeIntArray) dataTypes.get(0);
                             if(goodDataCollected <dataTypeIntArray.getSample()[DATA_QUALITY.GOOD])
                                 goodDataCollected = dataTypeIntArray.getSample()[DATA_QUALITY.GOOD];
+                        } catch (Exception ignored) {
+//                        LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
+                        }
+                    }
+                }
+            }
+        } catch (DataKitException e) {
+            LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(new Intent(AbstractActivityBasics.INTENT_RESTART));
+        }
+        return goodDataCollected;
+    }
+    private int readFromDataKit7() {
+        int goodDataCollectedBoth = 0;
+        int goodDataCollected=0;
+        try {
+            DataKitAPI dataKitAPI = DataKitAPI.getInstance(MyApplication.getContext());
+            ArrayList<DataSourceClient> dataSourceClients = dataKitAPI.find(createDataSourceBuilder());
+            if (dataSourceClients.size() > 0) {
+                for(int i=0;i<dataSourceClients.size();i++) {
+                    goodDataCollected=0;
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.MILLISECOND, 0);c.set(Calendar.SECOND,0);
+                    c.set(Calendar.MINUTE, 0);c.set(Calendar.HOUR_OF_DAY, 0);
+                    long eTime = c.getTimeInMillis()+1000;
+                    long sTime = c.getTimeInMillis()-7*24*60*60*1000;
+                    ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(0), sTime, eTime);
+//                    ArrayList<DataType> dataTypes = dataKitAPI.query(dataSourceClients.get(i), 1);
+                    if (dataTypes.size() != 0) {
+                        try {
+                            for(int j=0; j<dataTypes.size();j++) {
+                                DataTypeIntArray dataTypeIntArray = (DataTypeIntArray) dataTypes.get(j);
+                                goodDataCollected += dataTypeIntArray.getSample()[DATA_QUALITY.GOOD];
+                            }
+                            if(goodDataCollectedBoth<goodDataCollected) goodDataCollectedBoth=goodDataCollected;
                         } catch (Exception ignored) {
 //                        LocalBroadcastManager.getInstance(modelManager.getContext()).sendBroadcast(new Intent(Constants.INTENT_RESTART));
                         }
