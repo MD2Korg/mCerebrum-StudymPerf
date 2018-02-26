@@ -48,62 +48,9 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
     private FancyButton work_close;
     int[] MY_COLORS;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MY_COLORS = new int[]{
-                Color.GRAY,
-                ContextCompat.getColor(this, R.color.green),
-                ContextCompat.getColor(this, R.color.md_blue_700),
-                ContextCompat.getColor(this, R.color.md_red_900),
-                ContextCompat.getColor(this, R.color.md_amber_900),
-                ContextCompat.getColor(this, R.color.md_yellow_700),
-                ContextCompat.getColor(this, R.color.md_green_700),
-                ContextCompat.getColor(this, R.color.md_brown_600),
-                ContextCompat.getColor(this, R.color.md_deep_orange_700),
-                ContextCompat.getColor(this, R.color.md_indigo_700),
-                ContextCompat.getColor(this, R.color.md_red_700),
-                ContextCompat.getColor(this, R.color.md_purple_600)};
-
-        setContentView(R.layout.activity_work_duration);
+    public void onResume(){
         readData();
         prepare();
-
-
-        work_close= (FancyButton) findViewById(R.id.btn_close_work);
-        work_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                finish();
-            }
-        });
-        buttonSetLocation= (FancyButton) findViewById(R.id.btn_set_location);
-        buttonSetLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("org.md2k.phonesensor", "org.md2k.phonesensor.ActivitySettingsGeofence"));
-                startActivity(intent);/*
-                Dialog.singleChoice(ProductivityActivity.this, "Set Location", new String[]{"Home", "Work", "Other"}, 0, new DialogCallback() {
-                    @Override
-                    public void onSelected(String value) {
-                       if(value.equals("Other")){
-                           Dialog.editbox(ProductivityActivity.this, "Set Other Location", "Type your other location name.", new DialogCallback() {
-                               @Override
-                               public void onSelected(String value) {
-                                   Toast.makeText(ProductivityActivity.this, "value=" + value, Toast.LENGTH_SHORT).show();
-                               }
-                           }).show();
-
-                       }
-                        Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-*/
-            }
-        });
-
-
         tvX = (TextView) findViewById(R.id.tvXMax);
         tvY = (TextView) findViewById(R.id.tvYMax);
 
@@ -116,10 +63,10 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
 
         mChart = (PieChart) findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
-     //   mChart.getDescription().setEnabled(false);
-      //  mChart.setExtraOffsets(5, 10, 5, 5);
+        //   mChart.getDescription().setEnabled(false);
+        //  mChart.setExtraOffsets(5, 10, 5, 5);
 
-     //   mChart.setDragDecelerationFrictionCoef(0.95f);
+        //   mChart.setDragDecelerationFrictionCoef(0.95f);
 
         mChart.setCenterTextTypeface(mTfLight);
         mChart.setCenterText(generateCenterSpannableText());
@@ -139,7 +86,7 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         mChart.setRotationAngle(270);
         // enable rotation of the chart by touch
         mChart.setRotationEnabled(false);
-     //   mChart.setHighlightPerTapEnabled(true);
+        //   mChart.setHighlightPerTapEnabled(true);
 
         // mChart.setUnit(" €");
         // mChart.setDrawUnitsInChart(true);
@@ -172,6 +119,65 @@ public class ProductivityActivity extends DemoBaseProductivity implements SeekBa
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTypeface(mTfRegular);
         mChart.setEntryLabelTextSize(14f);
+
+        super.onResume();
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MY_COLORS = new int[]{
+                Color.GRAY,
+                ContextCompat.getColor(this, R.color.green),
+                ContextCompat.getColor(this, R.color.md_blue_700),
+                ContextCompat.getColor(this, R.color.md_red_900),
+                ContextCompat.getColor(this, R.color.md_amber_900),
+                ContextCompat.getColor(this, R.color.md_yellow_700),
+                ContextCompat.getColor(this, R.color.md_green_700),
+                ContextCompat.getColor(this, R.color.md_brown_600),
+                ContextCompat.getColor(this, R.color.md_deep_orange_700),
+                ContextCompat.getColor(this, R.color.md_indigo_700),
+                ContextCompat.getColor(this, R.color.md_red_700),
+                ContextCompat.getColor(this, R.color.md_purple_600)};
+
+        setContentView(R.layout.activity_work_duration);
+
+
+        work_close= (FancyButton) findViewById(R.id.btn_close_work);
+        work_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        buttonSetLocation= (FancyButton) findViewById(R.id.btn_set_location);
+        buttonSetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("org.md2k.phonesensor", "org.md2k.phonesensor.ActivitySettingsGeofence"));
+                startActivity(intent);
+//                finish();
+                /*
+                Dialog.singleChoice(ProductivityActivity.this, "Set Location", new String[]{"Home", "Work", "Other"}, 0, new DialogCallback() {
+                    @Override
+                    public void onSelected(String value) {
+                       if(value.equals("Other")){
+                           Dialog.editbox(ProductivityActivity.this, "Set Other Location", "Type your other location name.", new DialogCallback() {
+                               @Override
+                               public void onSelected(String value) {
+                                   Toast.makeText(ProductivityActivity.this, "value=" + value, Toast.LENGTH_SHORT).show();
+                               }
+                           }).show();
+
+                       }
+                        Toast.makeText(ProductivityActivity.this,"value="+value,Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+*/
+            }
+        });
+
+
     }
 
     @Override

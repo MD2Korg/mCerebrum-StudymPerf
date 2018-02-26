@@ -75,7 +75,7 @@ public class ActivityStepCountPieChart extends DemoBaseStepCount implements Seek
             @Override
             public void onClick(View v) {
 
-                Dialog.editbox_numeric(ActivityStepCountPieChart.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", new DialogCallback() {
+                Dialog.editbox_numeric(ActivityStepCountPieChart.this, "Set Goal", "Set a daily step goal to help you stay active and healthy.", "", new DialogCallback() {
                     @Override
                     public void onSelected(String value) {
                         try {

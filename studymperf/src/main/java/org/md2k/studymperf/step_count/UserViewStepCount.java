@@ -135,10 +135,12 @@ public class UserViewStepCount {
        return 10000;
     }
     private void prepareButton(){
+        final long lastTime=DateTime.getDateTime();
         FancyButton fitness= (FancyButton) view.findViewById(R.id.btn_fitness);
         fitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(DateTime.getDateTime()-lastTime<500) return;
                 Intent intent=new Intent(activity,ActivityStepCountPieChart.class);
                 intent.putExtra("total_steps",readFromDataKit());
                 intent.putExtra("goal",readGoal());

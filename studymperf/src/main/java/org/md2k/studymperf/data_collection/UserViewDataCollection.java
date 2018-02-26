@@ -17,6 +17,7 @@ import org.md2k.datakitapi.exception.DataKitException;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
 import org.md2k.datakitapi.source.datasource.DataSourceType;
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
 import org.md2k.studymperf.AbstractActivityBasics;
 import org.md2k.studymperf.MyApplication;
@@ -87,9 +88,9 @@ public class UserViewDataCollection {
             int hour = value;
 
             value7/=(1000*60);
-            int min7=value%60;
+            int min7=value7%60;
             value7/=60;
-            int hour7 = value;
+            int hour7 = value7;
 
             String timeStr=String.format(Locale.getDefault(), "Daily (Wrist):                    %2d h : %02d m\nLast 7 days (Wrist):       %3d h : %02d m",hour, min, hour7, min7);
             BootstrapText bootstrapText=new BootstrapText.Builder(activity).addText(timeStr).build();
@@ -193,8 +194,8 @@ public class UserViewDataCollection {
         }
     };
     private void prepareButton(){
-        FancyButton dataCollection= (FancyButton) view.findViewById(R.id.btn_data_collection);
-        dataCollection.setOnClickListener(onClickListener);
+//        FancyButton dataCollection= (FancyButton) view.findViewById(R.id.btn_data_collection);
+//        dataCollection.setOnClickListener(onClickListener);
         AwesomeTextView t= (AwesomeTextView) view.findViewById(R.id.textview_data_collected);
         t.setOnClickListener(onClickListener);
 

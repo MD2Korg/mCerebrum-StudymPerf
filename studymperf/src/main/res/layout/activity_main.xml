@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/login_background"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:gravity="center"
     tools:context="org.md2k.studymperf.ActivityMain">
-    <RelativeLayout
-        android:id="@+id/transparentOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#96000000">
-
-    </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,10 +19,47 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backGroundDark"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_userid"
+                android:padding="10dp"
+                android:textAppearance="@style/CodeFont" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7">
+
+            <com.beardedhen.androidbootstrap.AwesomeTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_status"
+                android:gravity="right"
+                android:padding="10dp"
+                app:bootstrapBrand="success"
+                app:bootstrapText="Status:    {fa_check_circle}"
+                app:roundedCorners="true"
+                app:showOutline="true" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar" />
-</RelativeLayout>
+        android:layout_height="match_parent" />
+</LinearLayout>

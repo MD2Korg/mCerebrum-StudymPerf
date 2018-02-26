@@ -12,6 +12,7 @@ import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapText;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
 import org.md2k.studymperf.R;
 import org.md2k.studymperf.ServiceStudy;
@@ -145,10 +146,12 @@ public class UserViewPrivacyControl {
 
     private void prepareButton() {
         FancyButton button;
+        final long lastTime= DateTime.getDateTime();
         button = (FancyButton) view.findViewById(R.id.btn_pause_resume_data_collection);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DateTime.getDateTime()-lastTime<500) return;
                 Intent intent = new Intent();
                 intent.setClassName("org.md2k.datakit", "org.md2k.datakit.ActivityPrivacy");
                 activity.startActivity(intent);

@@ -20,6 +20,7 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import org.md2k.datakitapi.source.platform.PlatformId;
+import org.md2k.datakitapi.time.DateTime;
 import org.md2k.mcerebrum.core.access.appinfo.AppInfo;
 import org.md2k.mcerebrum.core.data_format.DATA_QUALITY;
 import org.md2k.studymperf.ActivityLeftWrist;
@@ -49,7 +50,7 @@ public class FragmentHome extends Fragment {
     UserViewPrivacyControl userViewPrivacyControl;
     UserViewStepCount userViewStepCount;
     UserViewDataCollection userViewDataCollection;
-    AwesomeTextView tv;
+    long lastTimeResume=-1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
@@ -61,10 +62,18 @@ public class FragmentHome extends Fragment {
         userViewPrivacyControl = new UserViewPrivacyControl(getActivity(), view);
         userViewStepCount=new UserViewStepCount(getActivity(), view);
         userViewDataCollection=new UserViewDataCollection(getActivity(), view);
-        tv = (AwesomeTextView) view.findViewById(R.id.textview_status);
 
 
         productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
+        ImageView v = (ImageView) view.findViewById(R.id.imageview_productivity);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),ProductivityActivity.class);
+                startActivity(intent);
+            }
+        });
+/*
         productivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +81,7 @@ public class FragmentHome extends Fragment {
                 startActivity(intent);
             }
         });
+*/
 
 
 /*
@@ -97,6 +107,8 @@ public class FragmentHome extends Fragment {
                         .addToBackStack(null)
                         .commit();
 */
+                if(DateTime.getDateTime()-lastTimeResume<500) return;
+
                 Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
                 intent.putExtra("id",PlatformId.LEFT_WRIST);
                 intent.putExtra("title","Left Wrist");
@@ -108,6 +120,7 @@ public class FragmentHome extends Fragment {
         right_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(DateTime.getDateTime()-lastTimeResume<500) return;
                 Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
                 intent.putExtra("id",PlatformId.RIGHT_WRIST);
                 intent.putExtra("title","Right Wrist");
@@ -158,21 +171,11 @@ public class FragmentHome extends Fragment {
     }
     @Override
     public void onResume(){
+        lastTimeResume= DateTime.getDateTime();
         userViewPrivacyControl.set();
         userViewStepCount.set();
         userViewDataCollection.set();
-        boolean start = AppInfo.isServiceRunning(getActivity(), ServiceStudy.class.getName());
-
-        if(!start) {
-            updateStatus("Data collection off", DefaultBootstrapBrand.DANGER, false);
-            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(getActivity(),"Data Collection - OFF (click to start)"));
-
-        }else{
-            updateStatus(null, DefaultBootstrapBrand.SUCCESS, true);
-            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(ServiceStudy.NOTIFY_ID, ServiceStudy.getCompatNotification(getActivity(),"Data Collection - ON"));
-        }
+//        boolean start = AppInfo.isServiceRunning(getActivity(), ServiceStudy.class.getName());
 
 
 
@@ -190,20 +193,6 @@ public class FragmentHome extends Fragment {
     public void onDestroyView(){
         userViewDataQuality.clear();
         super.onDestroyView();
-    }
-    void updateStatus(String msg, BootstrapBrand brand, boolean isSuccess){
-        tv.setBootstrapBrand(brand);
-        if(isSuccess) {
-            int uNo=Update.hasUpdate(getActivity());
-            if(uNo==0)
-            tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_check_circle").build());
-            else {
-                tv.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
-                tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_check_circle").addText(" (Update Available)").build());
-            }
-        }
-        else
-            tv.setBootstrapText(new BootstrapText.Builder(getActivity()).addText("Status: ").addFontAwesomeIcon("fa_times_circle").addText(" ("+msg+")").build());
     }
 
 }

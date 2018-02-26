@@ -20,7 +20,9 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /*
  * Copyright (c) 2015, The University of Memphis, MD2K Center
@@ -163,7 +165,12 @@ public class ServiceStudy extends Service {
         }
     }
     void checkUpdate(){
-        subscriptionCheckUpdate = Update.checkUpdate(this).subscribe(new Observer<Boolean>() {
+        subscriptionCheckUpdate = Observable.just(true).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).flatMap(new Func1<Boolean, Observable<Boolean>>() {
+            @Override
+            public Observable<Boolean> call(Boolean aBoolean) {
+                return Update.checkUpdate(ServiceStudy.this);
+            }
+        }).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
 
