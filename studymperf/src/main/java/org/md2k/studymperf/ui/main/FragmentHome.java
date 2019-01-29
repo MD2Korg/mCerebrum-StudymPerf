@@ -34,6 +34,7 @@ import org.md2k.studymperf.location.ProductivityActivity;
 import org.md2k.studymperf.privacy_control.UserViewPrivacyControl;
 import org.md2k.studymperf.step_count.UserViewStepCount;
 import org.md2k.mcerebrum.system.update.Update;
+import org.md2k.studymperf.wrist_battery.UserViewWristBattery;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -43,33 +44,38 @@ public class FragmentHome extends Fragment {
 
     FancyButton productivity;
     FancyButton data_collection;
-//    FancyButton pause_resume_data_collection;
+    //    FancyButton pause_resume_data_collection;
     FancyButton left_wrist;
     FancyButton right_wrist;
     UserViewDataQuality userViewDataQuality;
     UserViewPrivacyControl userViewPrivacyControl;
     UserViewStepCount userViewStepCount;
     UserViewDataCollection userViewDataCollection;
-    long lastTimeResume=-1;
+    UserViewWristBattery userViewWristBattery;
+    TextView leftBattery;
+    TextView rightBattery;
+    long lastTimeResume = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_main, parent, false);
     }
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         setDataQuality(view);
         userViewPrivacyControl = new UserViewPrivacyControl(getActivity(), view);
-        userViewStepCount=new UserViewStepCount(getActivity(), view);
-        userViewDataCollection=new UserViewDataCollection(getActivity(), view);
+        userViewStepCount = new UserViewStepCount(getActivity(), view);
+        userViewDataCollection = new UserViewDataCollection(getActivity(), view);
+        userViewWristBattery = new UserViewWristBattery(getActivity(), view);
 
-
-        productivity=(FancyButton) view.findViewById(R.id.btn_productivity);
+        productivity = (FancyButton) view.findViewById(R.id.btn_productivity);
         ImageView v = (ImageView) view.findViewById(R.id.imageview_productivity);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),ProductivityActivity.class);
+                Intent intent = new Intent(getActivity(), ProductivityActivity.class);
                 startActivity(intent);
             }
         });
@@ -97,7 +103,7 @@ public class FragmentHome extends Fragment {
 
 */
 
-        left_wrist= (FancyButton) view.findViewById(R.id.btn_dq_left_wrist);
+        left_wrist = (FancyButton) view.findViewById(R.id.btn_dq_left_wrist);
         left_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,23 +113,23 @@ public class FragmentHome extends Fragment {
                         .addToBackStack(null)
                         .commit();
 */
-                if(DateTime.getDateTime()-lastTimeResume<500) return;
+                if (DateTime.getDateTime() - lastTimeResume < 500) return;
 
-                Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
-                intent.putExtra("id",PlatformId.LEFT_WRIST);
-                intent.putExtra("title","Left Wrist");
+                Intent intent = new Intent(getActivity(), ActivityLeftWrist.class);
+                intent.putExtra("id", PlatformId.LEFT_WRIST);
+                intent.putExtra("title", "Left Wrist");
                 startActivity(intent);
             }
         });
 
-        right_wrist= (FancyButton) view.findViewById(R.id.btn_dq_right_wrist);
+        right_wrist = (FancyButton) view.findViewById(R.id.btn_dq_right_wrist);
         right_wrist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(DateTime.getDateTime()-lastTimeResume<500) return;
-                Intent intent=new Intent(getActivity(),ActivityLeftWrist.class);
-                intent.putExtra("id",PlatformId.RIGHT_WRIST);
-                intent.putExtra("title","Right Wrist");
+                if (DateTime.getDateTime() - lastTimeResume < 500) return;
+                Intent intent = new Intent(getActivity(), ActivityLeftWrist.class);
+                intent.putExtra("id", PlatformId.RIGHT_WRIST);
+                intent.putExtra("title", "Right Wrist");
                 startActivity(intent);
 
 /*
@@ -137,9 +143,10 @@ public class FragmentHome extends Fragment {
         });
 //        ((TextView) view.findViewById(R.id.textview_userid)).setText(getUserId());
     }
-    void setDataQuality(final View view){
+
+    void setDataQuality(final View view) {
         try {
-            userViewDataQuality = new UserViewDataQuality(((ActivityMain)getActivity()).dataQualityManager);
+            userViewDataQuality = new UserViewDataQuality(((ActivityMain) getActivity()).dataQualityManager);
             userViewDataQuality.set(new ResultCallback() {
                 @Override
                 public void onResult(int[] result) {
@@ -149,49 +156,63 @@ public class FragmentHome extends Fragment {
                     ((TextView) view.findViewById(R.id.textview_right_wrist)).setText(getDataQualityText(result[1]));
                 }
             });
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
-    String getDataQualityText(int value){
-        switch(value){
-            case -1: return "";
-            case DATA_QUALITY.GOOD: return "Good";
-            case DATA_QUALITY.BAND_OFF: return "No Data";
-            default: return "Poor";
+
+    String getDataQualityText(int value) {
+        switch (value) {
+            case -1:
+                return "";
+            case DATA_QUALITY.GOOD:
+                return "Good";
+            case DATA_QUALITY.BAND_OFF:
+                return "No Data";
+            default:
+                return "Poor";
         }
     }
-    Drawable getDataQualityImage(int value){
-        switch(value){
-            case -1: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_refresh).sizeDp(24).color(Color.GRAY);
-            case DATA_QUALITY.GOOD: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_check_circle).sizeDp(24).color(Color.GREEN);
-            case DATA_QUALITY.BAND_OFF: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_times_circle).sizeDp(24).color(Color.RED);
-            default: return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_exclamation_triangle).sizeDp(24).color(Color.YELLOW);
+
+    Drawable getDataQualityImage(int value) {
+        switch (value) {
+            case -1:
+                return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_refresh).sizeDp(24).color(Color.GRAY);
+            case DATA_QUALITY.GOOD:
+                return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_check_circle).sizeDp(24).color(Color.GREEN);
+            case DATA_QUALITY.BAND_OFF:
+                return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_times_circle).sizeDp(24).color(Color.RED);
+            default:
+                return new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_exclamation_triangle).sizeDp(24).color(Color.YELLOW);
         }
     }
+
     @Override
-    public void onResume(){
-        lastTimeResume= DateTime.getDateTime();
+    public void onResume() {
+        lastTimeResume = DateTime.getDateTime();
         userViewPrivacyControl.set();
         userViewStepCount.set();
         userViewDataCollection.set();
+        userViewWristBattery.set();
 //        boolean start = AppInfo.isServiceRunning(getActivity(), ServiceStudy.class.getName());
-
 
 
         super.onResume();
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         userViewPrivacyControl.clear();
         userViewStepCount.clear();
         userViewDataCollection.clear();
+        userViewWristBattery.clear();
         super.onPause();
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         userViewDataQuality.clear();
+        userViewWristBattery.clear();
         super.onDestroyView();
     }
 
